@@ -17,7 +17,7 @@ class MainBody extends Component {
                 {window.innerWidth < 768 &&
                     <Row className="align-items-center">
                         <Col sm="12" className="p-0 m-0" >
-                            <img src="main-images/jumbotrun-mobile.webp" width="100%" alt="nasring daftarchi in a red and blue gradient background with Ifel tower" />
+                            {/* <img src="main-images/jumbotrun-mobile.webp" width="100%" alt="nasring daftarchi in a red and blue gradient background with Ifel tower" /> */}
                         </Col>
                     </Row>}
                 <Row className="align-items-center">

@@ -72,6 +72,12 @@ const DashboardMenu = (props) => {
                                     <NavItem>
                                         <Link className="custom-link" to="/dashboard/user">User</Link>
                                     </NavItem>
+                                    <NavItem>
+                                        <Link className="custom-link" to="/dashboard/course-registration">Course Registration</Link>
+                                    </NavItem>
+                                    <NavItem>
+                                        <Link className="custom-link" to="/dashboard/plan">Plan</Link>
+                                    </NavItem>
                                 </Nav>
                             </Collapse>
                         </Navbar>

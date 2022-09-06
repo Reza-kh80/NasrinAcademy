@@ -9,34 +9,39 @@ $bg-accardion-body: #dce6ec;
 $border-color: #eff0f1;
 $buttom-bg: #1159c4;
 $buttom-bg-hover: #aca7f8;
+
 @font-face {
   font-family: "Pacifico";
   font-style: normal;
   font-weight: 400;
   src: local("Pacifico Regular"), local("Pacifico-Regular"),
-    url(https://fonts.gstatic.com/s/pacifico/v12/FwZY7-Qmy14u9lezJ-6H6MmBp0u-.woff2)
-      format("woff2");
+    url(https://fonts.gstatic.com/s/pacifico/v12/FwZY7-Qmy14u9lezJ-6H6MmBp0u-.woff2) format("woff2");
   font-display: swap;
 }
+
 @mixin margin($up_down, $left_right) {
   margin-top: $up_down;
   margin-bottom: $up_down;
   margin-left: $left_right;
   margin-right: $left_right;
 }
+
 @mixin padding($up_down, $left_right) {
   padding-top: $up_down;
   padding-bottom: $up_down;
   padding-left: $left_right;
   padding-right: $left_right;
 }
+
 @mixin border_except_top($with, $type, $color) {
   border: $with $type $color;
   border-top: none;
 }
+
 @mixin border($with, $type, $color) {
   border: $with $type $color;
 }
+
 @mixin border_top_bottom($with, $type, $color) {
   border-top: $with $type $color;
   border-bottom: $with $type $color;
@@ -49,25 +54,31 @@ body {
   font-family: Calibri;
   height: 100%;
 }
+
 .text-heading {
   color: #001251;
 }
+
 .dropdowns {
   background-color: $heading-white-color;
 }
+
 .btn-page {
   border-radius: 0px;
   background-color: white;
   color: blue;
 }
+
 .btn {
   background-color: $buttom-bg;
   color: whitesmoke;
   font-weight: bold;
 }
+
 .btn:hover {
   background-color: $buttom-bg-hover;
 }
+
 p {
   @include padding(10px, 10px);
   @include margin(0px, 0px);
@@ -76,9 +87,11 @@ p {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
 h5 {
   color: $heading-blue-color;
 }
+
 h6 {
   color: $heading-white-color;
 }
@@ -91,43 +104,53 @@ h6 {
   align-self: center;
   @include border(6px, solid, lightgray);
 }
+
 .img-Wrapper {
   display: inline-block;
   width: 300px;
   height: 300px;
   overflow: hidden;
+
   img {
     width: 100%;
     height: 300px;
   }
 }
+
 .container-fluid {
   min-width: 100%;
   @include margin(0px, 0px);
 }
+
 .sidebar {
   @include margin(0px, 0px);
   @include padding(5px, 5px);
   background-color: $sidebar_bg;
   color: white;
+
   .col {
     @include padding(5px, 0px);
   }
+
   max-height: 100%;
 }
+
 .mainbody {
   @include margin(0px, 0px);
   max-height: 100%;
 }
+
 .menu {
   // @include margin(0px,0px);
   // @include padding(0px,0px);
   background-color: $header_bg;
 }
+
 .header {
   @include margin(0px, 0px);
   @include padding(0px, 0px);
 }
+
 .jumbotron-fluid {
   width: 100%;
   height: 100%;
@@ -135,23 +158,28 @@ h6 {
   @include padding(0px, 0px);
   border-radius: 0px;
 }
+
 .sitemap {
   @include margin(0px, 0px);
   @include padding(5px, 30px);
   background-color: $content_bg;
+
   .breadcrumb {
     @include margin(0px, 0px);
     @include padding(0px, 0px);
   }
 }
+
 .loginHeader {
   background-color: $header_bg;
   color: white;
 }
+
 .content-body {
   @include margin(0px, 0px);
   @include padding(10px, 10px);
   background-color: $content_bg;
+
   .content {
     border-radius: 8px;
     background-color: white;
@@ -160,33 +188,40 @@ h6 {
     min-height: 80vh;
   }
 }
+
 .footer {
   @include margin(0px, 0px);
   @include padding(0px, 0px);
   background-color: $header_bg;
   color: whitesmoke;
+
   .row {
     @include margin(0px, 0px);
     @include padding(20px, 10px);
+
     .col {
       @include margin(0px, 0px);
       background-color: yellow;
+
       a {
         color: darkblue;
       }
     }
   }
 }
+
 .image-mask {
   opacity: 0.3;
   @include border(5px, solid, white);
   border-radius: 3px;
 }
+
 .image-mask:hover {
   opacity: 1;
   @include border(5px, solid, white);
   border-radius: 3px;
 }
+
 .side-menu-title {
   cursor: pointer;
   font-weight: bold;
@@ -195,6 +230,7 @@ h6 {
   @include border_top_bottom(1px, solid, white);
   background-color: $bg-accardion;
 }
+
 .side-menu-body {
   cursor: pointer;
   font-weight: bold;
@@ -203,6 +239,7 @@ h6 {
   @include border(1px, solid, white);
   background-color: $bg-accardion-body;
 }
+
 .article-content {
   @include border(1px, solid, lightgray);
   background-color: $content_bg;
@@ -210,25 +247,31 @@ h6 {
   border-radius: 10px;
   text-align: left;
 }
+
 .cursor-pointer {
   cursor: pointer;
 }
+
 .side-menu-link {
   color: #059cf4;
   display: block;
 }
+
 .side-menu-body {
   background-color: #024a73;
   @include padding(5px, 5px);
   @include margin(0px, 0px);
   border: none;
 }
+
 .side-menu-link:hover {
   color: #051a42;
 }
+
 .media {
   @include padding(3px, 3px);
 }
+
 .custom-link {
   font-family: Calibri;
   color: white;
@@ -239,6 +282,7 @@ h6 {
   @include padding(0px, 3px);
   @include margin(0px, 10px);
 }
+
 .custom-link:hover {
   font-family: Calibri;
   color: $buttom-bg-hover;
@@ -249,16 +293,19 @@ h6 {
   @include padding(0px, 3px);
   @include margin(0px, 10px);
 }
+
 .modal {
   .header {
     background-color: #024a73;
     @include padding(8px, 15px);
+
     .title {
       @include padding(8px, 50px);
       color: whitesmoke;
       text-align: center;
     }
   }
+
   .container-fluid {
     .row {
       .col {
@@ -267,16 +314,19 @@ h6 {
     }
   }
 }
+
 .flashcard {
   border-radius: 5px;
   @include margin(0px, 0px);
   @include padding(15px, 20px);
+
   .title {
     color: white;
     font-weight: bold;
     text-align: center;
     @include padding(10px, 5px);
   }
+
   .subtitle {
     color: gray;
     border-radius: 5px;
@@ -284,6 +334,7 @@ h6 {
     @include margin(5px, 5px);
     @include padding(5px, 5px);
   }
+
   .descroption {
     color: gray;
     border-radius: 5px;
@@ -293,6 +344,7 @@ h6 {
     height: 300px;
   }
 }
+
 .dashboard {
   width: 100%;
   @include margin(0px, 0px);
@@ -305,6 +357,7 @@ h6 {
     @include padding(0px, 0px);
     color: white;
   }
+
   .content {
     background-color: lightgray;
     min-height: 100%;
@@ -313,30 +366,36 @@ h6 {
     @include padding(15px, 15px);
   }
 }
+
 .video {
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
 }
+
 .tab-border {
   @include margin(0px, 0px);
   @include border_except_top(1px, solid, #dee2e6);
 }
+
 .tabs {
   // width: 100%;
   background-color: transparent;
   @include margin(0px, 0px);
+
   .tabItems {
     .NavLink {
       color: blue;
     }
+
     @include padding(0px, 0px);
     cursor: pointer;
     width: 130px;
     font-weight: bold;
   }
 }
+
 .tabcontent {
   @include border_except_top(1px, solid, lightgray);
   background-color: white;
@@ -344,6 +403,7 @@ h6 {
   @include margin(0px, 0px);
   min-height: 900px;
 }
+
 .tabcontent-Modal {
   @include border_except_top(1px, solid, lightgray);
   background-color: white;
@@ -351,6 +411,7 @@ h6 {
   @include margin(0px, 0px);
   min-height: 200px;
 }
+
 .course1 {
   @include border(1px, solid, lightgray);
   @include margin(5px, 0px);
@@ -360,6 +421,7 @@ h6 {
   color: whitesmoke;
   min-height: 900px;
 }
+
 .course2 {
   @include border(1px, solid, lightgray);
   @include margin(5px, 0px);
@@ -368,6 +430,7 @@ h6 {
   background-color: #00069b;
   color: whitesmoke;
 }
+
 .card-video {
   @include border_top_bottom(1px, solid, white);
   @include padding(0px, 3px);
@@ -375,28 +438,36 @@ h6 {
   background-color: $bg-accardion;
   min-width: 100%;
 }
+
 .page-link {
   cursor: pointer;
 }
+
 .next-previous {
   width: 80px;
   text-align: center;
 }
+
 .fa-instagram {
   color: #8a3ab9;
 }
+
 .fa-envelope {
   color: #8a3ab9;
 }
+
 .fa-telegram {
   color: #0088cc;
 }
+
 .fa-whatsapp {
   color: #4fce5d;
 }
+
 .fa-address-card {
   color: #4fce5d;
 }
+
 .fa-youtube,
 .fa-youtube-play,
 .fa-youtube-square {
@@ -408,9 +479,11 @@ h6 {
   text-align: justify;
   word-wrap: break-word;
 }
+
 .prepend {
   width: 150px;
 }
+
 .student_header {
   background-color: $header_bg;
   text-align: center;
@@ -418,6 +491,7 @@ h6 {
   align-items: center;
   min-height: 100px;
 }
+
 .student_body {
   background-color: white;
   text-align: center;
@@ -426,9 +500,11 @@ h6 {
   color: white;
   min-height: 80vh;
 }
+
 .react-select {
   height: 20px;
 }
+
 .modal-90w {
   min-width: 90%;
 }

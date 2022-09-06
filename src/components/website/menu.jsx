@@ -4,6 +4,7 @@ import { ButtonGroup, Card } from 'react-bootstrap';
 import { Container, Row, Col, Collapse, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Spinner } from 'reactstrap';
 import { UilListUl, UilSignin } from '@iconscout/react-unicons';
 const Login = React.lazy(() => import('./login'));
+const Register1 = React.lazy(() => import('./Register'));
 const SideMenu = React.lazy(() => import('./sideMenu'));
 
 const Menu = (props) => {
@@ -13,6 +14,7 @@ const Menu = (props) => {
     const [isOpenMenu, setIsOpenMenu] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [Loginhow, setLoginhow] = React.useState(false);
+    const [Register, setRegister] = React.useState(false);
     const toggle = () => setDropdownOpen(prevState => !prevState);
     const toggleMenu = () => setIsOpenMenu(!isOpenMenu);
     const menu_Items = [
@@ -21,7 +23,7 @@ const Menu = (props) => {
         { id: 3, Title: "Contact", path: "/contact" },
         { id: 4, Title: "Courses", path: "/course" },
         { id: 5, Title: "Teachers", path: "/teacher-overview" },
-        { id: 6, Title: "Teacher Recruitment", path: "/recruitment" },
+        { id: 6, Title: "Teacher registration", path: "/recruitment" },
     ]
     const menu_Items_Fa = [
         { id: 1, Title: " خانه ", path: "/" },
@@ -29,7 +31,7 @@ const Menu = (props) => {
         { id: 3, Title: " تماس با ما ", path: "/contact" },
         { id: 4, Title: " دوره ها ", path: "/course" },
         { id: 5, Title: "معرفی اساتید", path: "/teacher-overview" },
-        { id: 6, Title: "استخدام مدرس", path: "/recruitment" },
+        { id: 6, Title: "ثبت نام مدرس", path: "/recruitment" },
     ]
     const menu_Items_Fr = [
         { id: 1, Title: "Accueil", path: "/" },
@@ -37,7 +39,7 @@ const Menu = (props) => {
         { id: 3, Title: "Contact", path: "/contact" },
         { id: 4, Title: "Cours", path: "/course" },
         { id: 5, Title: "Enseignants", path: "/teacher-overview" },
-        { id: 6, Title: "Recrutement des enseignants", path: "/recruitment" },
+        { id: 6, Title: "Inscription des enseignants", path: "/recruitment" },
     ]
     function setLanguage(lang) {
         localStorage.setItem('lang', lang);
@@ -55,6 +57,7 @@ const Menu = (props) => {
                                         <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
+                                <button className="btn d-inline ml-1  float-right" onClick={() => setRegister(true)}>Register</button>
                                 <button className="btn d-inline ml-1  float-right" onClick={() => setLoginhow(true)}>Login to Portal</button>
                                 <Dropdown isOpen={dropdownOpen} toggle={toggle} className="d-inline"  >
                                     <DropdownToggle className="btn d-inline float-right" caret>
@@ -87,6 +90,7 @@ const Menu = (props) => {
                             </Row>
                             <Row>
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center" >
+                                    <button className="btn d-inline ml-1  float-right" onClick={() => setRegister(true)}>Register</button>
                                     <button className="btn d-inline ml-1 mr-2 mb-2" onClick={() => setLoginhow(true)}>Login to Portal</button>
                                     <Dropdown isOpen={dropdownOpen} toggle={toggle} className="d-inline"  >
                                         <DropdownToggle className="btn d-inline mr-2 mb-2" caret>
@@ -123,6 +127,7 @@ const Menu = (props) => {
                                         <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn  d-inline pl-3 pr-3"} to={item.path}>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
+                                <button className="btn  d-inline ml-1  float-right" onClick={() => setRegister(true)}>S'inscrire</button>
                                 <button className="btn  d-inline ml-1  float-right" onClick={() => setLoginhow(true)}>Se Connecter</button>
                                 <Dropdown isOpen={dropdownOpen} toggle={toggle} className="d-inline"  >
                                     <DropdownToggle className="btn  d-inline float-right" caret>
@@ -155,6 +160,7 @@ const Menu = (props) => {
                             </Row>
                             <Row>
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center" >
+                                    <button className="btn  d-inline ml-1  float-right" onClick={() => setRegister(true)}>S'inscrire</button>
                                     <button className="btn  d-inline ml-1  mr-2 mb-2" onClick={() => setLoginhow(true)}>Se Connecter</button>
                                     <Dropdown isOpen={dropdownOpen} toggle={toggle} className="d-inline"  >
                                         <DropdownToggle className="btn  d-inline mr-2 mb-2" caret>
@@ -187,6 +193,7 @@ const Menu = (props) => {
                                         <Link dir='rtl' key={item.id} className={location.pathname === item.path ? "btn  bg-primary pl-3 pr-3" : "btn  d-inline pl-3 pr-3"} to={item.path}>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
+                                <button className="btn d-inline mr-1  float-left" onClick={() => setRegister(true)}>ثبت نام</button>
                                 <button className="btn  d-inline mr-1 float-left" onClick={() => setLoginhow(true)}>ورود به پورتال</button>
                                 <Dropdown isOpen={dropdownOpen} toggle={toggle} className="d-inline" dir="ltr" >
                                     <DropdownToggle className="btn  d-inline float-left" caret>
@@ -219,6 +226,7 @@ const Menu = (props) => {
                             </Row>
                             <Row>
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center" >
+                                    <button className="btn d-inline mr-1  float-left" onClick={() => setRegister(true)}>ثبت نام</button>
                                     <button className="btn  d-inline ml-2 mb-2" onClick={() => setLoginhow(true)}>ورود به پورتال</button>
                                     <Dropdown isOpen={dropdownOpen} toggle={toggle} className="d-inline" dir="ltr" >
                                         <DropdownToggle className="btn  d-inline ml-2 mb-2" caret>
@@ -257,6 +265,7 @@ const Menu = (props) => {
                             <img className="ml-1 mr-1" src="main-images/en.webp" onClick={() => setLanguage("en")} alt="select english version" />
                             <UilListUl className="ml-1 mr-1 text-white" size={32} onClick={toggleMenu} />
                             <UilSignin className="ml-1 text-white" onClick={() => setLoginhow(true)} />
+                            <UilSignin className="ml-1 text-white" onClick={() => setRegister(true)} />
                         </Col>
                     </Row>
                     <Row className="align-items-center mt-3" >
@@ -279,6 +288,9 @@ const Menu = (props) => {
             }
             <Suspense fallback={<Spinner color="success" />}>
                 <Login show={Loginhow} onHide={() => setLoginhow(false)} />
+            </Suspense>
+            <Suspense fallback={<Spinner color="success" />}>
+                <Register1 show={Register} onHide={() => setRegister(false)} />
             </Suspense>
         </div>
     );

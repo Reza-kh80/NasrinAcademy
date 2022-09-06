@@ -6,6 +6,7 @@ import axios from 'axios';
 import { getDatetime } from './../../utils/datetime';
 // import FileUpload from './../fileUpload';
 const FileUpload = React.lazy(() => import('../general/fileUpload'));
+
 class DashboardHome extends Component {
     constructor(props) {
         super(props);
@@ -46,11 +47,13 @@ class DashboardHome extends Component {
 
         }
     }
+
     getHome = async () => {
         await axios.get(this.state.apiEndPoint + 'Home/Get').then(response => {
             this.setState({ homeObject: response.data });
         });
     }
+
     componentDidMount() {
         this.getHome();
     }

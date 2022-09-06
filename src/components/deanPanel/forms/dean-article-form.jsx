@@ -115,6 +115,7 @@ function DeanArticleForm(props) {
             mounted = false;
         };
     }, [apiEndPoint]);
+    
     const handleChange = (e) => {
         const { name, value, checked } = e.target;
         if (e.target.type === 'checkbox') {

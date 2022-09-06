@@ -16,11 +16,16 @@ const DashboardFlashCardOutlook = React.lazy(() => import('./dashboard-flashcard
 const DashboardVideoOutlook = React.lazy(() => import('./dashboard-video-outlook'));
 const DashboardTeacherRecritment = React.lazy(() => import('./dashboard-teacher-recruitment'));
 const DashboardUser = React.lazy(() => import('./dashboard-user'));
+const DashboardCourseRegistration = React.lazy(() => import('./dashboard-course-registration'))
+const DashboardPlan = React.lazy(() => import('./dashboard-plan'));
+
 function DashboardContent() {
     return (
         <div className="p-0 m-0">
             <Suspense fallback={<div className="text-center p-4"><Spinner color="success" /></div>}>
                 <Switch>
+                    <Route path='/dashboard/plan' component={DashboardPlan} />
+                    <Route path="/dashboard/course-registration" component={DashboardCourseRegistration} />
                     <Route path="/dashboard/user" component={DashboardUser} />
                     <Route path="/dashboard/teacherrecruitment" component={DashboardTeacherRecritment} />
                     <Route path="/dashboard/videooutlook" component={DashboardVideoOutlook} />

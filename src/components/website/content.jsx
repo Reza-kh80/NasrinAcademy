@@ -24,8 +24,8 @@ class Contents extends Component {
                         <Col sm="12">
                             <Suspense fallback={<div className="text-center p-4"><Spinner color="success" /></div>}>
                                 <Switch>
-                                    <Route path="/recruitment" component={TeacherRecruitment} />
                                     <Route path="/teacher-overview" component={TeacherOutlook} />
+                                    <Route path="/recruitment" component={TeacherRecruitment} />
                                     <Route path="/course" component={CourseOutlook} />
                                     <Route path="/media" component={VideoOutlook} />
                                     <Route path="/flashcards" component={FlashCards} />

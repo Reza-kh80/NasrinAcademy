@@ -91,6 +91,15 @@ const TeacherMenu = (props) => {
                                     <NavItem>
                                         <Link className="custom-link" to="/teacher/assignment">Assignments</Link>
                                     </NavItem>
+                                    <NavItem>
+                                        <Link className="custom-link" to="/teacher/course-registration">Course Registration</Link>
+                                    </NavItem>
+                                    <NavItem>
+                                        <Link className="custom-link" to="/teacher/plan">Plan</Link>
+                                    </NavItem>
+                                    <NavItem>
+                                        <Link className="custom-link" to="/teacher/resume">Resume</Link>
+                                    </NavItem>
                                     <UncontrolledDropdown nav inNavbar  >
                                         <DropdownToggle nav caret className="custom-link text-white">
                                             Private Students

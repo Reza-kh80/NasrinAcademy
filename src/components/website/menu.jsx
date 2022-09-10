@@ -19,27 +19,27 @@ const Menu = (props) => {
     const toggleMenu = () => setIsOpenMenu(!isOpenMenu);
     const menu_Items = [
         { id: 1, Title: "Home", path: "/" },
+        { id: 5, Title: "Teachers", path: "/teacher-overview" },
+        { id: 4, Title: "Courses", path: "/course" },
+        { id: 6, Title: "Teacher registration", path: "/recruitment" },
         { id: 2, Title: "About Us", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
-        { id: 4, Title: "Courses", path: "/course" },
-        { id: 5, Title: "Teachers", path: "/teacher-overview" },
-        { id: 6, Title: "Teacher registration", path: "/recruitment" },
     ]
     const menu_Items_Fa = [
         { id: 1, Title: " خانه ", path: "/" },
+        { id: 5, Title: "معرفی اساتید", path: "/teacher-overview" },
+        { id: 4, Title: " دوره ها ", path: "/course" },
+        { id: 6, Title: "ثبت نام مدرس", path: "/recruitment" },
         { id: 2, Title: " درباره ما ", path: "/about" },
         { id: 3, Title: " تماس با ما ", path: "/contact" },
-        { id: 4, Title: " دوره ها ", path: "/course" },
-        { id: 5, Title: "معرفی اساتید", path: "/teacher-overview" },
-        { id: 6, Title: "ثبت نام مدرس", path: "/recruitment" },
     ]
     const menu_Items_Fr = [
         { id: 1, Title: "Accueil", path: "/" },
+        { id: 5, Title: "Enseignants", path: "/teacher-overview" },
+        { id: 4, Title: "Cours", path: "/course" },
+        { id: 6, Title: "Inscription des enseignants", path: "/recruitment" },
         { id: 2, Title: "À propos de nous", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
-        { id: 4, Title: "Cours", path: "/course" },
-        { id: 5, Title: "Enseignants", path: "/teacher-overview" },
-        { id: 6, Title: "Inscription des enseignants", path: "/recruitment" },
     ]
     function setLanguage(lang) {
         localStorage.setItem('lang', lang);

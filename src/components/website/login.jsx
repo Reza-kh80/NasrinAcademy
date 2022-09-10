@@ -49,7 +49,7 @@ class Login extends Component {
             this.props.onHide();
             window.location = "#/dashboard";
 
-        } else if (user.IsAuthorized === true && user.RoleName === 'Dean') {
+        } else if (user.IsAuthorized === true && user.RoleName === 'Dean' && this.state.key === 'teacher') {
             localStorage.setItem('token', token)
             this.props.onHide();
             window.location = "#/dean";

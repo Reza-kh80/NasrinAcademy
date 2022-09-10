@@ -32,7 +32,7 @@ class Contents extends Component {
                                     <Route path="/article/:id" component={Article} />
                                     <Route path="/contact" component={Contacts} />
                                     <Route path="/about" component={About} />
-                                    <Route path="/" component={Home} />
+                                    {/* <Route path="/" component={Home} /> */}
                                 </Switch>
                             </Suspense>
                         </Col>

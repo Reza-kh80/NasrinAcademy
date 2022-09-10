@@ -6,8 +6,8 @@ import 'simple-react-validator/dist/locale/fa';
 import 'simple-react-validator/dist/locale/fr';
 import { getDatetime } from './../../utils/datetime';
 import Form from 'react-bootstrap/Form';
-// import TimeKeeper from 'react-timekeeper';
-// import ModalClock from './ModalClock.jsx';
+import TimeKeeper from 'react-timekeeper';
+import ModalClock from './ModalClock.jsx';
 
 class TeacherPlan extends Component {
     constructor(props) {
@@ -19,40 +19,40 @@ class TeacherPlan extends Component {
             mediaEndMoint: process.env.REACT_APP_MediaEndPoint,
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
             requestObject: {
-                fromSaturdayBefor: false,
-                untilSaturdayBefor: false,
-                fromSaturdayAfter: false,
-                untilSaturdayAfter: false,
+                fromSaturdayBefor: "00:00",
+                untilSaturdayBefor: "00:00",
+                fromSaturdayAfter: "00:00",
+                untilSaturdayAfter: "00:00",
 
-                fromSundayBefor: false,
-                untilSundayBefor: false,
-                fromSundayAfter: false,
-                untilSundayAfter: false,
+                fromSundayBefor: "00:00",
+                untilSundayBefor: "00:00",
+                fromSundayAfter: "00:00",
+                untilSundayAfter: "00:00",
 
-                fromMondayBefor: false,
-                untilMondayBefor: false,
-                fromMondayAfter: false,
-                untilMondayAfter: false,
+                fromMondayBefor: "00:00",
+                untilMondayBefor: "00:00",
+                fromMondayAfter: "00:00",
+                untilMondayAfter: "00:00",
 
-                fromTuesdayBefor: false,
-                untilTuesdayBefor: false,
-                fromTuesdayAfter: false,
-                untilTuesdayAfter: false,
+                fromTuesdayBefor: "00:00",
+                untilTuesdayBefor: "00:00",
+                fromTuesdayAfter: "00:00",
+                untilTuesdayAfter: "00:00",
 
-                fromWednesdayBefor: false,
-                untilWednesdayBefor: false,
-                fromWednesdayAfter: false,
-                untilWednesdayAfter: false,
+                fromWednesdayBefor: "00:00",
+                untilWednesdayBefor: "00:00",
+                fromWednesdayAfter: "00:00",
+                untilWednesdayAfter: "00:00",
 
-                fromThursdayBefor: false,
-                untilThursdayBefor: false,
-                fromThursdayAfter: false,
-                untilThursdayAfter: false,
+                fromThursdayBefor: "00:00",
+                untilThursdayBefor: "00:00",
+                fromThursdayAfter: "00:00",
+                untilThursdayAfter: "00:00",
 
-                fromFridayBefor: false,
-                untilFridayBefor: false,
-                fromFridayAfter: false,
-                untilFridayAfter: false
+                fromFridayBefor: "00:00",
+                untilFridayBefor: "00:00",
+                fromFridayAfter: "00:00",
+                untilFridayAfter: "00:00"
             },
         }
     }
@@ -151,19 +151,31 @@ class TeacherPlan extends Component {
     }
 
     handleSubmit = () => {
+        let requestObject = this.state.requestObject;
 
         if (this.validator.allValid()) {
-            this.setCurrentTime();
-            axios.post(this.state.apiEndPoint + 'Teacher/Add', this.state.requestObject, {})
-                .then(response => {
-                    alert('You submitted the form and stuff!');
-                    this.validator.hideMessages();
-                    this.onNewHandeler();
-                })
-                .catch(function (error) {
-                    // alert('Something went wrong! try again');
-                    alert(error);
-                })
+            axios({
+                method: 'post',
+                url: this.state.apiEndPoint + 'Calender/AddCalender',
+                data: {
+                    SaturdayAM: requestObject.fromSaturdayBefor + " - " + requestObject.untilSaturdayBefor,
+                    SaturdayPM: requestObject.fromSaturdayAfter + " - " + requestObject.untilSaturdayAfter,
+                    SundayAM: requestObject.fromSundayBefor + " - " + requestObject.untilSundayBefor,
+                    SundayPM: requestObject.fromSundayAfter + " - " + requestObject.untilSundayAfter,
+                    MondayAM: requestObject.fromMondayBefor + " - " + requestObject.untilMondayBefor,
+                    MondayPM: requestObject.fromMondayAfter + " - " + requestObject.untilMondayAfter,
+                    TuesdayAM: requestObject.fromTuesdayBefor + " - " + requestObject.untilTuesdayBefor,
+                    TuesdayPM: requestObject.fromTuesdayAfter + " - " + requestObject.untilTuesdayAfter,
+                    WednesdayAM: requestObject.fromWednesdayBefor + " - " + requestObject.untilWednesdayBefor,
+                    WednesdayPM: requestObject.fromWednesdayAfter + " - " + requestObject.untilWednesdayAfter,
+                    ThursdayAM: requestObject.fromThursdayBefor + " - " + requestObject.untilThursdayBefor,
+                    ThursdayPM: requestObject.fromThursdayAfter + " - " + requestObject.untilThursdayAfter,
+                    FridayAM: requestObject.fromFridayBefor + " - " + requestObject.untilFridayBefor,
+                    FridayPM: requestObject.fromFridayAfter + " - " + requestObject.untilFridayAfter,
+                }
+            }).then(response => {
+                console.log(response);
+            })
         } else {
             this.validator.showMessages();
             this.forceUpdate();
@@ -172,40 +184,40 @@ class TeacherPlan extends Component {
 
     onNewHandeler() {
         let requestObject = { ...this.state.requestObject };
-        requestObject.fromSaturdayAfter = '';
-        requestObject.untilSaturdayAfter = '';
-        requestObject.fromSaturdayBefor = '';
-        requestObject.untilSaturdayBefor = '';
+        requestObject.fromSaturdayAfter = "00:00";
+        requestObject.untilSaturdayAfter = "00:00";
+        requestObject.fromSaturdayBefor = "00:00";
+        requestObject.untilSaturdayBefor = "00:00";
 
-        requestObject.fromSundayBefor = '';
-        requestObject.untilSundayBefor = '';
-        requestObject.fromSundayAfter = '';
-        requestObject.untilSundayAfter = '';
+        requestObject.fromSundayBefor = "00:00";
+        requestObject.untilSundayBefor = "00:00";
+        requestObject.fromSundayAfter = "00:00";
+        requestObject.untilSundayAfter = "00:00";
 
-        requestObject.fromMondayBefor = '';
-        requestObject.untilMondayBefor = '';
-        requestObject.fromMondayAfter = '';
-        requestObject.untilMondayAfter = '';
+        requestObject.fromMondayBefor = "00:00";
+        requestObject.untilMondayBefor = "00:00";
+        requestObject.fromMondayAfter = "00:00";
+        requestObject.untilMondayAfter = "00:00";
 
-        requestObject.fromTuesdayBefor = '';
-        requestObject.untilTuesdayBefor = '';
-        requestObject.fromTuesdayAfter = '';
-        requestObject.untilTuesdayAfter = '';
+        requestObject.fromTuesdayBefor = "00:00";
+        requestObject.untilTuesdayBefor = "00:00";
+        requestObject.fromTuesdayAfter = "00:00";
+        requestObject.untilTuesdayAfter = "00:00";
 
-        requestObject.fromWednesdayBefor = '';
-        requestObject.untilWednesdayBefor = '';
-        requestObject.fromWednesdayAfter = '';
-        requestObject.untilWednesdayAfter = '';
+        requestObject.fromWednesdayBefor = "00:00";
+        requestObject.untilWednesdayBefor = "00:00";
+        requestObject.fromWednesdayAfter = "00:00";
+        requestObject.untilWednesdayAfter = "00:00";
 
-        requestObject.fromThursdayBefor = '';
-        requestObject.untilThursdayBefor = '';
-        requestObject.fromThursdayAfter = '';
-        requestObject.untilThursdayAfter = '';
+        requestObject.fromThursdayBefor = "00:00";
+        requestObject.untilThursdayBefor = "00:00";
+        requestObject.fromThursdayAfter = "00:00";
+        requestObject.untilThursdayAfter = "00:00";
 
-        requestObject.fromFridayBefor = '';
-        requestObject.untilFridayBefor = '';
-        requestObject.fromFridayAfter = '';
-        requestObject.untilFridayAfter = '';
+        requestObject.fromFridayBefor = "00:00";
+        requestObject.untilFridayBefor = "00:00";
+        requestObject.fromFridayAfter = "00:00";
+        requestObject.untilFridayAfter = "00:00";
         requestObject.ModificationDate = getDatetime();
     }
 
@@ -404,8 +416,11 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSaturdayBefor">{this.getHeading(lang, '')[11]}</Label> <br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSaturdayBefor">{this.getHeading(lang, '')[11]}</Label>
+                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSaturdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -413,22 +428,24 @@ class TeacherPlan extends Component {
                                                                                 onChange={(val) => this.onChange(val.formatted24, "fromSaturdayBefor")}
                                                                                 switchToMinuteOnHourSelect
                                                                             />
-                                                                        </div>                                                                
+                                                                        </div>
                                                                     </ModalClock>
-                                                                    <div>{requestObject.fromSaturdayBefor}</div> */}
-                                                                    <Form.Check
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSaturdayBefor'
                                                                         checked={requestObject.fromSaturdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSaturdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSaturdayBefor">{this.getHeading(lang, '')[12]}</Label>
+                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSaturdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -437,14 +454,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSaturdayBefor'
                                                                         checked={requestObject.untilSaturdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -455,8 +472,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSaturdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSaturdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSaturdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -465,20 +484,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSaturdayAfter'
                                                                         checked={requestObject.fromSaturdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSaturdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSaturdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSaturdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -487,14 +508,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSaturdayAfter'
                                                                         checked={requestObject.untilSaturdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -509,8 +530,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSundayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSundayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSundayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -519,20 +542,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSundayBefor'
                                                                         checked={requestObject.fromSundayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSundayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSundayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSundayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -541,14 +566,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSundayBefor'
                                                                         checked={requestObject.untilSundayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -559,8 +584,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSundayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSundayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSundayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -569,20 +596,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSundayAfter'
                                                                         checked={requestObject.fromSundayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSundayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSundayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSundayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -591,14 +620,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSundayAfter'
                                                                         checked={requestObject.untilSundayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -614,8 +643,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromMondayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromMondayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromMondayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -624,20 +655,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromMondayBefor'
                                                                         checked={requestObject.fromMondayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilMondayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilMondayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilMondayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -646,14 +679,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilMondayBefor'
                                                                         checked={requestObject.untilMondayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -664,8 +697,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromMondayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromMondayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromMondayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -674,20 +709,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromMondayAfter'
                                                                         checked={requestObject.fromMondayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilMondayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilMondayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilMondayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -696,14 +733,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilMondayAfter'
                                                                         checked={requestObject.untilMondayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -719,8 +756,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromTuesdayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromTuesdayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromTuesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -729,20 +768,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromTuesdayBefor'
                                                                         checked={requestObject.fromTuesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilTuesdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilTuesdayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilTuesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -751,14 +792,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilTuesdayBefor'
                                                                         checked={requestObject.untilTuesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -769,8 +810,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromTuesdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromTuesdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromTuesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -779,20 +822,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromTuesdayAfter'
                                                                         checked={requestObject.fromTuesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilTuesdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilTuesdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilTuesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -801,14 +846,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilTuesdayAfter'
                                                                         checked={requestObject.untilTuesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -824,8 +869,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromWednesdayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromWednesdayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromWednesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -834,20 +881,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromWednesdayBefor'
                                                                         checked={requestObject.fromWednesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilWednesdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilWednesdayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilWednesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -856,14 +905,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilWednesdayBefor'
                                                                         checked={requestObject.untilWednesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -874,8 +923,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromWednesdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromWednesdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromWednesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -884,20 +935,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromWednesdayAfter'
                                                                         checked={requestObject.fromWednesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilWednesdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilWednesdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilWednesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -906,14 +959,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilWednesdayAfter'
                                                                         checked={requestObject.untilWednesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -929,8 +982,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromThursdayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromThursdayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromThursdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -939,20 +994,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromThursdayBefor'
                                                                         checked={requestObject.fromThursdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilThursdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilThursdayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilThursdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -961,14 +1018,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilThursdayBefor'
                                                                         checked={requestObject.untilThursdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -979,8 +1036,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromThursdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromThursdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromThursdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -989,20 +1048,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromThursdayAfter'
                                                                         checked={requestObject.fromThursdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilThursdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilThursdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilThursdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1011,14 +1072,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilThursdayAfter'
                                                                         checked={requestObject.untilThursdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -1034,8 +1095,10 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromFridayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromFridayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromFridayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1044,20 +1107,22 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromFridayBefor'
                                                                         checked={requestObject.fromFridayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilFridayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilFridayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilFridayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1066,14 +1131,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilFridayBefor'
                                                                         checked={requestObject.untilFridayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -1084,30 +1149,34 @@ class TeacherPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromFridayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromFridayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromFridayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
-                                                                                time={requestObject.untilFridayBefor}
-                                                                                onChange={(val) => this.onChange(val.formatted24, "untilFridayBefor")}
+                                                                                time={requestObject.fromFridayAfter}
+                                                                                onChange={(val) => this.onChange(val.formatted24, "fromFridayAfter")}
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromFridayAfter'
                                                                         checked={requestObject.fromFridayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilFridayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilFridayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilFridayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1116,14 +1185,14 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilFridayAfter'
                                                                         checked={requestObject.untilFridayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>

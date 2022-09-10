@@ -1,8 +1,7 @@
 import React, { Component, Suspense } from 'react';
-import { Container, Row, Col, Button, Spinner } from 'reactstrap';
+import { Container, Row, Col, Button, Spinner, Input } from 'reactstrap';
 import Form from 'react-bootstrap/Form';
 import SimpleReactValidator from 'simple-react-validator';
-import { ChromePicker } from 'react-color';
 import axios from 'axios';
 import { getDatetime } from '../../utils/datetime';
 import UserContext from '../../utils/user-context';
@@ -10,7 +9,7 @@ const MyDropdown = React.lazy(() => import('../general/dropdown'));
 const TableContent = React.lazy(() => import('../general/table'));
 const FileUpload = React.lazy(() => import('../general/fileUpload'));
 
-class DeanCourse extends Component {
+class TeacherCourse extends Component {
     static contextType = UserContext;
     constructor(props) {
         super(props);
@@ -47,13 +46,16 @@ class DeanCourse extends Component {
                 Benefits6Fa: "",
                 Benefits7Fa: "",
                 Benefits8Fa: "",
-                Color: "",
+                Agreement: "",
+                AgreementFa: "",
+                AgreementFr: "",
                 Media: "",
                 LanguageId: "",
                 Modifier: "",
                 ModificationDate: getDatetime(),
                 IsDeleted: false,
             },
+            Color: "",
             pageSize: 5,
             dataList: [],
             dataTitles: ["ID", 'Course Title', 'Modifier', 'Date', 'File Name', 'Edit'],
@@ -108,7 +110,7 @@ class DeanCourse extends Component {
                     Benefits6Fa: m.Benefits6Fa,
                     Benefits7Fa: m.Benefits7Fa,
                     Benefits8Fa: m.Benefits8Fa,
-                    Color: m.Color,
+                    Color: this.state.Color,
                     Media: m.Media,
                     LanguageId: m.LanguageId,
                     Modifier: m.Modifier,
@@ -159,7 +161,10 @@ class DeanCourse extends Component {
         courseObject.Benefits6Fa = "";
         courseObject.Benefits7Fa = "";
         courseObject.Benefits8Fa = "";
-        courseObject.Color = "";
+        courseObject.Agreement = "";
+        courseObject.AgreementFr = "";
+        courseObject.AgreementFa = "";
+        this.state.Color = "";
         courseObject.Media = "";
         courseObject.LanguageId = "";
         courseObject.Modifier = this.context.Username;
@@ -267,8 +272,11 @@ class DeanCourse extends Component {
             this.forceUpdate();
         }
     }
+    handleChangeColor = (e) => {
+        this.setState({ Color: e.target.value })
+    };
     render() {
-        const { dataList, dataTitles, columnList, pageSize, filteredItem, dropdownList, courseObject } = this.state;
+        const { dataList, dataTitles, columnList, pageSize, filteredItem, dropdownList, courseObject, Color } = this.state;
         return (<div>
             <Container fluid className="table">
                 <Row className="mb-2">
@@ -309,8 +317,54 @@ class DeanCourse extends Component {
                                 <Col sm="12" md="6" >
                                     <Form.Group>
                                         <Form.Label htmlFor="color"><h6 className="text-primary mb-0 ml-1" >Course backgroung Color:</h6></Form.Label>
-                                        <ChromePicker className="mb-2" name="b" color={courseObject.Color} onChangeComplete={this.handleColorChange} />
-                                        {this.validator.message('color', courseObject.Color, 'required', { className: 'alert alert-danger' })}
+                                        <Row>
+                                            <Col xs={2}>
+                                                <Input className='text-left' dir="ltr" type="color" id="color" name="b" value={Color}
+                                                    onChange={this.handleChangeColor}
+                                                    style={{ width: 50 }}
+                                                />
+                                            </Col>
+                                            <Col xs={10}>
+                                                <Input type='text' style={{ Color }} value={Color} disabled />
+                                            </Col>
+                                        </Row>
+                                        {this.validator.message('color', Color, 'required', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="agreement"><h6 className="text-primary mb-0 ml-1" >Agreement:</h6></Form.Label>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <Input className='text-left' dir="ltr" type="textarea" id="agreement" name="Agreement" value={courseObject.Agreement}
+                                                    onChange={this.handleChange}
+                                                    rows={5}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        {this.validator.message('Agreement', courseObject.Agreement, 'required', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="agreementfr"><h6 className="text-primary mb-0 ml-1" >Agreement (French):</h6></Form.Label>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <Input className='text-left' dir="ltr" type="textarea" id="agreementfr" name="AgreementFr" value={courseObject.AgreementFr}
+                                                    onChange={this.handleChange}
+                                                    rows={5}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        {this.validator.message('Agreement French', courseObject.AgreementFr, 'required', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="agreementfa"><h6 className="text-primary mb-0 ml-1" >Agreement (Farsi):</h6></Form.Label>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <Input className='text-left' dir="ltr" type="textarea" id="agreementfa" name="AgreementFa" value={courseObject.AgreementFa}
+                                                    onChange={this.handleChange}
+                                                    rows={4}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        {this.validator.message('Agreement Farsi', courseObject.AgreementFa, 'required', { className: 'alert alert-danger' })}
                                     </Form.Group>
                                 </Col>
                                 <Col sm="12" md="6">
@@ -492,5 +546,4 @@ class DeanCourse extends Component {
         </div>);
     }
 }
-// DeanCourse.contextType = UserContext;
-export default DeanCourse;
+export default TeacherCourse;

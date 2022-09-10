@@ -1,16 +1,15 @@
-import React, { Component, Suspense } from 'react';
-import { Container, Row, Col, Button, FormGroup, Label, Spinner } from 'reactstrap';
+import React, { Component } from 'react';
+import { Container, Row, Col, Button, FormGroup, Label } from 'reactstrap';
 import axios from 'axios';
 import SimpleReactValidator from 'simple-react-validator';
 import 'simple-react-validator/dist/locale/fa';
 import 'simple-react-validator/dist/locale/fr';
 import { getDatetime } from './../../utils/datetime';
 import Form from 'react-bootstrap/Form';
-// import TimeKeeper from 'react-timekeeper';
-// import ModalClock from './ModalClock.jsx';
-const MyDropdown = React.lazy(() => import('../general/dropdown'));
+import TimeKeeper from 'react-timekeeper';
+import ModalClock from './ModalClock.jsx';
 
-class DashboardPlan extends Component {
+class TeacherPlan extends Component {
     constructor(props) {
         super(props);
         // localStorage.getItem('lang')
@@ -20,47 +19,41 @@ class DashboardPlan extends Component {
             mediaEndMoint: process.env.REACT_APP_MediaEndPoint,
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
             requestObject: {
-                fromSaturdayBefor: false,
-                untilSaturdayBefor: false,
-                fromSaturdayAfter: false,
-                untilSaturdayAfter: false,
+                fromSaturdayBefor: "00:00",
+                untilSaturdayBefor: "00:00",
+                fromSaturdayAfter: "00:00",
+                untilSaturdayAfter: "00:00",
 
-                fromSundayBefor: false,
-                untilSundayBefor: false,
-                fromSundayAfter: false,
-                untilSundayAfter: false,
+                fromSundayBefor: "00:00",
+                untilSundayBefor: "00:00",
+                fromSundayAfter: "00:00",
+                untilSundayAfter: "00:00",
 
-                fromMondayBefor: false,
-                untilMondayBefor: false,
-                fromMondayAfter: false,
-                untilMondayAfter: false,
+                fromMondayBefor: "00:00",
+                untilMondayBefor: "00:00",
+                fromMondayAfter: "00:00",
+                untilMondayAfter: "00:00",
 
-                fromTuesdayBefor: false,
-                untilTuesdayBefor: false,
-                fromTuesdayAfter: false,
-                untilTuesdayAfter: false,
+                fromTuesdayBefor: "00:00",
+                untilTuesdayBefor: "00:00",
+                fromTuesdayAfter: "00:00",
+                untilTuesdayAfter: "00:00",
 
-                fromWednesdayBefor: false,
-                untilWednesdayBefor: false,
-                fromWednesdayAfter: false,
-                untilWednesdayAfter: false,
+                fromWednesdayBefor: "00:00",
+                untilWednesdayBefor: "00:00",
+                fromWednesdayAfter: "00:00",
+                untilWednesdayAfter: "00:00",
 
-                fromThursdayBefor: false,
-                untilThursdayBefor: false,
-                fromThursdayAfter: false,
-                untilThursdayAfter: false,
+                fromThursdayBefor: "00:00",
+                untilThursdayBefor: "00:00",
+                fromThursdayAfter: "00:00",
+                untilThursdayAfter: "00:00",
 
-                fromFridayBefor: false,
-                untilFridayBefor: false,
-                fromFridayAfter: false,
-                untilFridayAfter: false
+                fromFridayBefor: "00:00",
+                untilFridayBefor: "00:00",
+                fromFridayAfter: "00:00",
+                untilFridayAfter: "00:00"
             },
-            dropdownList: [],
-            teacherList: [],
-            LanguageId: "",
-            TeacherName: 'Teacher List',
-            id: '',
-            drop: []
         }
     }
 
@@ -78,30 +71,9 @@ class DashboardPlan extends Component {
         });
     }
 
-    getTeacher = async (id) => {
-        let drop = [];
-        await axios
-            .get(
-                this.state.apiEndPoint + `Teacher/DisplayAllRegistered?languageId=${id}`
-            )
-            .then((response) => {
-                this.setState({
-                    teacherList: response.data.filter(
-                        (teacher) => teacher.IsDeleted === false
-                    ),
-                });
-            });
-        this.state.teacherList.map((item) =>
-            drop.push({
-                label: this.getHeading('en', item)[16]
-            })
-        )
-        this.setState({ drop });
-    };
-
     handleChange = e => {
         let requestObject = { ...this.state.requestObject };
-        requestObject[e.currentTarget.name] = e.target.value;
+        requestObject[e.currentTarget.name] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         this.setState({ requestObject });
     }
 
@@ -166,36 +138,6 @@ class DashboardPlan extends Component {
         return heading;
     }
 
-    componentDidMount() {
-        this.getLanguage();
-        this.getTeacher(1);
-    }
-
-    handleDropdownSelectLanguage = (e) => {
-        let languageId = e.target.value;
-        if (languageId === "") {
-            this.setState({ languageId: "" });
-            return;
-        } else {
-            this.getTeacher(languageId);
-            this.setState({ LanguageId: languageId });
-        }
-    };
-
-    handleDropdownSelectTeacher = (e) => {
-        let teacherName = e.target.value;
-        this.setState({ TeacherName: teacherName });
-        for (const x of this.state.teacherList) {
-            if (teacherName === '') {
-                this.setState({ id: '' });
-                return;
-            } else if (x.Name === teacherName) {
-                this.setState({ id: x.TeacherId });
-            }
-        }
-
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (prevState.requestObject !== this.state.requestObject) {
             // console.log(this.state.requestObject)
@@ -209,19 +151,31 @@ class DashboardPlan extends Component {
     }
 
     handleSubmit = () => {
+        let requestObject = this.state.requestObject;
 
         if (this.validator.allValid()) {
-            this.setCurrentTime();
-            axios.post(this.state.apiEndPoint + 'Teacher/Add', this.state.requestObject, {})
-                .then(response => {
-                    alert('You submitted the form and stuff!');
-                    this.validator.hideMessages();
-                    this.onNewHandeler();
-                })
-                .catch(function (error) {
-                    // alert('Something went wrong! try again');
-                    alert(error);
-                })
+            axios({
+                method: 'post',
+                url: this.state.apiEndPoint + 'Calender/AddCalender',
+                data: {
+                    SaturdayAM: requestObject.fromSaturdayBefor + " - " + requestObject.untilSaturdayBefor,
+                    SaturdayPM: requestObject.fromSaturdayAfter + " - " + requestObject.untilSaturdayAfter,
+                    SundayAM: requestObject.fromSundayBefor + " - " + requestObject.untilSundayBefor,
+                    SundayPM: requestObject.fromSundayAfter + " - " + requestObject.untilSundayAfter,
+                    MondayAM: requestObject.fromMondayBefor + " - " + requestObject.untilMondayBefor,
+                    MondayPM: requestObject.fromMondayAfter + " - " + requestObject.untilMondayAfter,
+                    TuesdayAM: requestObject.fromTuesdayBefor + " - " + requestObject.untilTuesdayBefor,
+                    TuesdayPM: requestObject.fromTuesdayAfter + " - " + requestObject.untilTuesdayAfter,
+                    WednesdayAM: requestObject.fromWednesdayBefor + " - " + requestObject.untilWednesdayBefor,
+                    WednesdayPM: requestObject.fromWednesdayAfter + " - " + requestObject.untilWednesdayAfter,
+                    ThursdayAM: requestObject.fromThursdayBefor + " - " + requestObject.untilThursdayBefor,
+                    ThursdayPM: requestObject.fromThursdayAfter + " - " + requestObject.untilThursdayAfter,
+                    FridayAM: requestObject.fromFridayBefor + " - " + requestObject.untilFridayBefor,
+                    FridayPM: requestObject.fromFridayAfter + " - " + requestObject.untilFridayAfter,
+                }
+            }).then(response => {
+                console.log(response);
+            })
         } else {
             this.validator.showMessages();
             this.forceUpdate();
@@ -230,41 +184,166 @@ class DashboardPlan extends Component {
 
     onNewHandeler() {
         let requestObject = { ...this.state.requestObject };
-        requestObject.fromSaturdayAfter = '';
-        requestObject.untilSaturdayAfter = '';
-        requestObject.fromSaturdayBefor = '';
-        requestObject.untilSaturdayBefor = '';
+        requestObject.fromSaturdayAfter = "00:00";
+        requestObject.untilSaturdayAfter = "00:00";
+        requestObject.fromSaturdayBefor = "00:00";
+        requestObject.untilSaturdayBefor = "00:00";
 
-        requestObject.fromSundayBefor = '';
-        requestObject.untilSundayBefor = '';
-        requestObject.fromSundayAfter = '';
-        requestObject.untilSundayAfter = '';
+        requestObject.fromSundayBefor = "00:00";
+        requestObject.untilSundayBefor = "00:00";
+        requestObject.fromSundayAfter = "00:00";
+        requestObject.untilSundayAfter = "00:00";
 
-        requestObject.fromMondayBefor = '';
-        requestObject.untilMondayBefor = '';
-        requestObject.fromMondayAfter = '';
-        requestObject.untilMondayAfter = '';
+        requestObject.fromMondayBefor = "00:00";
+        requestObject.untilMondayBefor = "00:00";
+        requestObject.fromMondayAfter = "00:00";
+        requestObject.untilMondayAfter = "00:00";
 
-        requestObject.fromTuesdayBefor = '';
-        requestObject.untilTuesdayBefor = '';
-        requestObject.fromTuesdayAfter = '';
-        requestObject.untilTuesdayAfter = '';
+        requestObject.fromTuesdayBefor = "00:00";
+        requestObject.untilTuesdayBefor = "00:00";
+        requestObject.fromTuesdayAfter = "00:00";
+        requestObject.untilTuesdayAfter = "00:00";
 
-        requestObject.fromWednesdayBefor = '';
-        requestObject.untilWednesdayBefor = '';
-        requestObject.fromWednesdayAfter = '';
-        requestObject.untilWednesdayAfter = '';
+        requestObject.fromWednesdayBefor = "00:00";
+        requestObject.untilWednesdayBefor = "00:00";
+        requestObject.fromWednesdayAfter = "00:00";
+        requestObject.untilWednesdayAfter = "00:00";
 
-        requestObject.fromThursdayBefor = '';
-        requestObject.untilThursdayBefor = '';
-        requestObject.fromThursdayAfter = '';
-        requestObject.untilThursdayAfter = '';
+        requestObject.fromThursdayBefor = "00:00";
+        requestObject.untilThursdayBefor = "00:00";
+        requestObject.fromThursdayAfter = "00:00";
+        requestObject.untilThursdayAfter = "00:00";
 
-        requestObject.fromFridayBefor = '';
-        requestObject.untilFridayBefor = '';
-        requestObject.fromFridayAfter = '';
-        requestObject.untilFridayAfter = '';
+        requestObject.fromFridayBefor = "00:00";
+        requestObject.untilFridayBefor = "00:00";
+        requestObject.fromFridayAfter = "00:00";
+        requestObject.untilFridayAfter = "00:00";
         requestObject.ModificationDate = getDatetime();
+    }
+
+    onChange(val, key) {
+        var newTime = {};
+        switch (key) {
+            case 'fromSaturdayBefor':
+                newTime = { ...this.state.requestObject, fromSaturdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilSaturdayBefor':
+                newTime = { ...this.state.requestObject, untilSaturdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'fromSaturdayAfter':
+                newTime = { ...this.state.requestObject, fromSaturdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilSaturdayAfter':
+                newTime = { ...this.state.requestObject, untilSaturdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+
+            case 'fromSundayBefor':
+                newTime = { ...this.state.requestObject, fromSundayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilSundayBefor':
+                newTime = { ...this.state.requestObject, untilSundayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'fromSundayAfter':
+                newTime = { ...this.state.requestObject, fromSundayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilSundayAfter':
+                newTime = { ...this.state.requestObject, untilSundayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+
+            case 'fromMondayBefor':
+                newTime = { ...this.state.requestObject, fromMondayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilMondayBefor':
+                newTime = { ...this.state.requestObject, untilMondayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'fromMondayAfter':
+                newTime = { ...this.state.requestObject, fromMondayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilMondayAfter':
+                newTime = { ...this.state.requestObject, untilMondayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+
+            case 'fromTuesdayBefor':
+                newTime = { ...this.state.requestObject, fromTuesdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilTuesdayBefor':
+                newTime = { ...this.state.requestObject, untilTuesdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'fromTuesdayAfter':
+                newTime = { ...this.state.requestObject, fromTuesdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilTuesdayAfter':
+                newTime = { ...this.state.requestObject, untilTuesdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+
+            case 'fromWednesdayBefor':
+                newTime = { ...this.state.requestObject, fromWednesdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilWednesdayBefor':
+                newTime = { ...this.state.requestObject, untilWednesdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'fromWednesdayAfter':
+                newTime = { ...this.state.requestObject, fromWednesdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilWednesdayAfter':
+                newTime = { ...this.state.requestObject, untilWednesdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+
+            case 'fromThursdayBefor':
+                newTime = { ...this.state.requestObject, fromThursdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilThursdayBefor':
+                newTime = { ...this.state.requestObject, untilThursdayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'fromThursdayAfter':
+                newTime = { ...this.state.requestObject, fromThursdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilThursdayAfter':
+                newTime = { ...this.state.requestObject, untilThursdayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+
+            case 'fromFridayBefor':
+                newTime = { ...this.state.requestObject, fromFridayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilFridayBefor':
+                newTime = { ...this.state.requestObject, untilFridayBefor: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'fromFridayAfter':
+                newTime = { ...this.state.requestObject, fromFridayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+            case 'untilFridayAfter':
+                newTime = { ...this.state.requestObject, untilFridayAfter: val };
+                this.setState({ requestObject: newTime })
+                break;
+        }
+
     }
 
     HandleCheckBox = (e) => {
@@ -273,134 +352,8 @@ class DashboardPlan extends Component {
         this.setState({ requestObject });
     }
 
-    // onChange(val, key) {
-    //     var newTime = {};
-    //     switch (key) {
-    //         case 'fromSaturdayBefor':
-    //             newTime = { ...this.state.requestObject, fromSaturdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             console.log(val);
-    //             break;
-    //         case 'untilSaturdayBefor':
-    //             newTime = { ...this.state.requestObject, untilSaturdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'fromSaturdayAfter':
-    //             newTime = { ...this.state.requestObject, fromSaturdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilSaturdayAfter':
-    //             newTime = { ...this.state.requestObject, untilSaturdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-
-    //         case 'fromSundayBefor':
-    //             newTime = { ...this.state.requestObject, fromSundayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilSundayBefor':
-    //             newTime = { ...this.state.requestObject, untilSundayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'fromSundayAfter':
-    //             newTime = { ...this.state.requestObject, fromSundayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilSundayAfter':
-    //             newTime = { ...this.state.requestObject, untilSundayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-
-    //         case 'fromMondayBefor':
-    //             newTime = { ...this.state.requestObject, fromMondayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilMondayBefor':
-    //             newTime = { ...this.state.requestObject, untilMondayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'fromMondayAfter':
-    //             newTime = { ...this.state.requestObject, fromMondayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilMondayAfter':
-    //             newTime = { ...this.state.requestObject, untilMondayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-
-    //         case 'fromTuesdayBefor':
-    //             newTime = { ...this.state.requestObject, fromTuesdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilTuesdayBefor':
-    //             newTime = { ...this.state.requestObject, untilTuesdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'fromTuesdayAfter':
-    //             newTime = { ...this.state.requestObject, fromTuesdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilTuesdayAfter':
-    //             newTime = { ...this.state.requestObject, untilTuesdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-
-    //         case 'fromWednesdayBefor':
-    //             newTime = { ...this.state.requestObject, fromWednesdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilWednesdayBefor':
-    //             newTime = { ...this.state.requestObject, untilWednesdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'fromWednesdayAfter':
-    //             newTime = { ...this.state.requestObject, fromWednesdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilWednesdayAfter':
-    //             newTime = { ...this.state.requestObject, untilWednesdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-
-    //         case 'fromThursdayBefor':
-    //             newTime = { ...this.state.requestObject, fromThursdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilThursdayBefor':
-    //             newTime = { ...this.state.requestObject, untilThursdayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'fromThursdayAfter':
-    //             newTime = { ...this.state.requestObject, fromThursdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilThursdayAfter':
-    //             newTime = { ...this.state.requestObject, untilThursdayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-
-    //         case 'fromFridayBefor':
-    //             newTime = { ...this.state.requestObject, fromFridayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilFridayBefor':
-    //             newTime = { ...this.state.requestObject, untilFridayBefor: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'fromFridayAfter':
-    //             newTime = { ...this.state.requestObject, fromFridayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //         case 'untilFridayAfter':
-    //             newTime = { ...this.state.requestObject, untilFridayAfter: val };
-    //             this.setState({ requestObject: newTime })
-    //             break;
-    //     }
-
-    // }
-
     render() {
-        const { requestObject, dropdownList, TeacherName, id, LanguageId, drop } = this.state;
+        const { requestObject } = this.state;
         // const lang = localStorage.getItem('lang');
         const lang = 'en';
         const setError = {
@@ -447,45 +400,6 @@ class DashboardPlan extends Component {
                         <Col className={lang === 'fa' ? "text-right border  border-primary rounded p-3 overflow-auto w-100" : "text-left border  border-primary rounded p-3 overflow-auto w-100"}>
                             <Row form>
                                 <Col xs={12}>
-                                    <Row form>
-                                        <Col xs={6}>
-                                            <Suspense fallback={<Spinner color="success" />}>
-                                                <div className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
-                                                    <MyDropdown
-                                                        label={this.getHeading(lang, "")[15]}
-                                                        display={this.getHeading(lang, "")[15]}
-                                                        dataList={dropdownList}
-                                                        handleChange={this.handleDropdownSelectLanguage}
-                                                        name="LanguageId"
-                                                        selectedValue={LanguageId}
-                                                        htmlFor="language"
-                                                        width={window.innerWidth < 576 ? "w-100" : "w-25"}
-                                                    />
-                                                </div>
-                                            </Suspense>
-                                            {/* {this.validator.message(setError[lang]['language'], requestObject.TeachingCourses, 'required', { className: 'alert alert-danger' })} */}
-                                        </Col>
-                                        <Col xs={6}>
-                                            <Suspense fallback={<Spinner color="success" />}>
-                                                <div className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
-                                                    <MyDropdown
-                                                        label={this.getHeading(lang, "")[14]}
-                                                        display={TeacherName}
-                                                        dataList={drop}
-                                                        handleChange={this.handleDropdownSelectTeacher}
-                                                        name="TeacherName"
-                                                        selectedValue={id}
-                                                        htmlFor="TeacherName"
-                                                        width={window.innerWidth < 576 ? "w-100" : "w-25"}
-                                                    />
-                                                </div>
-                                            </Suspense>
-                                            {/* {this.validator.message(setError[lang]['teacher'], requestObject.TeachingCourses, 'required', { className: 'alert alert-danger' })} */}
-                                        </Col>
-                                    </Row>
-                                    <hr className="bg-warning" />
-                                </Col>
-                                <Col xs={12}>
                                     <table className="table table-bordered border-primary">
                                         <thead className='text-center'>
                                             <tr>
@@ -502,8 +416,11 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSaturdayBefor">{this.getHeading(lang, '')[11]}</Label> <br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSaturdayBefor">{this.getHeading(lang, '')[11]}</Label>
+                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSaturdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -511,22 +428,24 @@ class DashboardPlan extends Component {
                                                                                 onChange={(val) => this.onChange(val.formatted24, "fromSaturdayBefor")}
                                                                                 switchToMinuteOnHourSelect
                                                                             />
-                                                                        </div>                                                                
+                                                                        </div>
                                                                     </ModalClock>
-                                                                    <div>{requestObject.fromSaturdayBefor}</div> */}
-                                                                    <Form.Check
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSaturdayBefor'
                                                                         checked={requestObject.fromSaturdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSaturdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSaturdayBefor">{this.getHeading(lang, '')[12]}</Label>
+                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSaturdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -535,14 +454,14 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSaturdayBefor'
                                                                         checked={requestObject.untilSaturdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -553,8 +472,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSaturdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSaturdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSaturdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -563,20 +484,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSaturdayAfter'
                                                                         checked={requestObject.fromSaturdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSaturdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSaturdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSaturdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -585,21 +508,21 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSaturdayAfter'
                                                                         checked={requestObject.untilSaturdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
                                                     </Container>
                                                 </th>
                                             </tr>
-                                            {this.validator.message(setError[lang]['Saturday'], requestObject.fromSaturdayBefor, 'required', { className: 'alert alert-danger' })}
+                                            {this.validator.message(setError[lang]['Saturday'], requestObject.fromSaturdayBefor, 'required|max:95', { className: 'alert alert-danger' })}
                                             <tr>
                                                 <th className='text-center'>{this.getHeading(lang, '')[3]}</th>
                                                 <th>
@@ -607,8 +530,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSundayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSundayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSundayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -617,20 +542,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSundayBefor'
                                                                         checked={requestObject.fromSundayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSundayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSundayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSundayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -639,14 +566,14 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSundayBefor'
                                                                         checked={requestObject.untilSundayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -657,8 +584,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromSundayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromSundayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromSundayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -667,20 +596,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromSundayAfter'
                                                                         checked={requestObject.fromSundayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilSundayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilSundayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilSundayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -689,21 +620,21 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilSundayAfter'
                                                                         checked={requestObject.untilSundayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
                                                     </Container>
                                                 </th>
                                             </tr>
-                                            {this.validator.message(setError[lang]['Sunday'], requestObject.fromSaturdayBefor, 'required', { className: 'alert alert-danger' })}
+                                            {this.validator.message(setError[lang]['Sunday'], requestObject.fromSaturdayBefor, 'required|max:95', { className: 'alert alert-danger' })}
 
                                             <tr>
                                                 <th className='text-center'>{this.getHeading(lang, '')[4]}</th>
@@ -712,8 +643,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromMondayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromMondayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromMondayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -722,20 +655,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromMondayBefor'
                                                                         checked={requestObject.fromMondayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilMondayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilMondayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilMondayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -744,14 +679,14 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilMondayBefor'
                                                                         checked={requestObject.untilMondayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -762,8 +697,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromMondayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromMondayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromMondayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -772,20 +709,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromMondayAfter'
                                                                         checked={requestObject.fromMondayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilMondayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilMondayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilMondayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -794,21 +733,21 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilMondayAfter'
                                                                         checked={requestObject.untilMondayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
                                                     </Container>
                                                 </th>
                                             </tr>
-                                            {this.validator.message(setError[lang]['Monday'], requestObject.fromSaturdayBefor, 'required', { className: 'alert alert-danger' })}
+                                            {this.validator.message(setError[lang]['Monday'], requestObject.fromSaturdayBefor, 'required|max:95', { className: 'alert alert-danger' })}
 
                                             <tr>
                                                 <th className='text-center'>{this.getHeading(lang, '')[5]}</th>
@@ -817,8 +756,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromTuesdayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromTuesdayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromTuesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -827,20 +768,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromTuesdayBefor'
                                                                         checked={requestObject.fromTuesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilTuesdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilTuesdayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilTuesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -849,14 +792,14 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilTuesdayBefor'
                                                                         checked={requestObject.untilTuesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -867,8 +810,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromTuesdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromTuesdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromTuesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -877,20 +822,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromTuesdayAfter'
                                                                         checked={requestObject.fromTuesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilTuesdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilTuesdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilTuesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -899,21 +846,21 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilTuesdayAfter'
                                                                         checked={requestObject.untilTuesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
                                                     </Container>
                                                 </th>
                                             </tr>
-                                            {this.validator.message(setError[lang]['Tuesday'], requestObject.fromSaturdayBefor, 'required', { className: 'alert alert-danger' })}
+                                            {this.validator.message(setError[lang]['Tuesday'], requestObject.fromSaturdayBefor, 'required|max:95', { className: 'alert alert-danger' })}
 
                                             <tr>
                                                 <th className='text-center'>{this.getHeading(lang, '')[6]}</th>
@@ -922,8 +869,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromWednesdayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromWednesdayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromWednesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -932,20 +881,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromWednesdayBefor'
                                                                         checked={requestObject.fromWednesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilWednesdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilWednesdayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilWednesdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -954,14 +905,14 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilWednesdayBefor'
                                                                         checked={requestObject.untilWednesdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -972,8 +923,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromWednesdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromWednesdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromWednesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -982,20 +935,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromWednesdayAfter'
                                                                         checked={requestObject.fromWednesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilWednesdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilWednesdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilWednesdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1004,21 +959,21 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilWednesdayAfter'
                                                                         checked={requestObject.untilWednesdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
                                                     </Container>
                                                 </th>
                                             </tr>
-                                            {this.validator.message(setError[lang]['Wednesday'], requestObject.fromSaturdayBefor, 'required', { className: 'alert alert-danger' })}
+                                            {this.validator.message(setError[lang]['Wednesday'], requestObject.fromSaturdayBefor, 'required|max:95', { className: 'alert alert-danger' })}
 
                                             <tr>
                                                 <th className='text-center'>{this.getHeading(lang, '')[7]}</th>
@@ -1027,8 +982,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromThursdayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromThursdayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromThursdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1037,20 +994,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromThursdayBefor'
                                                                         checked={requestObject.fromThursdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilThursdayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilThursdayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilThursdayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1059,14 +1018,14 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilThursdayBefor'
                                                                         checked={requestObject.untilThursdayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -1077,8 +1036,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromThursdayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromThursdayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromThursdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1087,20 +1048,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromThursdayAfter'
                                                                         checked={requestObject.fromThursdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilThursdayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilThursdayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilThursdayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1109,21 +1072,21 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilThursdayAfter'
                                                                         checked={requestObject.untilThursdayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
                                                     </Container>
                                                 </th>
                                             </tr>
-                                            {this.validator.message(setError[lang]['Thursday'], requestObject.fromSaturdayBefor, 'required', { className: 'alert alert-danger' })}
+                                            {this.validator.message(setError[lang]['Thursday'], requestObject.fromSaturdayBefor, 'required|max:95', { className: 'alert alert-danger' })}
 
                                             <tr>
                                                 <th className='text-center'>{this.getHeading(lang, '')[8]}</th>
@@ -1132,8 +1095,10 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromFridayBefor">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromFridayBefor">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromFridayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1142,20 +1107,22 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromFridayBefor'
                                                                         checked={requestObject.fromFridayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilFridayBefor">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilFridayBefor">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilFridayBefor}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1164,14 +1131,14 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilFridayBefor'
                                                                         checked={requestObject.untilFridayBefor}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
@@ -1182,30 +1149,34 @@ class DashboardPlan extends Component {
                                                         <Row>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="fromFridayAfter">{this.getHeading(lang, '')[11]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="fromFridayAfter">{this.getHeading(lang, '')[11]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.fromFridayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
-                                                                                time={requestObject.untilFridayBefor}
-                                                                                onChange={(val) => this.onChange(val.formatted24, "untilFridayBefor")}
+                                                                                time={requestObject.fromFridayAfter}
+                                                                                onChange={(val) => this.onChange(val.formatted24, "fromFridayAfter")}
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='fromFridayAfter'
                                                                         checked={requestObject.fromFridayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                             <Col xs={12} lg={6}>
                                                                 <FormGroup>
-                                                                    <Label for="untilFridayAfter">{this.getHeading(lang, '')[12]}</Label><br />
-                                                                    {/* <ModalClock>
+                                                                    <Label for="untilFridayAfter">{this.getHeading(lang, '')[12]}</Label>                                                                    &nbsp;&nbsp;
+                                                                    <span className='text-primary'>{requestObject.untilFridayAfter}</span>
+                                                                    <br />
+                                                                    <ModalClock>
                                                                         <div className='text-center'>
                                                                             <TimeKeeper
                                                                                 hour24Mode
@@ -1214,21 +1185,21 @@ class DashboardPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock> */}
-                                                                    <Form.Check
+                                                                    </ModalClock>
+                                                                    {/* <Form.Check
                                                                         inline
                                                                         type="switch"
                                                                         id='untilFridayAfter'
                                                                         checked={requestObject.untilFridayAfter}
                                                                         onChange={this.HandleCheckBox}
-                                                                    />
+                                                                    /> */}
                                                                 </FormGroup>
                                                             </Col>
                                                         </Row>
                                                     </Container>
                                                 </th>
                                             </tr>
-                                            {this.validator.message(setError[lang]['Friday'], requestObject.fromSaturdayBefor, 'required', { className: 'alert alert-danger' })}
+                                            {this.validator.message(setError[lang]['Friday'], requestObject.fromSaturdayBefor, 'required|max:95', { className: 'alert alert-danger' })}
 
                                         </tbody>
                                     </table>
@@ -1243,4 +1214,4 @@ class DashboardPlan extends Component {
     }
 }
 
-export default DashboardPlan;
+export default TeacherPlan;

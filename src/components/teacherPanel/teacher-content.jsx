@@ -27,9 +27,11 @@ const TeacherProgressAssignPublic = React.lazy(() => import('./teacher-progress-
 const TeacherResultAssignPublic = React.lazy(() => import('./teacher-result-assign-public'));
 const TeacherStatusAssignPublic = React.lazy(() => import('./teacher-status-assign-public'));
 const TeacherPaymentAssignPublic = React.lazy(() => import('./teacher-payment-assign-public'));
-const TeacherCourseRegistration = React.lazy(() => import('./teacher-course-registration'));
+// const TeacherCourseRegistration = React.lazy(() => import('./teacher-course-registration'));
 const TeacherPlan = React.lazy(() => import('./teacher-plan'));
 const TeacherResume = React.lazy(() => import('./teacher-resume'));
+const TeacherCourse = React.lazy(() => import('./teacher-course'));
+
 
 function DashboardContent() {
     const user = useContext(UserContext);
@@ -71,8 +73,9 @@ function DashboardContent() {
             <Suspense fallback={<div className="text-center p-4"><Spinner color="success" /></div>}>
                 <Switch>
                     <Route path='/teacher/plan' component={TeacherPlan} />
+                    <Route path='/teacher/teacher-course' component={TeacherCourse} />
                     <Route path='/teacher/resume' component={TeacherResume} />
-                    <Route path="/teacher/course-registration" component={TeacherCourseRegistration} />
+                    {/* <Route path="/teacher/course-registration" component={TeacherCourseRegistration} /> */}
                     <Route path="/teacher/assign-payment-public" component={TeacherPaymentAssignPublic} />
                     <Route path="/teacher/assign-status-public" component={TeacherStatusAssignPublic} />
                     <Route path="/teacher/assign-result-public" component={TeacherResultAssignPublic} />

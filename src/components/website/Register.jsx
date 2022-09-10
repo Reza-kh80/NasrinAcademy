@@ -116,12 +116,13 @@ class Register extends Component {
         if (this.validator.allValid()) {
             axios({
                 method: 'post',
-                url: apiEndPoint + 'User/َAdd',
+                url: apiEndPoint + 'User/Add',
                 data
             }).then(response => {
-                // console.log(response.data + ' ' + this.state.key)
+                console.log(response.data )
                 const user = jwt_decode(response.data)
                 this.handleLogin(user, response.data)
+                
             }
             )
         } else {

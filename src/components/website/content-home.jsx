@@ -71,7 +71,7 @@ class Home extends Component {
           />
         </Helmet>
         <Container fluid dir={lang === "fa" ? "rtl" : "ltr"}>
-          <Row className="mt-2">
+          {/* <Row className="mt-2">
             <Col
               xs="12"
               md="8"
@@ -179,7 +179,7 @@ class Home extends Component {
                 type="video/mp4"
               />
             </Col>
-          </Row>
+          </Row> */}
           <Row className="mt-4">
             <Col xs="12" className="m-0 p-0">
               <Suspense fallback={<Spinner color="success" />}>

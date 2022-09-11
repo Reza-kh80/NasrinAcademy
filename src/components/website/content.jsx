@@ -10,6 +10,7 @@ const TeacherRecruitment = React.lazy(() => import('./content-teacher-recruitmen
 const FlashCards = React.lazy(() => import('./content-flashcards'));
 const VideoOutlook = React.lazy(() => import('./content-videos'));
 const Article = React.lazy(() => import('./content-articls'));
+const Certificates = React.lazy(() => import('./content-certificates'));
 
 class Contents extends Component {
     constructor(props) {
@@ -25,6 +26,7 @@ class Contents extends Component {
                             <Suspense fallback={<div className="text-center p-4"><Spinner color="success" /></div>}>
                                 <Switch>
                                     <Route path="/teacher-overview" component={TeacherOutlook} />
+                                    <Route path="/certificates" component={Certificates} />
                                     <Route path="/recruitment" component={TeacherRecruitment} />
                                     <Route path="/course" component={CourseOutlook} />
                                     <Route path="/media" component={VideoOutlook} />

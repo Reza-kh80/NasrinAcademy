@@ -22,6 +22,8 @@ const Menu = (props) => {
         { id: 5, Title: "Teachers", path: "/teacher-overview" },
         { id: 4, Title: "Courses", path: "/course" },
         { id: 6, Title: "Teacher registration", path: "/recruitment" },
+        { id: 7, Title: "Certificates", path: "/certificates" },
+        { id: 8, Title: "Shop", path: "/shop" },
         { id: 2, Title: "About Us", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
     ]
@@ -30,6 +32,8 @@ const Menu = (props) => {
         { id: 5, Title: "معرفی اساتید", path: "/teacher-overview" },
         { id: 4, Title: " دوره ها ", path: "/course" },
         { id: 6, Title: "ثبت نام مدرس", path: "/recruitment" },
+        { id: 7, Title: "گواهی نامه ها", path: "/certificates" },
+        { id: 8, Title: "فروشگاه", path: "/shop" },
         { id: 2, Title: " درباره ما ", path: "/about" },
         { id: 3, Title: " تماس با ما ", path: "/contact" },
     ]
@@ -38,6 +42,8 @@ const Menu = (props) => {
         { id: 5, Title: "Enseignants", path: "/teacher-overview" },
         { id: 4, Title: "Cours", path: "/course" },
         { id: 6, Title: "Inscription des enseignants", path: "/recruitment" },
+        { id: 7, Title: "Certificats", path: "/certificates" },
+        { id: 8, Title: "Magasin", path: "/shop" },
         { id: 2, Title: "À propos de nous", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
     ]
@@ -54,7 +60,9 @@ const Menu = (props) => {
                             <Col xs="12" md="12" className="m-0 p-0 align-items-center" >
                                 <ButtonGroup aria-label="p-0 m-0">
                                     {menu_Items.map(item =>
-                                        <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
+                                        item.id === 8
+                                            ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
                                 <button className="btn d-inline ml-1  float-right" onClick={() => setRegister(true)}>Register</button>
@@ -83,7 +91,9 @@ const Menu = (props) => {
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center" >
                                     <ButtonGroup aria-label="p-0 m-0">
                                         {menu_Items.map(item =>
-                                            <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
+                                            item.id === 8
+                                                ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                                : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                         )}
                                     </ButtonGroup>
                                 </Col>
@@ -124,7 +134,9 @@ const Menu = (props) => {
                             <Col xs="12" md="12" className="m-0 p-0 align-items-center d-table" >
                                 <ButtonGroup aria-label="Basic example">
                                     {menu_Items_Fr.map(item =>
-                                        <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn  d-inline pl-3 pr-3"} to={item.path}>{item.Title}</Link>
+                                        item.id === 8
+                                            ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
                                 <button className="btn  d-inline ml-1  float-right" onClick={() => setRegister(true)}>S'inscrire</button>
@@ -153,7 +165,9 @@ const Menu = (props) => {
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center d-table" >
                                     <ButtonGroup aria-label="Basic example">
                                         {menu_Items_Fr.map(item =>
-                                            <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn  d-inline pl-3 pr-3"} to={item.path}>{item.Title}</Link>
+                                            item.id === 8
+                                                ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                                : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                         )}
                                     </ButtonGroup>
                                 </Col>
@@ -170,6 +184,9 @@ const Menu = (props) => {
                                             <DropdownItem onClick={() => setLanguage("en")}>
                                                 <img className="d-inline" src="main-images/en.webp" width="32" height="32" alt="Logo" /> English
                                             </DropdownItem>
+                                            {/* <DropdownItem onClick={() => setLanguage("fr")}>
+                                                <img className="d-inline" src="main-images/fr.webp" width="32" height="32" alt="Logo" /> Français
+                                            </DropdownItem> */}
                                             <DropdownItem onClick={() => setLanguage("fa")}>
                                                 <img className="d-inline" src="main-images/fa.webp" width="32" height="32" alt="Logo" /> فارسی
                                             </DropdownItem>
@@ -190,7 +207,9 @@ const Menu = (props) => {
                             <Col xs="12" md="12" className="m-0 p-0 align-items-center"  >
                                 <ButtonGroup aria-label="Basic example"  >
                                     {menu_Items_Fa.reverse().map(item =>
-                                        <Link dir='rtl' key={item.id} className={location.pathname === item.path ? "btn  bg-primary pl-3 pr-3" : "btn  d-inline pl-3 pr-3"} to={item.path}>{item.Title}</Link>
+                                        item.id === 8
+                                            ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
                                 <button className="btn d-inline mr-1  float-left" onClick={() => setRegister(true)}>ثبت نام</button>
@@ -219,7 +238,9 @@ const Menu = (props) => {
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center"  >
                                     <ButtonGroup aria-label="Basic example"  >
                                         {menu_Items_Fa.reverse().map(item =>
-                                            <Link dir='rtl' key={item.id} className={location.pathname === item.path ? "btn  bg-primary pl-3 pr-3" : "btn  d-inline pl-3 pr-3"} to={item.path}>{item.Title}</Link>
+                                            item.id === 8
+                                                ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                                : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                         )}
                                     </ButtonGroup>
                                 </Col>
@@ -263,6 +284,7 @@ const Menu = (props) => {
                         <Col xs="7" className="text-right p-1">
                             <img className="ml-1 mr-1" src="main-images/fa.webp" onClick={() => setLanguage("fa")} alt="select persian version" />
                             <img className="ml-1 mr-1" src="main-images/en.webp" onClick={() => setLanguage("en")} alt="select english version" />
+                            <img className="ml-1 mr-1" src="main-images/fr.webp" onClick={() => setLanguage("fr")} alt="select french version" />
                             <UilListUl className="ml-1 mr-1 text-white" size={32} onClick={toggleMenu} />
                             <UilSignin className="ml-1 text-white" onClick={() => setLoginhow(true)} />
                             <UilSignin className="ml-1 text-white" onClick={() => setRegister(true)} />

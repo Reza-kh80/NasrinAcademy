@@ -1,7 +1,10 @@
 import React, { Component, Suspense } from 'react';
 import { Container, Row, Col, Spinner } from 'reactstrap';
+import { Card } from 'react-bootstrap';
+
 const SideMenu = React.lazy(() => import('./sideMenu'));
 const Advertise = React.lazy(() => import('./advertise'));
+
 class SideContent extends Component {
     render() {
         const lang = localStorage.getItem('lang');
@@ -32,6 +35,13 @@ class SideContent extends Component {
                         <Suspense fallback={<Spinner color="success" />}>
                             <SideMenu />
                         </Suspense>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm="12" className="p-1" style={{position: 'relative', bottom: '-215px', left: '80px'}}>
+                        <Card style={{ width: '70px' }}>
+                            <Card.Img src='https://cdn.zarinpal.com/badges/trustLogo/1.png' />
+                        </Card>
                     </Col>
                 </Row>
             </Container>

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { Helmet } from "react-helmet";
 import SimpleReactValidator from 'simple-react-validator';
+
 class Contacts extends Component {
     constructor(props) {
         super(props);
@@ -127,6 +128,10 @@ class Contacts extends Component {
                             <h6 className="p-1 text-black-50"><span className="fa fa-telegram fa-lg" aria-hidden="true"> </span> <strong><a href={"https://t.me/french_professor"}>{contactObject.Telegram}</a></strong></h6>
                             <h6 className="p-1 text-black-50"><span className="fa fa-youtube fa-lg"></span> <strong>{contactObject.YouTube}</strong></h6>
                             <h6 className="p-1 text-black-50"><span className="fa fa-address-card fa-lg"></span> <strong>{contactObject.Address}</strong></h6>
+                            <a href={"https://instagram.com/nasrin.academy"}><i className="bi bi-instagram mr-3" style={{ fontSize: '2rem' }}></i></a>
+                            <a href={"https://t.me/french_professor"}><i className="bi bi-telegram mr-3" style={{ fontSize: '2rem' }}></i></a>
+                            <a href={"https://wa.me/+989371073665"}><i className="bi bi-whatsapp mr-3" style={{ fontSize: '2rem' }}></i></a>
+                            <a href={"https://youtube.com/nasrin.academy"}><i className="bi bi-youtube mr-3" style={{ fontSize: '2rem' }}></i></a>
                         </Col>
                         <Col xs="12" lg="8" className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
                             <strong className={lang === "fa" ? "text-right text-primary h5" : "text-primary h5"}>{this.getHeading(lang, contactObject)[3]}</strong>

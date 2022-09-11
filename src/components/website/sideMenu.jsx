@@ -56,19 +56,33 @@ function SideMenu() {
     }
     const menu_Items = [
         { id: 1, Title: "Home", path: "/" },
+        { id: 5, Title: "Teachers", path: "/teacher-overview" },
+        { id: 4, Title: "Courses", path: "/course" },
+        { id: 6, Title: "Teacher registration", path: "/recruitment" },
+        { id: 7, Title: "Certificates", path: "/certificates" },
+        { id: 8, Title: "Shop", path: "/shop" },
         { id: 2, Title: "About Us", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
-        { id: 4, Title: "Courses", path: "/course" },
-        { id: 5, Title: "Teachers", path: "/teacher-overview" },
-        { id: 6, Title: "Teacher Recruitment", path: "/recruitment" },
     ]
     const menu_Items_Fa = [
         { id: 1, Title: " خانه ", path: "/" },
+        { id: 5, Title: "معرفی اساتید", path: "/teacher-overview" },
+        { id: 4, Title: " دوره ها ", path: "/course" },
+        { id: 6, Title: "ثبت نام مدرس", path: "/recruitment" },
+        { id: 7, Title: "گواهی نامه ها", path: "/certificates" },
+        { id: 8, Title: "فروشگاه", path: "/shop" },
         { id: 2, Title: " درباره ما ", path: "/about" },
         { id: 3, Title: " تماس با ما ", path: "/contact" },
-        { id: 4, Title: " دوره ها ", path: "/course" },
-        { id: 5, Title: "معرفی اساتید", path: "/teacher-overview" },
-        { id: 6, Title: "استخدام مدرس", path: "/recruitment" },
+    ]
+    const menu_Items_Fr = [
+        { id: 1, Title: "Accueil", path: "/" },
+        { id: 5, Title: "Enseignants", path: "/teacher-overview" },
+        { id: 4, Title: "Cours", path: "/course" },
+        { id: 6, Title: "Inscription des enseignants", path: "/recruitment" },
+        { id: 7, Title: "Certificats", path: "/certificates" },
+        { id: 8, Title: "Magasin", path: "/shop" },
+        { id: 2, Title: "À propos de nous", path: "/about" },
+        { id: 3, Title: "Contact", path: "/contact" },
     ]
     const getHeadingBody = (item) => {
         let heading = []
@@ -122,15 +136,29 @@ function SideMenu() {
             <Accordion defaultActiveKey="0" >
                 {window.innerWidth < 786 &&
                     <Card className="bg-transparent" >
-                        {lang === 'en' ? menu_Items.map(item =>
-                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
-                                <Link key={item.id} className="text-white" to={item.path}>{item.Title}</Link>
-                            </Accordion.Toggle>
-                        ) : menu_Items_Fa.map(item =>
-                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right" dir='rtl'>
-                                <Link key={item.id} className="text-white" to={item.path}>{item.Title}</Link>
-                            </Accordion.Toggle>
-                        )}
+                        {lang === 'en' ?
+                            menu_Items.map(item =>
+                                item.id === 8
+                                    ?
+                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
+                                        <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                    </Accordion.Toggle>
+                                    :
+                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
+                                        <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                    </Accordion.Toggle>
+                            ) :
+                            menu_Items_Fa.map(item =>
+                                item.id === 8
+                                    ?
+                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                        <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                    </Accordion.Toggle>
+                                    :
+                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                        <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                    </Accordion.Toggle>
+                            )}
                     </Card>
                 }
                 {menuList.map((item, index) =>

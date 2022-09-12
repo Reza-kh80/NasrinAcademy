@@ -13,13 +13,20 @@ const Courses = (props) => {
             heading.push("Private Courses")
             heading.push("Public Courses")
         }
-        else if (lang === 'fr') {
+
+        if (lang === 'fr') {
             heading.push("Cours privés")
             heading.push("Cours publics")
         }
-        else {
+
+        if (lang === 'fa') {
             heading.push("کلاس های خصوصی")
             heading.push("کلاسهای عمومی")
+        }
+
+        if (lang === 'ar') {
+            heading.push("الدورات الخاصة")
+            heading.push("الدورات العامة")
         }
         return heading
     }

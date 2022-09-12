@@ -84,7 +84,7 @@ function CourseOverview(props) {
             heading.push("Samedi")
             heading.push("Jours Disponibles")
         }
-        else {
+        else if (lang === 'fa') {
             heading.push("معرفی استاد")
             heading.push("سوابق کاری")
             heading.push("تحصیلات")
@@ -104,6 +104,26 @@ function CourseOverview(props) {
             heading.push("جمعه")
             heading.push("شنبه")
             heading.push("روزهای کاری")
+        } else {
+            heading.push("مقدمة")
+            heading.push("الخبرة")
+            heading.push("التعليم")
+            heading.push("الشهادات")
+            heading.push("الدورات")
+            heading.push("سعر الجلسة")
+            heading.push("سنوات الخبرة")
+            heading.push(dataObject.CoursesDescriptionFa)
+            heading.push(dataObject.ExperienceDetailFa)
+            heading.push(dataObject.EducationFa)
+            heading.push(dataObject.CertificateFa)
+            heading.push("الأحد")
+            heading.push("الاثنين")
+            heading.push("الثلاثاء")
+            heading.push("الأربعاء")
+            heading.push("الخميس")
+            heading.push("الجمعة")
+            heading.push("السبت")
+            heading.push("الأيام المتوفرة")
         }
         heading.push(dataObject.SessionPrice)
         heading.push(dataObject.ExperienceYear)

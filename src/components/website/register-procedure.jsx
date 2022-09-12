@@ -41,14 +41,14 @@ class RegisterProcedure extends Component {
             heading.push(item.Title3Fr)
             heading.push(item.Description3Fr)
         }
-        else {
+        else if (lang === 'fa') {
             heading.push(item.Title1Fa)
             heading.push(item.Description1Fa)
             heading.push(item.Title2Fa)
             heading.push(item.Description2Fa)
             heading.push(item.Title3Fa)
             heading.push(item.Description3Fa)
-        }
+        } 
         return heading
     }
     render() {

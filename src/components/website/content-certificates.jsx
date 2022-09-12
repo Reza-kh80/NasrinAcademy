@@ -14,11 +14,15 @@ function Certificates() {
         }
 
         if (lang === 'fa') {
-            heading.push('فروشگاه');
+            heading.push('گواهی ها');
         }
 
         if (lang === 'fr') {
-            heading.push('Magasin');
+            heading.push('Certificats');
+        }
+
+        if (lang === 'ar') {
+            heading.push('الشهادات');
         }
         return heading;
     }
@@ -30,18 +34,23 @@ function Certificates() {
                 <meta name="description" content='h' />
                 <meta name="keywords" cpntent="private, teacher, online, french, class, in 8 month, tefaq, tcf, B2, C1 , french exams" />
             </Helmet>
-            <Container fluid dir={lang === 'fa' ? 'rtl' : 'ltr'}>
+            <Container fluid dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                 <Row className="mb-4">
                     <Col xs="12" className="m-0 p-0">
                         <Row>
-                            <Col xs="12" className={lang === "fa" ? "text-right m-0 p-2" : "m-0 p-2"}>
-                                <strong className={lang === "fa" ? "text-right text-primary h5" : "text-primary h5"}>{getHeading(lang)[0]}</strong>
+                            <Col xs="12" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2" : "m-0 p-2"}>
+                                <strong className={lang === "fa" || lang === 'ar' ? "text-right text-primary h5" : "text-primary h5"}>{getHeading(lang)[0]}</strong>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs="12" className={lang === "fa" ? "text-right m-0 p-2" : "m-0 p-2"}>
-                                <Card style={{ width: '40rem' }}>
+                            <Col xs="12" md={6} lg='6' className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2 text-center" : "m-0 p-2 text-center"}>
+                                <Card style={{ width: '30rem' }}>
                                     <Card.Img src="main-images/Certificates.jpeg" />
+                                </Card>
+                            </Col>
+                            <Col xs="12" md={6} lg='6' className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2 text-center" : "m-0 p-2 text-center"}>
+                                <Card style={{ width: '30rem' }}>
+                                    <Card.Img src="main-images/Certificates1.jpg" />
                                 </Card>
                             </Col>
                         </Row>

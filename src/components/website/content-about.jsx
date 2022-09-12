@@ -40,7 +40,11 @@ class About extends Component {
             heading.push(item.TitleFr)
             heading.push(item.DescriptionFr)
         }
-        else {
+        else if (lang === 'fa') {
+            heading.push(item.TitleFa)
+            heading.push(item.DescriptionFa)
+        }
+        else if (lang === 'ar') {
             heading.push(item.TitleFa)
             heading.push(item.DescriptionFa)
         }
@@ -58,14 +62,14 @@ class About extends Component {
                     <meta name="keywords" cpntent="private, teacher, online, french, class, in 8 month, tefaq, tcf, B2, C1 , french exams" />
                 </Helmet>
                 {aboutList.map((item, index) =>
-                    <Container key={index} fluid dir={lang === 'fa' ? 'rtl' : 'ltr'}>
+                    <Container key={index} fluid dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                         <Row className="mb-4">
                             <Col sm="12" className="p-0 ">
                                 <Card>
-                                    <CardHeader className={lang === "fa" ? "text-right text-primary h5-lg font-weight-bold" : "text-primary h5-lg font-weight-bold"}>{this.getHeading(lang, item)[0]}</CardHeader>
+                                    <CardHeader className={lang === "fa" || lang === 'ar' ? "text-right text-primary h5-lg font-weight-bold" : "text-primary h5-lg font-weight-bold"}>{this.getHeading(lang, item)[0]}</CardHeader>
                                     <CardBody>
                                         <Row>
-                                            <Col sm="12" md="9" className={lang === 'fa' ? 'text-right p-0 m-0' : "p-0 m-0"}>
+                                            <Col sm="12" md="9" className={lang === 'fa' || lang === 'ar' ? 'text-right p-0 m-0' : "p-0 m-0"}>
                                                 <p>{this.getHeading(lang, item)[1]}</p>
                                             </Col>
                                             <Col sm="12" md="3">

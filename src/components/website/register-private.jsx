@@ -22,10 +22,14 @@ function RegisterPrivate(props) {
             heading.push("Étapes d'inscription")
             heading.push("Formulaire d'inscription")
         }
-        else {
+        else if (lang === 'fa') {
             heading.push("سرفصل های آموزشی")
             heading.push("مراحل ثبت نام")
             heading.push("فرم ثبت نام")
+        } else {
+            heading.push("مخطط المنهج")
+            heading.push("خطوات التسجيل")
+            heading.push("استمارة تسجيل")
         }
         return heading
     }

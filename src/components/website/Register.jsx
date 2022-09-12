@@ -5,12 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import SimpleReactValidator from 'simple-react-validator';
 import { Container, Row, Col, Spinner, Button } from 'reactstrap';
-// import Tabs from 'react-bootstrap/Tabs';
-// import Tab from 'react-bootstrap/Tab';
 import 'simple-react-validator/dist/locale/fa';
 import 'simple-react-validator/dist/locale/fr';
-
-// const MyDropdown = React.lazy(() => import('../general/dropdown'));
 
 class Register extends Component {
     constructor(props) {
@@ -62,31 +58,31 @@ class Register extends Component {
         }
     }
 
-    handleLogin = (user, token) => {
-        if (user.IsAuthorized === true && user.RoleName === 'Admin' && this.state.key === 'teacher') {
-            localStorage.setItem('token', token)
-            this.props.onHide();
-            window.location = "#/dashboard";
-        }
-        else if (user.IsAuthorized === true && user.RoleName === 'Dean') {
-            localStorage.setItem('token', token)
-            this.props.onHide();
-            window.location = "#/dean";
-        }
-        else if (user.IsAuthorized === true && user.RoleName === 'Teacher' && this.state.key === 'teacher') {
-            localStorage.setItem('token', token)
-            this.props.onHide();
-            window.location = "#/teacher";
-        }
-        else if (user.IsAuthorized === true && user.RoleName === 'Student' && this.state.key === 'student') {
-            localStorage.setItem('token', token)
-            this.props.onHide();
-            window.location = "#/student";
-        }
-        else {
-            this.setState({ errorMessage: "Sorry, information does not mach your profile" })
-        }
-    }
+    // handleLogin = (user, token) => {
+    //     if (user.IsAuthorized === true && user.RoleName === 'Admin' && this.state.key === 'teacher') {
+    //         localStorage.setItem('token', token)
+    //         this.props.onHide();
+    //         window.location = "#/dashboard";
+    //     }
+    //     else if (user.IsAuthorized === true && user.RoleName === 'Dean') {
+    //         localStorage.setItem('token', token)
+    //         this.props.onHide();
+    //         window.location = "#/dean";
+    //     }
+    //     else if (user.IsAuthorized === true && user.RoleName === 'Teacher' && this.state.key === 'teacher') {
+    //         localStorage.setItem('token', token)
+    //         this.props.onHide();
+    //         window.location = "#/teacher";
+    //     }
+    //     else if (user.IsAuthorized === true && user.RoleName === 'Student' && this.state.key === 'student') {
+    //         localStorage.setItem('token', token)
+    //         this.props.onHide();
+    //         window.location = "#/student";
+    //     }
+    //     else {
+    //         this.setState({ errorMessage: "Sorry, information does not mach your profile" })
+    //     }
+    // }
 
     handelChange = e => {
         e.persist();
@@ -119,10 +115,9 @@ class Register extends Component {
                 url: apiEndPoint + 'User/Add',
                 data
             }).then(response => {
-                console.log(response.data )
+                console.log(response.data)
                 const user = jwt_decode(response.data)
-                this.handleLogin(user, response.data)
-                
+                // this.handleLogin(user, response.data)
             }
             )
         } else {
@@ -149,7 +144,9 @@ class Register extends Component {
                 type.push('Teacher');
                 type.push('Student');
 
-            } else if (lang === 'fr') {
+            }
+
+            if (lang === 'fr') {
                 type.push("Nom et prénom");
                 type.push("Nom et prénom(persan)");
                 type.push("Nom et prénom(anglais)");
@@ -161,7 +158,9 @@ class Register extends Component {
                 type.push('Professeure');
                 type.push('étudiante');
 
-            } else {
+            }
+
+            if (lang === 'fa') {
                 type.push('نام و نام خانوادگی:');
                 type.push('نام و نام خانوادگی(انگلیسی):');
                 type.push('نام و نام خانوادگی(فرانسوی):');
@@ -172,6 +171,19 @@ class Register extends Component {
                 type.push('سمت:');
                 type.push('استاد');
                 type.push('دانشجو');
+            }
+
+            if (lang === 'ar') {
+                type.push('الاسم واللقب:');
+                type.push('الاسم واللقب (الإنجليزية):');
+                type.push('الاسم واللقب (الفرنسية):');
+                type.push('هاتف خلوي:');
+                type.push('البريد الإلكتروني:');
+                type.push('رمز دولي:');
+                type.push('كلمه السر:');
+                type.push('بريد:');
+                type.push('أستاذ');
+                type.push('طالب جامعي');
             }
             return type;
         }
@@ -184,13 +196,25 @@ class Register extends Component {
                 placeholder.push('Example:nasrin daftarchi');
                 placeholder.push('+98-(xxx)xxx-xxxx');
                 placeholder.push('x@x.com');
-            } else if (lang === 'fr') {
+            }
+
+            if (lang === 'fr') {
                 placeholder.push('Example:nasrin daftarchi');
                 placeholder.push('نمونه:نسرین دفترچی');
                 placeholder.push('Example:nasrin daftarchi');
                 placeholder.push('+98-(xxx)xxx-xxxx');
                 placeholder.push('x@x.com');
-            } else {
+            }
+
+            if (lang === 'fa') {
+                placeholder.push('نمونه:نسرین دفترچی');
+                placeholder.push('Example:nasrin daftarchi');
+                placeholder.push('Example:nasrin daftarchi');
+                placeholder.push('+98-(xxx)xxx-xxxx');
+                placeholder.push('x@x.com');
+            }
+
+            if (lang === 'ar') {
                 placeholder.push('نمونه:نسرین دفترچی');
                 placeholder.push('Example:nasrin daftarchi');
                 placeholder.push('Example:nasrin daftarchi');
@@ -219,6 +243,7 @@ class Register extends Component {
             fr: {
                 language: 'Choisir la langue',
                 Email: 'e-mail',
+                Password: 'password',
                 Namefa: 'nom complet (persan)',
                 Namefr: 'nom complet (français)',
                 Nameen: 'nom complet (anglais)',
@@ -243,6 +268,21 @@ class Register extends Component {
                 Username: 'username',
                 NationalCode: 'national code',
                 Post: 'post'
+            },
+
+            ar: {
+                language: 'اختار اللغة',
+                Email: 'البريد الإلكتروني',
+                Password: 'كلمه السر',
+                Namefa: 'الاسم الكامل (الفارسي)',
+                Namefr: 'الاسم الكامل (فرنسي)',
+                Nameen: 'الاسم الكامل (إنجليزي)',
+                Mobile: 'التليفون المحمول',
+                Language_ID: 'معرف اللغة',
+                Role_ID: 'معرف الدور',
+                Username: 'اسم االمستخدم',
+                NationalCode: 'رمز دولي',
+                Post: 'بريد'
             }
         }
 
@@ -270,10 +310,10 @@ class Register extends Component {
 
                     <Modal.Body>
                         <Suspense fallback={<Spinner color="success" />}>
-                            <Container fluid dir={lang === 'fa' ? 'rtl' : 'ltr'} className="tab-border">
+                            <Container fluid dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'} className="tab-border">
                                 <Form >
                                     <Row>
-                                        <Col className={lang === 'fa' ? "text-right rounded p-3 overflow-auto w-100" : "text-left rounded p-3 overflow-auto w-100"}>
+                                        <Col className={lang === 'fa' || lang === 'ar' ? "text-right rounded p-3 overflow-auto w-100" : "text-left rounded p-3 overflow-auto w-100"}>
                                             <Row form>
                                                 <Col xs={12} md={4}>
                                                     {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
@@ -330,14 +370,14 @@ class Register extends Component {
                                                 </Col>
                                                 <Col xs={12} md={4}>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Email" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[4]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="Email" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[4]}</h6></Form.Label>
                                                         <Form.Control id="Email" name="Email" type="email" placeholder={getPlaceHolder(lang)[4]} value={userObject.Email} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Email'], userObject.Email, 'required|email', { className: 'alert alert-danger' })}
                                                     </Form.Group>
                                                 </Col>
                                                 <Col xs={12} md={4}>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Password" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[6]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="Password" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[6]}</h6></Form.Label>
                                                         <Form.Control id="Password" name="Password" type="password" value={userObject.Password} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Password'], userObject.Password, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>
@@ -347,7 +387,7 @@ class Register extends Component {
                                                 <Col xs={12} md={4}>
                                                     {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="NationalCode" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[5]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="NationalCode" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[5]}</h6></Form.Label>
                                                         <Form.Control id="NationalCode" name="NationalCode" type="number" min='1' value={userObject.NationalCode} onChange={this.handelChange} />
                                                     </Form.Group>
                                                     {this.validator.message(setError[lang]['NationalCode'], userObject.NationalCode, 'required', { className: 'alert alert-danger' })}

@@ -84,6 +84,16 @@ function SideMenu() {
         { id: 2, Title: "À propos de nous", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
     ]
+    const menu_Items_Ar = [
+        { id: 1, Title: "مسكن", path: "/" },
+        { id: 5, Title: "معلمون", path: "/teacher-overview" },
+        { id: 4, Title: "الدورات", path: "/course" },
+        { id: 6, Title: "تسجيل المعلم", path: "/recruitment" },
+        { id: 7, Title: "الشهادات", path: "/certificates" },
+        { id: 8, Title: "محل", path: "/shop" },
+        { id: 2, Title: "معلومات عنا", path: "/about" },
+        { id: 3, Title: "اتصال", path: "/contact" },
+    ]
     const getHeadingBody = (item) => {
         let heading = []
         if (lang === 'en') {
@@ -105,21 +115,24 @@ function SideMenu() {
         else if (lang === 'fr') {
             heading.push(item.titleFr)
         }
-        else {
+        else if (lang === 'fa') {
             heading.push(item.titleFa)
+        }
+        else {
+            heading.push(item.titleFa);
         }
         return heading
     }
     const displayMenuHeader = (item) => {
         if (item.title === 'Flash Cards') {
-            return (<Link className={lang === 'fa' ? 'float-right text-right text-white' : 'float-left text-left text-white'} to="/flashcards" replace>{getHeading(item)[0]}</Link>)
+            return (<Link className={lang === 'fa' || lang === 'ar' ? 'float-right text-right text-white' : 'float-left text-left text-white'} to="/flashcards" replace>{getHeading(item)[0]}</Link>)
         }
         else if (item.title === 'Video Archives') {
-            return (<Link className={lang === 'fa' ? 'float-right text-right text-white' : 'float-left text-left text-white'} to="/media" replace>{getHeading(item)[0]}</Link>)
+            return (<Link className={lang === 'fa' || lang === 'ar' ? 'float-right text-right text-white' : 'float-left text-left text-white'} to="/media" replace>{getHeading(item)[0]}</Link>)
         }
         else {
             return (
-                lang === 'fa' ?
+                lang === 'fa' || lang === 'ar' ?
                     <div dir="rtl">
                         <span className="text-right float-right text-white" dir="rtl">{getHeading(item)[0]}</span>
                         <span className={item.active ? 'fa fa-chevron-circle-up text-warning float-left' : 'fa fa-chevron-circle-down float-left'}></span>
@@ -148,17 +161,41 @@ function SideMenu() {
                                         <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
                                     </Accordion.Toggle>
                             ) :
-                            menu_Items_Fa.map(item =>
-                                item.id === 8
-                                    ?
-                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
-                                        <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-                                    </Accordion.Toggle>
-                                    :
-                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
-                                        <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
-                                    </Accordion.Toggle>
-                            )}
+                            lang === 'fr' ?
+                                menu_Items_Fr.map(item =>
+                                    item.id === 8
+                                        ?
+                                        <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left">
+                                            <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                        </Accordion.Toggle>
+                                        :
+                                        <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left">
+                                            <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                        </Accordion.Toggle>
+                                ) :
+                                lang === 'fa' ?
+                                    menu_Items_Fa.map(item =>
+                                        item.id === 8
+                                            ?
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            </Accordion.Toggle>
+                                            :
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                            </Accordion.Toggle>
+                                    ) :
+                                    menu_Items_Ar.map(item =>
+                                        item.id === 8
+                                            ?
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            </Accordion.Toggle>
+                                            :
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                            </Accordion.Toggle>
+                                    )}
                     </Card>
                 }
                 {menuList.map((item, index) =>

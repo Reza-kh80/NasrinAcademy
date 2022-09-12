@@ -32,6 +32,10 @@ class FlashCardOutlook extends Component {
             heading.push(item.TitleFr)
             heading.push(item.DescriptionFr)
         }
+        else if (lang === 'fa') {
+            heading.push(item.TitleFa)
+            heading.push(item.DescriptionFa)
+        }
         else {
             heading.push(item.TitleFa)
             heading.push(item.DescriptionFa)

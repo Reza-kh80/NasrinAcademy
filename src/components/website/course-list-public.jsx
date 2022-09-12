@@ -14,7 +14,12 @@ class CourseListPublic extends Component {
             dataList: [],
             dataTitles: lang === 'en'
                 ? ["ID", 'Language', 'Teacher', 'Course', 'Total Seats', 'Available Seats', 'Duration', 'Start/Finish', 'Class Time', 'Price', 'Detail and Enrollment']
-                : ['ردیف', 'زبان', 'استاد', 'دوره', 'ظرفیت', 'ظرفیت باقیمانده', 'طول دوره', 'شروع/پایان', 'زمان کلاس', 'قیمت', 'جزییات و ثبت نام'],
+                : lang === 'fa'
+                    ? ['ردیف', 'زبان', 'استاد', 'دوره', 'ظرفیت', 'ظرفیت باقیمانده', 'طول دوره', 'شروع/پایان', 'زمان کلاس', 'قیمت', 'جزییات و ثبت نام']
+                    : lang === 'fr'
+                        ? ["ID", 'Langue', 'Enseignant', 'Cours', 'Nombre total de places', 'Places disponibles', 'Durée', 'Début/Arrêt', 'Heure du cours', 'Prix', 'Détail et inscription ']
+                        : ["المعرف", "اللغة", "المدرس", "الدورة", "إجمالي المقاعد", "المقاعد المتاحة", "المدة", "البدء / الانتهاء", "وقت الفصل", "السعر", "التفاصيل والتسجيل "],
+
             columnList: ["id", 'LanguageName', 'TeacherName', 'CourseName', 'Capacity', 'AvailableCapacity', 'Duration', 'Start_Finish', 'Times', 'Price'],
             filteredItem: "TeacherName",
             showCourseDetail: false,

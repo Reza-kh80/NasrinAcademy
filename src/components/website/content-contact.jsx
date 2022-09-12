@@ -79,7 +79,7 @@ class Contacts extends Component {
             heading.push("Message")
             heading.push("Envoyer Email")
         }
-        else {
+        else if (lang === 'fa') {
             heading.push(item.TitleFa)
             heading.push(item.DescriptionFa)
             heading.push("راههای تماس")
@@ -89,6 +89,17 @@ class Contacts extends Component {
             heading.push("عنوان ایمیل")
             heading.push("پیام خود را وارد نمایید")
             heading.push("ارسال")
+        }
+        else {
+            heading.push(item.TitleFa)
+            heading.push(item.DescriptionFa)
+            heading.push("الاسم الكامل")
+            heading.push("بيانات المتصل")
+            heading.push("ارسل بريد الكتروني")
+            heading.push("عنوان بريدك  الإلكتروني")
+            heading.push("موضوعات")
+            heading.push("رسالة")
+            heading.push("ارسل بريد الكتروني")
         }
         return heading
     }
@@ -102,16 +113,16 @@ class Contacts extends Component {
                     <meta name="description" content={description.slice(0, 120)} />
                     <meta name="keywords" cpntent="private, teacher, online, french, class, in 8 month, tefaq, tcf, B2, C1 , french exams" />
                 </Helmet>
-                <Container fluid dir={lang === 'fa' ? 'rtl' : 'ltr'}>
+                <Container fluid dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                     <Row className="mb-4">
                         <Col xs="12" className="m-0 p-0">
                             <Row>
-                                <Col xs="12" className={lang === "fa" ? "text-right m-0 p-2" : "m-0 p-2"}>
-                                    <strong className={lang === "fa" ? "text-right text-primary h5" : "text-primary h5"}>{this.getHeading(lang, contactObject)[0]}</strong>
+                                <Col xs="12" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2" : "m-0 p-2"}>
+                                    <strong className={lang === "fa" || lang === 'ar' ? "text-right text-primary h5" : "text-primary h5"}>{this.getHeading(lang, contactObject)[0]}</strong>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs="12" className={lang === "fa" ? "text-right m-0 p-2" : "m-0 p-2"}>
+                                <Col xs="12" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2" : "m-0 p-2"}>
                                     <p>{this.getHeading(lang, contactObject)[1]}</p>
                                 </Col>
                             </Row>
@@ -120,7 +131,7 @@ class Contacts extends Component {
                     <Row >
                     </Row>
                     <Row className="mb-4">
-                        <Col xs="12" lg="4" className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
+                        <Col xs="12" lg="4" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-0" : "m-0 p-0"}>
                             <strong className={lang === "fa" ? "text-right text-primary h5" : "text-primary h5"}>{this.getHeading(lang, contactObject)[2]}</strong>
                             <h6 className="p-1 text-black-50 mt-2"><span className="fa fa-envelope fa-lg" aria-hidden="true"> </span> <strong>{contactObject.Email}</strong> </h6>
                             <h6 className="p-1 text-black-50"><span className="fa fa-whatsapp fa-lg" aria-hidden="true"> </span> <strong>{contactObject.Phone}</strong> </h6>
@@ -133,7 +144,7 @@ class Contacts extends Component {
                             <a href={"https://wa.me/+989371073665"}><i className="bi bi-whatsapp mr-3" style={{ fontSize: '2rem' }}></i></a>
                             <a href={"https://youtube.com/nasrin.academy"}><i className="bi bi-youtube mr-3" style={{ fontSize: '2rem' }}></i></a>
                         </Col>
-                        <Col xs="12" lg="8" className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
+                        <Col xs="12" lg="8" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-0" : "m-0 p-0"}>
                             <strong className={lang === "fa" ? "text-right text-primary h5" : "text-primary h5"}>{this.getHeading(lang, contactObject)[3]}</strong>
                             <Form className="border rounded p-2 mt-2">
                                 <Form.Group>

@@ -9,7 +9,14 @@ function CourseOverview(props) {
     const pageSize = 15;
     const dataTitles = lang === 'en'
         ? ['ID', 'Level', 'Title', 'Expected Time']
-        : ['ردیف', 'سطح', 'عنوان', 'زمان مورد انتظار تدریس'];
+        :
+        lang === 'fa'
+            ? ['ردیف', 'سطح', 'عنوان', 'زمان مورد انتظار تدریس']
+            :
+            lang === 'fr'
+                ? ['ID', 'Niveau', 'Titre', 'Heure prévue']
+                : ['بطاقة تعريف', 'مستوى', 'عنوان', 'الوقت المتوقع'];
+
     const columnList = ["id", 'Level', 'Title', 'ExpectedTime'];
     const filteredItem = "Title";
     const { id } = props;

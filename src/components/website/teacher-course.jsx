@@ -10,7 +10,13 @@ function TeacherCourse(props) {
     const pageSize = 15;
     const dataTitles = lang === 'en' ?
         ["ID", 'Language', 'Course', 'Teacher', 'Register']
-        : ['ردیف', 'زبان', 'دوره', 'استاد', 'ثبت نام'];
+        :
+        lang === 'fa'
+            ? ['ردیف', 'زبان', 'دوره', 'استاد', 'ثبت نام']
+            : lang === 'fr'
+                ? ["ID", 'Langue', 'Cours', 'Enseignant', 'S"inscrire']
+                : ["بطاقة تعريف", 'لغة', 'مسار', 'معلم', 'يسجل'];
+
     const columnList = ["id", 'LanguageName', 'CourseName', 'TeacherName'];
     const filteredItem = "CourseName";
     const { show, onHide, id, title, factor } = props;
@@ -57,9 +63,10 @@ function TeacherCourse(props) {
         else if (lang === 'fr') {
             title = `Inscrivez-vous au ${list.CourseName}`;
         }
-        else {
-
+        else if (lang === 'en') {
             title = `Register in ${list.CourseName}`;
+        } else {
+            title = list.CourseName + "تسجيل الدخول";
         }
         setTeacherCouseId(list.TeacherCourseId)
         setRegisterTitle(title)

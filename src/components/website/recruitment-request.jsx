@@ -332,7 +332,7 @@ class RecruitmentRequest extends Component {
             heading.push("Prix de la session(persan)")
             heading.push("Prix de la session(anglais)")
         }
-        else {
+        else if (lang === 'fa') {
             heading.push('فرم درخواست همکاری')
             heading.push('فرم جدید')
             heading.push('مشخصات')
@@ -394,6 +394,68 @@ class RecruitmentRequest extends Component {
             heading.push('رده سنی تدریس')
             heading.push("هزینه هر جلسه کاری(انگلیسی)")
             heading.push("هزینه هر جلسه کاری(فرانسوی)")
+        } else {
+            heading.push("نموذج طلب التوظيف")
+            heading.push("طلب جديد")
+            heading.push("تحديد")
+            heading.push("صورة (jpeg ، jpg)")
+            heading.push("الاسم الكامل")
+            heading.push("Exp: Nasrin Daftarchi")
+            heading.push("رقم الهاتف")
+            heading.push("+98-(xxx)xxx-xxxx")
+            heading.push("البريد الإلكتروني")
+            heading.push("x@x.com")
+            heading.push("العنوان")
+            heading.push("أدخل عنوانك")
+            heading.push("تعليم الاهتمامات")
+            heading.push("تدريس اللغات")
+            heading.push("الإنجليزية ، الفرنسية ، ...")
+            heading.push("دورات التدريس")
+            heading.push("IELTS، TCF، ...")
+            heading.push("سعر الجلسة")
+            heading.push("مثال: 15 دولارًا")
+            heading.push("الخبرات والشهادات")
+            heading.push("الخبرة (سنوات)")
+            heading.push("Exp: 2.5 years")
+            heading.push("تجربة تفصيلية")
+            heading.push("قم بتعديل تجربتك")
+            heading.push("التعليم")
+            heading.push("حدد اسمًا لمستوى التعليم الخاص بك")
+            heading.push("الشهادة")
+            heading.push("قم بتسمية شهاداتك (إن أمكن)")
+            heading.push("مدى التوفر للفئات")
+            heading.push("الأحد")
+            heading.push("الاثنين")
+            heading.push("الثلاثاء")
+            heading.push("الأربعاء")
+            heading.push("الخميس")
+            heading.push("الجمعة")
+            heading.push("السبت")
+            heading.push("تعاون")
+            heading.push("هل أنت مهتم بالحصول على دروس فيديو؟ (اختياري)")
+            heading.push("هل أنت مهتم بالحصول على البطاقات التعليمية الخاصة بك؟ (اختياري)")
+            heading.push("إرسال الطلب")
+            heading.push("الاسم الكامل (فارسي)")
+            heading.push("الاسم الكامل (فرنسي)")
+            heading.push("رقم الهاتف")
+            heading.push("021-xxxxxxxx")
+            heading.push("تحديد اللغة")
+            heading.push("وصف المقرر")
+            heading.push("وصف الدورة (الفارسية)")
+            heading.push("وصف المقرر الدراسي (بالفرنسية)")
+            heading.push("تجربة مفصلة (فارسية)")
+            heading.push("تجربة تفصيلية (بالفرنسية)")
+            heading.push("تعليم (فارسي)")
+            heading.push("تعليم (فرنسي)")
+            heading.push("الشهادة (الفارسية)")
+            heading.push("الشهادة (بالفرنسية)")
+            heading.push("أخرى")
+            heading.push("مستوى المعلم")
+            heading.push("مستوى المعلم (الفارسي)")
+            heading.push("مستوى المعلم (الفرنسية)")
+            heading.push("الفئة العمرية للتدريس")
+            heading.push("سعر الجلسة (فارسي)")
+            heading.push("سعر الجلسة (بالفرنسية)")
         }
         return heading
     }
@@ -455,6 +517,24 @@ class RecruitmentRequest extends Component {
                 'CertificateFa': 'certificat',
                 'Ages': 'âge',
                 'TeachingAgeLevelFa': "âge d'enseigner Niveau",
+            },
+
+            'ar': {
+                'NameFa': 'الاسم الكامل',
+                'Mobile': 'رقم الهاتف المحمول',
+                'Email': 'البريد الإلكتروني',
+                'Phone': 'رقم الهاتف',
+                'Address': 'تبوك',
+                'LanguageId': 'اختار اللغة',
+                'TeachingCourses': 'دورات التدريس',
+                'SessionPrice': 'سعر الجلسة',
+                'CoursesDescriptionFa': 'وصف الدورات',
+                'ExperienceYear': 'سنة الخبرة',
+                'ExperienceDetailFa': 'تفاصيل التجربة',
+                'EducationFa': 'التعليم',
+                'CertificateFa': 'شهادة',
+                'Ages': 'الأعمار',
+                'TeachingAgeLevelFa': 'سن التدريس',
             }
         }
 
@@ -462,6 +542,7 @@ class RecruitmentRequest extends Component {
             'fa': 'تمام سنین',
             'en': 'all ages',
             'fr': 'tous ages',
+            'ar': 'كل الأعمار'
         }
 
         const options = [
@@ -477,15 +558,15 @@ class RecruitmentRequest extends Component {
         ];
 
         return (<div className="m-0 p-0" >
-            <Container fluid className="m-0 p-0" dir={lang === 'fa' ? 'rtl' : 'ltr'} >
+            <Container fluid className="m-0 p-0" dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'} >
                 <Row className="mb-2">
-                    <Col xs="12" className={lang === 'fa' ? "text-right text-dark p-0" : "text-left text-dark p-0"} >
+                    <Col xs="12" className={lang === 'fa' || lang === 'ar' ? "text-right text-dark p-0" : "text-left text-dark p-0"} >
                         <h2 className="text-primary">{this.getHeading(lang)[0]}</h2>
                         <Button onClick={() => this.onNewHandeler()} className="btn btn-sm mb-3 ">{this.getHeading(lang)[1]}</Button>
                     </Col>
                 </Row>
                 <Row>
-                    <Col className={lang === 'fa' ? "text-right border  border-primary rounded p-3 overflow-auto w-100" : "text-left border  border-primary rounded p-3 overflow-auto w-100"}>
+                    <Col className={lang === 'fa' || lang === 'ar' ? "text-right border  border-primary rounded p-3 overflow-auto w-100" : "text-left border  border-primary rounded p-3 overflow-auto w-100"}>
                         <h5 className="text-primary font-weight-bold">{this.getHeading(lang)[2]}</h5>
                         <Row form>
                             <Col xs={12} lg={4}>

@@ -9,7 +9,11 @@ const FlashCardList = () => {
     const pageSize = 10;
     const dataTitles = lang === 'en'
         ? ["ID", 'Title', 'Teacher', 'Category', 'Display']
-        : ["ردیف", 'عنوان', 'استاد', 'دسته بندی', 'نمایش'];
+        : lang === 'fa'
+            ? ["ردیف", 'عنوان', 'استاد', 'دسته بندی', 'نمایش']
+            : lang === 'fr'
+                ? ["ID", 'Titre', 'Enseignant', 'Catégorie', 'Affichage']
+                : ["المعرف", "العنوان", "المدرس", "الفئة", "العرض"];
     const columnList = ["FlashCardId", 'Title', lang === 'en' ? 'TeacherName' : 'TeacherNameFa', 'FlashCardCategoryName'];
     const filteredItem = "Title";
     const [flashCardList, setFlashCardList] = useState([]);

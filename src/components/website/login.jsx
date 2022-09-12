@@ -42,7 +42,7 @@ class Login extends Component {
     }
 
     handleLogin = (user, token) => {
-        console.log(user);
+        // console.log(user);
 
         if (user.IsAuthorized === true && user.RoleName === 'Admin' && this.state.key === 'teacher') {
             localStorage.setItem('token', token)
@@ -126,13 +126,20 @@ class Login extends Component {
                 heading.push("Teacher")
                 heading.push("Student")
             }
-            else if (lang === 'fr') {
+
+            if (lang === 'fr') {
                 heading.push("Professeur")
                 heading.push("étudiant à l'université")
             }
-            else {
+
+            if (lang === 'fa') {
                 heading.push("استاد");
                 heading.push("دانشجو");
+            }
+
+            if (lang === 'ar') {
+                heading.push('أستاذ');
+                heading.push('طالب جامعي');
             }
             return heading
         }
@@ -142,12 +149,21 @@ class Login extends Component {
             if (lang === 'en') {
                 type.push('Username: (Email)');
                 type.push('Password:');
-            } else if (lang === 'fr') {
+            }
+
+            if (lang === 'fr') {
                 type.push("nom d'utilisateur: (E-mail)");
                 type.push('le mot de passe: ');
-            } else {
+            }
+
+            if (lang === 'fa') {
                 type.push('نام کاربری: (ایمیل)');
                 type.push('پسورد:');
+            }
+
+            if (lang === 'ar') {
+                type.push('اسم المستخدم: (البريد الإلكتروني):');
+                type.push('كلمه السر:');
             }
             return type;
         }
@@ -157,12 +173,21 @@ class Login extends Component {
             if (lang === 'en') {
                 placeholder.push('Enter your email address');
                 placeholder.push('Enter your password');
-            } else if (lang === 'fr') {
+            }
+
+            if (lang === 'fr') {
                 placeholder.push("Entrez votre adresse email");
                 placeholder.push('Tapez votre mot de passe');
-            } else {
+            }
+
+            if (lang === 'fa') {
                 placeholder.push('آدرس ایمیل خود را وارد کنید');
                 placeholder.push('رمز عبور خود را وارد کنید');
+            }
+
+            if (lang === 'ar') {
+                placeholder.push('أدخل عنوان بريدك الالكتروني');
+                placeholder.push('ادخل رقمك السري');
             }
             return placeholder;
         }
@@ -181,6 +206,11 @@ class Login extends Component {
             en: {
                 Email: 'email',
                 Password: 'password'
+            },
+
+            ar: {
+                Email: 'البريد الإلكتروني',
+                Password: 'كلمه السر'
             }
         }
 
@@ -209,18 +239,18 @@ class Login extends Component {
                         <Tabs activeKey={this.state.key}
                             onSelect={(k) => this.setState({ key: k })}
                         >
-                            <Tab eventKey="teacher" tabClassName="font-weight-bold" className="tab-border" title={getHeading(lang)[0]} dir={lang === 'fa' ? 'rtl' : 'ltr'}>
+                            <Tab eventKey="teacher" tabClassName="font-weight-bold" className="tab-border" title={getHeading(lang)[0]} dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                                 <Suspense fallback={<Spinner color="success" />}>
                                     <Container>
                                         <Form>
                                             {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
                                             <Form.Group>
-                                                <Form.Label htmlFor="email" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[0]}</h6></Form.Label>
+                                                <Form.Label htmlFor="email" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[0]}</h6></Form.Label>
                                                 <Form.Control id="email" name="Email" type="text" placeholder={getPlaceHolder(lang)[0]} value={userObject_teacher.Email} onChange={this.handelChange} />
                                                 {this.validator1.message(setError[lang]['Email'], userObject_teacher.Email, 'required', { className: 'alert alert-danger' })}
                                             </Form.Group>
                                             <Form.Group>
-                                                <Form.Label htmlFor="password" style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[1]}</h6></Form.Label>
+                                                <Form.Label htmlFor="password" style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[1]}</h6></Form.Label>
                                                 <Form.Control id="password" name="Password" type="password" placeholder={getPlaceHolder(lang)[1]} value={userObject_teacher.Password} onChange={this.handelChange} />
                                                 {this.validator1.message(setError[lang]['Password'], userObject_teacher.Password, 'required', { className: 'alert alert-danger' })}
                                             </Form.Group>
@@ -228,18 +258,18 @@ class Login extends Component {
                                     </Container>
                                 </Suspense>
                             </Tab>
-                            <Tab eventKey="student" tabClassName="font-weight-bold" className="tab-border" title={getHeading(lang)[1]} dir={lang === 'fa' ? 'rtl' : 'ltr'}>
+                            <Tab eventKey="student" tabClassName="font-weight-bold" className="tab-border" title={getHeading(lang)[1]} dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                                 <Suspense fallback={<Spinner color="success" />}>
                                     <Container>
                                         <Form>
                                             {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
                                             <Form.Group>
-                                                <Form.Label htmlFor="email" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1" >{getTitle(lang)[0]}</h6></Form.Label>
+                                                <Form.Label htmlFor="email" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1" >{getTitle(lang)[0]}</h6></Form.Label>
                                                 <Form.Control id="email" name="Email" type="text" placeholder={getPlaceHolder(lang)[0]} value={userObject_student.Email} onChange={this.handelChange} />
                                                 {this.validator2.message(setError[lang]['Email'], userObject_student.Email, 'required', { className: 'alert alert-danger' })}
                                             </Form.Group>
                                             <Form.Group>
-                                                <Form.Label htmlFor="password" style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1" >{getTitle(lang)[1]}</h6></Form.Label>
+                                                <Form.Label htmlFor="password" style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1" >{getTitle(lang)[1]}</h6></Form.Label>
                                                 <Form.Control id="password" name="Password" type="password" placeholder={getPlaceHolder(lang)[1]} value={userObject_student.Password} onChange={this.handelChange} />
                                                 {this.validator2.message(setError[lang]['Password'], userObject_student.Password, 'required', { className: 'alert alert-danger' })}
                                             </Form.Group>

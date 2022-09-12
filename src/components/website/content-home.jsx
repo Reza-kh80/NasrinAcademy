@@ -46,6 +46,14 @@ class Home extends Component {
       heading.push(item.TeacherPanelTitleFr);
       heading.push(item.ObjectiveTitleFr);
       heading.push(item.ObjectiveDescriptionFr);
+    } else if (lang === "fa") {
+      heading.push(item.LatestTitleFa);
+      heading.push(item.LatestDescriptionFa);
+      heading.push(item.WhoTitleFa);
+      heading.push(item.StudentPanelTitleFa);
+      heading.push(item.TeacherPanelTitleFa);
+      heading.push(item.ObjectiveTitleFa);
+      heading.push(item.ObjectiveDescriptionFa);
     } else {
       heading.push(item.LatestTitleFa);
       heading.push(item.LatestDescriptionFa);
@@ -70,7 +78,7 @@ class Home extends Component {
             cpntent="private, teacher, online, french, class, in 8 month, tefaq, tcf, B2, C1 , french exams"
           />
         </Helmet>
-        <Container fluid dir={lang === "fa" ? "rtl" : "ltr"}>
+        <Container fluid dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
           {/* <Row className="mt-2">
             <Col
               xs="12"

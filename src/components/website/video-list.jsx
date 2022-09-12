@@ -9,7 +9,11 @@ const VideoList = () => {
     const pageSize = 10;
     const dataTitles = lang === 'en'
         ? ["ID", 'Title', 'Display']
-        : ["ردیف", 'عنوان', 'نمایش'];
+        : lang === 'fa'
+            ? ["ردیف", 'عنوان', 'نمایش']
+            : lang === 'fr'
+                ? ["ID", 'Titre', 'Afficher']
+                : ["المعرف", "العنوان", "العرض"];
     const columnList = ["MediaId", 'Title'];
     const filteredItem = "Title";
     const [videoList, setVideoList] = useState([]);
@@ -37,7 +41,7 @@ const VideoList = () => {
     }, [apiEndPoint]);
     return (<div>
         <Suspense fallback={<Spinner color="success" />}>
-            <TableContent filter={filteredItem} placeholder={lang === 'en' ? "Search Title" : "جستجو با عنوان"} dataList={videoList} dataTitles={dataTitles} columnList={columnList} onEdithandler={handleShow} pageSize={pageSize} />
+            <TableContent filter={filteredItem} placeholder={lang === 'en' ? "Search Title" : lang === 'fa' ? "جستجو با عنوان" : lang === 'fr' ? 'Titre de la recherche' : 'عنوان البحث'} dataList={videoList} dataTitles={dataTitles} columnList={columnList} onEdithandler={handleShow} pageSize={pageSize} />
             <Video object={video} show={show} onHide={handleHide} />
         </Suspense>
     </div>);

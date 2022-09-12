@@ -15,35 +15,71 @@ class CourseListPrivate extends Component {
       dataTitles:
         lang === "en"
           ? [
+            "ID",
+            "Language",
+            "Teacher",
+            "Course",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat",
+            "Sun",
+            "Price/Session",
+            "Detail and Enrollment",
+          ]
+          :
+          lang === 'fr'
+            ? [
               "ID",
-              "Language",
-              "Teacher",
-              "Course",
-              "Mon",
-              "Tue",
-              "Wed",
-              "Thu",
-              "Fri",
-              "Sat",
-              "Sun",
-              "Price/Session",
-              "Detail and Enrollment",
+              "Langue",
+              "Professeure",
+              "Cours",
+              "Lundi",
+              "Mardi",
+              "mercredi",
+              "Jeudi",
+              "Vendredi",
+              "Samedi",
+              "Dimanche",
+              "Prix/Séance",
+              "Détails et inscription",
             ]
-          : [
-              "ردیف",
-              "زبان",
-              "استاد",
-              "دوره",
-              "شنبه",
-              "یک شنبه",
-              "دوشنبه",
-              "سه شنبه",
-              "چهار شنبه",
-              "پنج شنبه",
-              "جمعه",
-              "قیمت جلسه",
-              "جزییات و ثبت نام",
-            ],
+            :
+            lang === 'fa'
+              ? [
+                "ردیف",
+                "زبان",
+                "استاد",
+                "دوره",
+                "شنبه",
+                "یک شنبه",
+                "دوشنبه",
+                "سه شنبه",
+                "چهار شنبه",
+                "پنج شنبه",
+                "جمعه",
+                "قیمت جلسه",
+                "جزییات و ثبت نام",
+              ]
+              :
+              [
+                "صف",
+                "لسان",
+                "أستاذ",
+                "الفترة",
+                "السبت",
+                "الأحد",
+                "الاثنين",
+                "يوم الثلاثاء",
+                "الأربعاء",
+                "يوم الخميس",
+                "جمعة",
+                "سعر الجلسة",
+                "التفاصيل والتسجيل",
+              ],
+
       columnList: [
         "id",
         "LanguageName",
@@ -103,39 +139,39 @@ class CourseListPrivate extends Component {
       response.data.map((m, i) =>
         lang === "en"
           ? dataList.push({
-              id: i + 1,
-              LanguageName: m.LanguageName,
-              TeacherName: m.TeacherName,
-              CourseName: m.CourseName,
-              Mon: m.IsAvailableMon,
-              Tue: m.IsAvailableTue,
-              Wed: m.IsAvailableWed,
-              Thu: m.IsAvailableThu,
-              Fri: m.IsAvailableFri,
-              Sat: m.IsAvailableSat,
-              Sun: m.IsAvailableSun,
-              SessionPrice: m.SessionPrice,
-              PrivateTeacherCourseId: m.PrivateTeacherCourseId,
-              CourseId: m.CourseId,
-              TeacherId: m.TeacherId,
-            })
+            id: i + 1,
+            LanguageName: m.LanguageName,
+            TeacherName: m.TeacherName,
+            CourseName: m.CourseName,
+            Mon: m.IsAvailableMon,
+            Tue: m.IsAvailableTue,
+            Wed: m.IsAvailableWed,
+            Thu: m.IsAvailableThu,
+            Fri: m.IsAvailableFri,
+            Sat: m.IsAvailableSat,
+            Sun: m.IsAvailableSun,
+            SessionPrice: m.SessionPrice,
+            PrivateTeacherCourseId: m.PrivateTeacherCourseId,
+            CourseId: m.CourseId,
+            TeacherId: m.TeacherId,
+          })
           : dataList.push({
-              id: i + 1,
-              LanguageName: m.LanguageNameFa,
-              TeacherName: m.TeacherNameFa,
-              CourseName: m.CourseNameFa,
-              Sat: m.IsAvailableSat,
-              Sun: m.IsAvailableSun,
-              Mon: m.IsAvailableMon,
-              Tue: m.IsAvailableTue,
-              Wed: m.IsAvailableWed,
-              Thu: m.IsAvailableThu,
-              Fri: m.IsAvailableFri,
-              SessionPrice: m.SessionPriceFa,
-              PrivateTeacherCourseId: m.PrivateTeacherCourseId,
-              CourseId: m.CourseId,
-              TeacherId: m.TeacherId,
-            })
+            id: i + 1,
+            LanguageName: m.LanguageNameFa,
+            TeacherName: m.TeacherNameFa,
+            CourseName: m.CourseNameFa,
+            Sat: m.IsAvailableSat,
+            Sun: m.IsAvailableSun,
+            Mon: m.IsAvailableMon,
+            Tue: m.IsAvailableTue,
+            Wed: m.IsAvailableWed,
+            Thu: m.IsAvailableThu,
+            Fri: m.IsAvailableFri,
+            SessionPrice: m.SessionPriceFa,
+            PrivateTeacherCourseId: m.PrivateTeacherCourseId,
+            CourseId: m.CourseId,
+            TeacherId: m.TeacherId,
+          })
       );
       this.setState({ dataList });
     });
@@ -144,7 +180,7 @@ class CourseListPrivate extends Component {
     this.getLanguage();
     this.getTeacherCourse("");
   }
-  componentDidUpdate(prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) { }
   onNewCourseRequest = (list) => {
     this.setState({ privateTeacherCourseId: list.PrivateTeacherCourseId });
     this.setState({ courseId: list.CourseId });
@@ -221,7 +257,7 @@ class CourseListPrivate extends Component {
               <Suspense fallback={<Spinner color="success" />}>
                 <TableContent
                   filter={filteredItem}
-                  placeholder={lang === "en" ? "Find Teacher" : "استاد را بیاب"}
+                  placeholder={lang === "en" ? "Find Teacher" : lang === 'fa' ? "استاد را بیاب" : lang === 'fr' ? 'Trouver un professeur' : 'ابحث عن المعلم'}
                   dataList={dataList}
                   dataTitles={dataTitles}
                   columnList={columnList}

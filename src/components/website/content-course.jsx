@@ -33,7 +33,10 @@ class CourseOutlook extends Component {
             heading.push(item.TitleFr)
             heading.push(item.DescriptionFr)
         }
-        else {
+        else if (lang === 'fa') {
+            heading.push(item.TitleFa)
+            heading.push(item.DescriptionFa)
+        } else {
             heading.push(item.TitleFa)
             heading.push(item.DescriptionFa)
         }
@@ -49,16 +52,16 @@ class CourseOutlook extends Component {
                     <meta name="description" content={description.slice(0, 120)} />
                     <meta name="keywords" cpntent="private, teacher, online, french, class, in 8 month, tefaq, tcf, B2, C1 , french exams" />
                 </Helmet>
-                <Container fluid dir={lang === 'fa' ? 'rtl' : 'ltr'}>
+                <Container fluid dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                     <Row className="mb-4">
                         <Col xs="12" className="m-0 p-0">
                             <Row>
-                                <Col xs="12" className={lang === "fa" ? "text-right m-0 p-2" : "m-0 p-2"}>
-                                    <strong className={lang === "fa" ? "text-right text-primary h5" : "text-primary h5"}>{this.getHeading(lang, courseOutlookObject)[0]}</strong>
+                                <Col xs="12" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2" : "m-0 p-2"}>
+                                    <strong className={lang === "fa" || lang === 'ar' ? "text-right text-primary h5" : "text-primary h5"}>{this.getHeading(lang, courseOutlookObject)[0]}</strong>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs="12" className={lang === "fa" ? "text-right m-0 p-2" : "m-0 p-2"}>
+                                <Col xs="12" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2" : "m-0 p-2"}>
                                     <p>{this.getHeading(lang, courseOutlookObject)[1]}</p>
                                 </Col>
                             </Row>

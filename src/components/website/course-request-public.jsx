@@ -113,7 +113,8 @@ class CourseRequestPublic extends Component {
             heading.push("Submit Request")
 
         }
-        else if (lang === 'fr') {
+
+        if (lang === 'fr') {
             heading.push('Nouvelle requête')
             heading.push('Photo(jpeg,jpg)')
             heading.push('Nom Complet')
@@ -129,7 +130,8 @@ class CourseRequestPublic extends Component {
             heading.push("Envoyer la demande")
 
         }
-        else {
+
+        if (lang === 'fa') {
             heading.push('فرم جدید')
             heading.push('تصویر(jpg,jpeg)')
             heading.push('نام و نام خانوادگی')
@@ -143,6 +145,23 @@ class CourseRequestPublic extends Component {
             heading.push("پیام")
             heading.push("پیام خود را وارد کنید")
             heading.push("ارسال درخواست")
+
+        }
+
+        if (lang === 'ar') {
+            heading.push('طلب جديد')
+            heading.push('Photo(jpeg,jpg)')
+            heading.push('الاسم الكامل')
+            heading.push("مثال: نسرين دفترتشي")
+            heading.push("رقم الهاتف")
+            heading.push("+1-(xxx)xxx-xxxx")
+            heading.push("البريد الإلكتروني")
+            heading.push("(اختياري) x@x.com ")
+            heading.push("تبوك")
+            heading.push("(اختياري) عنوانك هنا ... ")
+            heading.push("رسالة")
+            heading.push("(اختياري) رسالتك هنا ... ")
+            heading.push("تقديم الطلب")
 
         }
         return heading

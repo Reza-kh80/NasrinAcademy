@@ -17,7 +17,7 @@ const Footer = (props) => {
                     <a referrerPolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=216676&amp;Code=1Q1yPESeKiclbrOgR1dL"><img referrerPolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=216676&amp;Code=1Q1yPESeKiclbrOgR1dL" alt="" className="cursor-pointer" id="1Q1yPESeKiclbrOgR1dL" /></a>
                 </Col>
                 <Col sm="6" md="3" className='text-center'>
-                    <img className='cursor-pointer' onClick={newWindow} alt='logo-samandehi' src='https://www.zarinpal.com/lab/wp-content/uploads/sites/2/2016/05/icon-128x128.png' style={{ borderRadius: '25px', width: '80px' }} />
+                    <img src='https://www.zarinpal.com/lab/wp-content/uploads/sites/2/2016/05/icon-128x128.png' style={{ borderRadius: '25px', width: '80px' }} />
                 </Col>
                 <Col sm="6" md="3" className="text-center">
                     <img id='nbqergvjjzpefukzfukzjxlz' className='cursor-pointer' onClick={newWindow} alt='logo-samandehi' src='https://logo.samandehi.ir/logo.aspx?id=237661&p=odrfqftiyndtwlbqwlbqnbpd' />

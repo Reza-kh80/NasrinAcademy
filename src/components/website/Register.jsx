@@ -339,21 +339,21 @@ class Register extends Component {
                                                 <Col xs={12} md={4}>
                                                     {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Nameen" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[0]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="Nameen" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[0]}</h6></Form.Label>
                                                         <Form.Control id="Nameen" name="Nameen" type="text" placeholder={getPlaceHolder(lang)[0]} value={userObject.Nameen} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Nameen'], userObject.Nameen, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>
                                                 </Col>
                                                 <Col xs={12} md={4}>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Namefa" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[1]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="Namefa" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[1]}</h6></Form.Label>
                                                         <Form.Control id="Namefa" name="Namefa" type="text" placeholder={getPlaceHolder(lang)[1]} value={userObject.Namefa} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Namefa'], userObject.Namefa, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>
                                                 </Col>
                                                 <Col xs={12} md={4}>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Namefr" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[2]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="Namefr" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[2]}</h6></Form.Label>
                                                         <Form.Control id="Namefr" name="Namefr" type="text" placeholder={getPlaceHolder(lang)[2]} value={userObject.Namefr} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Namefr'], userObject.Namefr, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>
@@ -363,7 +363,7 @@ class Register extends Component {
                                                 <Col xs={12} md={4}>
                                                     {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Mobile" className='mt-2' style={{ float: lang === 'fa' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[3]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="Mobile" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[3]}</h6></Form.Label>
                                                         <Form.Control id="Mobile" name="Mobile" type="text" placeholder={getPlaceHolder(lang)[3]} value={userObject.Mobile} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Mobile'], userObject.Mobile, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>

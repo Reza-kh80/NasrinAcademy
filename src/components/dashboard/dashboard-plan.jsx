@@ -655,7 +655,7 @@ class TeacherPlan extends Component {
                                                                                 switchToMinuteOnHourSelect
                                                                             />
                                                                         </div>
-                                                                    </ModalClock>
+                                          ف                          </ModalClock>
                                                                     {/* <Form.Check
                                                                         inline
                                                                         type="switch"

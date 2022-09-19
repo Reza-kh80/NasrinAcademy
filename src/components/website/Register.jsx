@@ -7,11 +7,17 @@ import SimpleReactValidator from 'simple-react-validator';
 import { Container, Row, Col, Spinner, Button } from 'reactstrap';
 import 'simple-react-validator/dist/locale/fa';
 import 'simple-react-validator/dist/locale/fr';
+// import 'simple-react-validator/dist/locale/ar';
 
 class Register extends Component {
     constructor(props) {
         super(props);
-        this.validator = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+        if (localStorage.getItem('lang') === 'ar') {
+            this.validator = new SimpleReactValidator({ locale: 'fa' });
+        } else {
+            this.validator = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+        }
+
         this.state = {
             contactObject: [],
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
@@ -23,13 +29,14 @@ class Register extends Component {
                 Password: '',
                 Mobile: '',
                 NationalCode: '',
-                post: 2
+                post: '',
+                translator: false
             },
             // token: "",
             errorMessage: '',
             dropdownList: [],
-            teacher: 3,
-            student: 2
+            teacher: '3',
+            student: '2',
         }
     }
 
@@ -92,34 +99,62 @@ class Register extends Component {
         this.setState({ errorMessage: "" })
     }
 
+    handleCheckBox = (e) => {
+        let userObject = { ...this.state.userObject };
+        userObject[e.currentTarget.id] = e.target.checked;
+        this.setState({ userObject });
+    }
+
     handleSubmit = () => {
         const { apiEndPoint, userObject } = this.state;
-        let data = {};
-        data = {
-            NameFa: userObject.Namefa,
-            Name: userObject.Nameen,
-            NameFr: userObject.Namefr,
-            Email: userObject.Email,
-            Password: userObject.Password,
-            Mobile: userObject.Mobile,
-            NationalCode: userObject.NationalCode,
-            RoleId: userObject.post,
-            Modifier: userObject.Email,
-            ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
-            IsDeleted: 0
-        }
+        // let data = {};
+        // data = {
+        //     NameFa: userObject.Namefa,
+        //     Name: userObject.Nameen,
+        //     NameFr: userObject.Namefr,
+        //     Email: userObject.Email,
+        //     Password: userObject.Password,
+        //     Mobile: userObject.Mobile,
+        //     NationalCode: userObject.NationalCode,
+        //     RoleId: parseInt(userObject.post),
+        //     Modifier: userObject.Email,
+        //     ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+        //     IsDeleted: 0
+        // }
 
         if (this.validator.allValid()) {
-            axios({
+            var data = JSON.stringify({
+                NameFa: userObject.Namefa,
+                Name: userObject.Nameen,
+                NameFr: userObject.Namefr,
+                Email: userObject.Email,
+                Password: userObject.Password,
+                Mobile: userObject.Mobile,
+                NationalCode: userObject.NationalCode,
+                RoleId: parseInt(userObject.post),
+                Modifier: userObject.Email,
+                ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                IsDeleted: 0,
+                Translator: userObject.translator
+            });
+
+            var config = {
                 method: 'post',
-                url: apiEndPoint + 'User/Add',
-                data
-            }).then(response => {
-                console.log(response.data)
-                const user = jwt_decode(response.data)
-                // this.handleLogin(user, response.data)
-            }
-            )
+                url: 'https://test.nasrinacademy.com/api/User/Add',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            axios(config)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+
         } else {
             this.validator.showMessages();
             this.forceUpdate();
@@ -143,7 +178,7 @@ class Register extends Component {
                 type.push('post:');
                 type.push('Teacher');
                 type.push('Student');
-
+                type.push('Carrying out translation activities:')
             }
 
             if (lang === 'fr') {
@@ -157,7 +192,7 @@ class Register extends Component {
                 type.push('Publier:');
                 type.push('Professeure');
                 type.push('étudiante');
-
+                type.push("Réalisation d'activités de traduction:")
             }
 
             if (lang === 'fa') {
@@ -171,6 +206,7 @@ class Register extends Component {
                 type.push('سمت:');
                 type.push('استاد');
                 type.push('دانشجو');
+                type.push('انجام فعالیت های ترجمه:');
             }
 
             if (lang === 'ar') {
@@ -184,6 +220,7 @@ class Register extends Component {
                 type.push('بريد:');
                 type.push('أستاذ');
                 type.push('طالب جامعي');
+                type.push('القيام بأنشطة الترجمة:');
             }
             return type;
         }
@@ -237,7 +274,8 @@ class Register extends Component {
                 Username: 'نام کاربری',
                 language: 'انتخاب زبان',
                 NationalCode: 'کد ملی',
-                Post: 'سمت'
+                Post: 'سمت',
+                Translator: 'مترجم'
             },
 
             fr: {
@@ -252,7 +290,8 @@ class Register extends Component {
                 Role_ID: 'ID de rôle',
                 Username: "Nom d'utilisateur",
                 NationalCode: 'Code national',
-                Post: 'Publier'
+                Post: 'Publier',
+                Translator: 'Traducteur'
             },
 
             en: {
@@ -267,7 +306,8 @@ class Register extends Component {
                 Role_ID: 'role id',
                 Username: 'username',
                 NationalCode: 'national code',
-                Post: 'post'
+                Post: 'post',
+                Translator: 'Translator'
             },
 
             ar: {
@@ -282,7 +322,8 @@ class Register extends Component {
                 Role_ID: 'معرف الدور',
                 Username: 'اسم االمستخدم',
                 NationalCode: 'رمز دولي',
-                Post: 'بريد'
+                Post: 'بريد',
+                Translator: 'مترجم'
             }
         }
 
@@ -391,6 +432,32 @@ class Register extends Component {
                                                         <Form.Control id="NationalCode" name="NationalCode" type="number" min='1' value={userObject.NationalCode} onChange={this.handelChange} />
                                                     </Form.Group>
                                                     {this.validator.message(setError[lang]['NationalCode'], userObject.NationalCode, 'required', { className: 'alert alert-danger' })}
+                                                </Col>
+                                                {/* <Col xs={12} md={4}>
+                                                    <Form.Label htmlFor="translator" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 style={{ marginRight: lang === 'fa' || lang === 'ar' ? '0px' : '21px' }} className='text-primary'>{getTitle(lang)[10]}</h6></Form.Label>
+                                                    <Form.Check
+                                                        className='mt-2'
+                                                        inline
+                                                        type="switch"
+                                                        id='translator'
+                                                        checked={userObject.translator}
+                                                        onChange={this.handleCheckBox}
+                                                    />
+                                                </Col> */}
+                                            </Row>
+                                            <Row form>
+                                                <Col xs={12} md={6}>
+                                                    {/* {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>} */}
+                                                    <Form.Label htmlFor="translator" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 style={{ marginRight: lang === 'fa' || lang === 'ar' ? '0px' : '21px' }} className='text-primary'>{getTitle(lang)[10]}</h6></Form.Label>
+                                                    <Form.Check
+                                                        className='mt-2'
+                                                        inline
+                                                        type="switch"
+                                                        id='translator'
+                                                        checked={userObject.translator}
+                                                        onChange={this.handleCheckBox}
+                                                    />
+                                                    {/* {this.validator.message(setError[lang]['Translator'], userObject.translator, 'required', { className: 'alert alert-danger' })} */}
                                                 </Col>
                                             </Row>
                                         </Col>

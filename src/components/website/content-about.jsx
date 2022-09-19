@@ -70,7 +70,7 @@ class About extends Component {
                                     <CardBody>
                                         <Row>
                                             <Col sm="12" md="9" className={lang === 'fa' || lang === 'ar' ? 'text-right p-0 m-0' : "p-0 m-0"}>
-                                                <p>{this.getHeading(lang, item)[1]}</p>
+                                                 <p>{this.getHeading(lang, item)[1]}</p>
                                             </Col>
                                             <Col sm="12" md="3">
                                                 {this.setMedia(this.getHeading(lang, item)[2], this.getHeading(lang, item)[0])}

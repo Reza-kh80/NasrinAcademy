@@ -12,8 +12,14 @@ import 'simple-react-validator/dist/locale/fa';
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.validator1 = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
-        this.validator2 = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+        if (localStorage.getItem('lang') === 'ar') {
+            this.validator1 = new SimpleReactValidator({ locale: 'fa' });
+            this.validator2 = new SimpleReactValidator({ locale: 'fa' });
+        } else {
+            this.validator1 = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+            this.validator2 = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+        }
+
         this.state = {
             contactObject: [],
             apiEndPoint: process.env.REACT_APP_APIEndPoint,

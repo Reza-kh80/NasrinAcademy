@@ -143,12 +143,12 @@ function CourseOverview(props) {
                         <Col xs="3" className="text-center">
                             <img src="main-images/logo-circle.webp" width="100%" height="100%" alt="logo" />
                         </Col>
-                        <Col xs="9" className={lang === 'fa' ? 'text-right m-0 p-0' : 'text-left m-0 p-0'}>
+                        <Col xs="9" className={lang === 'fa' || lang === 'ar' ? 'text-right m-0 p-0' : 'text-left m-0 p-0'}>
                             <Modal.Title id="example-modal-sizes-title-lg" className="h4 font-weight-bold text-white">{title}</Modal.Title>
                         </Col>
                     </Row>
                 </Modal.Header>
-                <Modal.Body dir={lang === 'fa' ? 'rtl' : 'ltr'}>
+                <Modal.Body dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                     <div className={lang === 'fa' ? 'text-right m-0 p-0' : 'text-left m-0 p-0'}>
                         <Nav tabs >
                             <NavItem className="cursor-pointer" >

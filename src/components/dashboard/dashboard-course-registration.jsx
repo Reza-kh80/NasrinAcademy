@@ -1,65 +1,68 @@
 import React, { Component, Suspense } from 'react';
-import { Container, Row, Col, Button, FormGroup, Label, Input, Spinner} from 'reactstrap';
-import axios from 'axios';
+import { Container, Row, Col, Button, Spinner, Input } from 'reactstrap';
+import Form from 'react-bootstrap/Form';
 import SimpleReactValidator from 'simple-react-validator';
-import 'simple-react-validator/dist/locale/fa';
-import 'simple-react-validator/dist/locale/fr';
-import FileUpload from '../general/fileUpload';
+import axios from 'axios';
 import { getDatetime } from '../../utils/datetime';
-// import { SketchPicker } from 'react-color';
-// import reactCSS from 'reactcss';
+import UserContext from '../../utils/user-context';
 const MyDropdown = React.lazy(() => import('../general/dropdown'));
+const TableContent = React.lazy(() => import('../general/table'));
+const FileUpload = React.lazy(() => import('../general/fileUpload'));
 
 class CourseRegistration extends Component {
+    static contextType = UserContext;
     constructor(props) {
         super(props);
-        // localStorage.getItem('lang')
-        this.validator = new SimpleReactValidator({ locale: 'en' });
-
+        this.validator = new SimpleReactValidator();
         this.state = {
-            mediaEndMoint: process.env.REACT_APP_MediaEndPoint,
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
-            requestObject: {
-                SessionPrice: "",
-                SessionPriceFa: "",
-                SessionPriceFr: "",
-                M1_en: "",
-                M1_fa: "",
-                M1_fr: "",
-                M2_en: "",
-                M2_fa: "",
-                M2_fr: "",
-                M3_en: "",
-                M3_fa: "",
-                M3_fr: "",
-                M4_en: "",
-                M4_fa: "",
-                M4_fr: "",
-                M5_en: "",
-                M5_fa: "",
-                M5_fr: "",
-                M6_en: "",
-                M6_fa: "",
-                M6_fr: "",
-                M7_en: "",
-                M7_fa: "",
-                M7_fr: "",
-                M8_en: "",
-                M8_fa: "",
-                M8_fr: "",
-                ModificationDate: getDatetime(),
-            },
             dropdownList: [],
-            color: '#ff0000',
-            displayColorPicker: false,
-            teacherList: [],
-            LanguageId: "",
-            TeacherName: 'Teacher List',
-            id: '',
-            drop: []
+            courseObject: {
+                CourseId: "",
+                Title: "",
+                Benefits1: "",
+                Benefits2: "",
+                Benefits3: "",
+                Benefits4: "",
+                Benefits5: "",
+                Benefits6: "",
+                Benefits7: "",
+                Benefits8: "",
+                TitleFr: "",
+                Benefits1Fr: "",
+                Benefits2Fr: "",
+                Benefits3Fr: "",
+                Benefits4Fr: "",
+                Benefits5Fr: "",
+                Benefits6Fr: "",
+                Benefits7Fr: "",
+                Benefits8Fr: "",
+                TitleFa: "",
+                Benefits1Fa: "",
+                Benefits2Fa: "",
+                Benefits3Fa: "",
+                Benefits4Fa: "",
+                Benefits5Fa: "",
+                Benefits6Fa: "",
+                Benefits7Fa: "",
+                Benefits8Fa: "",
+                Agreement: "",
+                AgreementFa: "",
+                AgreementFr: "",
+                Media: "",
+                LanguageId: "",
+                Modifier: "",
+                ModificationDate: getDatetime(),
+                IsDeleted: false,
+            },
+            Color: "",
+            pageSize: 5,
+            dataList: [],
+            dataTitles: ["ID", 'Course Title', 'Modifier', 'Date', 'File Name', 'Edit'],
+            columnList: ["id", "Title", 'Modifier', 'ModificationDate', 'Media'],
+            filteredItem: "Title"
         }
     }
-
     getLanguage = async () => {
         let dropdownList = [];
         await axios.get(this.state.apiEndPoint + 'Language/DisplayDropdown').then(response => {
@@ -73,632 +76,493 @@ class CourseRegistration extends Component {
             this.setState({ dropdownList });
         });
     }
-
-    getTeacher = async (id) => {
-        let drop = [];
-        await axios
-            .get(
-                this.state.apiEndPoint + `Teacher/DisplayAllRegistered?languageId=${id}`
-            )
-            .then((response) => {
-                this.setState({
-                    teacherList: response.data.filter(
-                        (teacher) => teacher.IsDeleted === false
-                    ),
-                });
-            });
-        this.state.teacherList.map((item) =>
-            drop.push({
-                label: this.getHeading('en', item)[40]
-            })
-        )
-        this.setState({ drop });
-    };
-
-    getHeading = (lang, item) => {
-        let heading = []
-        if (lang === 'fa') {
-            heading.push('ثبت دوره');
-            heading.push('فرم جدید');
-            heading.push('اطلاعات');
-            heading.push('انتخاب زبان');
-            heading.push('هزینه هر جلسه');
-            heading.push('هزینه هر جلسه(انگلیسی)');
-            heading.push('هزینه هر جلسه(فرانسوی)');
-            heading.push('نمونه: 100,000 تومان');
-            heading.push('نمونه:$15');
-            heading.push("نمونه:$15")
-            heading.push('تصویر(jpg,jpeg)');
-            heading.push('رنگ');
-            heading.push('#fff');
-            heading.push('مزایا');
-            heading.push('مزیت اول');
-            heading.push('مزیت اول(انگلیسی)');
-            heading.push('مزیت اول(فرانسوی)');
-            heading.push('مزیت دوم');
-            heading.push('مزیت دوم(انگلیسی)');
-            heading.push('مزیت دوم(فرانسوی)');
-            heading.push('مزیت سوم');
-            heading.push('مزیت سوم(انگلیسی)');
-            heading.push('مزیت سوم(فرانسوی)');
-            heading.push('مزیت چهارم');
-            heading.push('مزیت چهارم(انگلیسی)');
-            heading.push('مزیت چهارم(فرانسوی)');
-            heading.push('مزیت پنجم');
-            heading.push('مزیت پنجم(انگلیسی)');
-            heading.push('مزیت پنجم(فرانسوی)');
-            heading.push('مزیت ششم');
-            heading.push('مزیت ششم(انگلیسی)');
-            heading.push('مزیت ششم(فرانسوی)');
-            heading.push('مزیت هفتم');
-            heading.push('مزیت هفتم(انگلیسی)');
-            heading.push('مزیت هفتم(فرانسوی)');
-            heading.push('مزیت هشتم');
-            heading.push('مزیت هشتم(انگلیسی)');
-            heading.push('مزیت هشتم(فرانسوی)');
-            heading.push('ارسال درخواست');
-            heading.push('لیست استاد ها');
-        }
-
-        if (lang === 'en') {
-            heading.push('Course registration');
-            heading.push('New Request');
-            heading.push('Information');
-            heading.push('Select Language');
-            heading.push('Cost per session');
-            heading.push('Cost per session(persian)');
-            heading.push('Cost per session(french)');
-            heading.push('Example:$15');
-            heading.push('Example: 100,000 تومان');
-            heading.push("Example:$15");
-            heading.push('Photo(jpeg,jpg)');
-            heading.push('Color');
-            heading.push('#fff');
-            heading.push('Advantages');
-            heading.push('first advantage');
-            heading.push('first advantage (persian)');
-            heading.push('first advantage (french)');
-            heading.push('second advantage');
-            heading.push('second advantage (persian)');
-            heading.push('second advantage (french)');
-            heading.push('third advantage');
-            heading.push('third advantage (persian)');
-            heading.push('third advantage (french)');
-            heading.push('fourth advantage');
-            heading.push('fourth advantage (persian)');
-            heading.push('fourth advantage (french)');
-            heading.push('fifth advantage');
-            heading.push('fifth advantage (persian)');
-            heading.push('fifth advantage (french)');
-            heading.push('sixth advantage');
-            heading.push('sixth advantage (persian)');
-            heading.push('sixth advantage (french)');
-            heading.push('Seventh Advantage');
-            heading.push('Seventh advantage (persian)');
-            heading.push('Seventh advantage (french)');
-            heading.push('eighth advantage');
-            heading.push('eighth advantage(persian)');
-            heading.push('eighth advantage(french)');
-            heading.push('Send Request');
-            heading.push('Teachers List');
-            heading.push(item.Name);
-        }
-
-        if (lang === 'fr') {
-            heading.push("L'inscription aux cours");
-            heading.push('Nouvelle requête');
-            heading.push('Informations');
-            heading.push('Choisir la langue');
-            heading.push('Coût par séance');
-            heading.push('Coût par séance(persan)');
-            heading.push('Coût par séance(anglais)');
-            heading.push("Exp:$15");
-            heading.push('Exp:$15');
-            heading.push('Exp: 100,000 تومان');
-            heading.push('Photo(jpeg,jpg)');
-            heading.push('Couleur');
-            heading.push('#fff');
-            heading.push('Avantages');
-            heading.push('premier avantage');
-            heading.push('premier avantage (persan)');
-            heading.push('premier avantage (anglais)');
-            heading.push('second avantage');
-            heading.push('deuxième avantage (persan)');
-            heading.push('deuxième avantage (anglais)');
-            heading.push('troisième avantage');
-            heading.push('troisième avantage (persan)');
-            heading.push('troisième avantage (anglais)');
-            heading.push('quatrième avantage');
-            heading.push('quatrième avantage (persan)');
-            heading.push('quatrième avantage (anglais)');
-            heading.push('cinquième avantage');
-            heading.push('cinquième avantage (persan)');
-            heading.push('cinquième avantage (anglais)');
-            heading.push('sixième avantage');
-            heading.push('sixième avantage (persan)');
-            heading.push('sixième avantage (anglais)');
-            heading.push('Seventh Advantage');
-            heading.push('Septième avantage (persan)');
-            heading.push('Septième avantage (anglais)');
-            heading.push('huitième avantage');
-            heading.push('huitième avantage(persan)');
-            heading.push('huitième avantage(anglais)');
-            heading.push('Envoyer la demande');
-        }
-        return heading;
+    getData = async (id) => {
+        const dataList = [];
+        await axios.get(this.state.apiEndPoint + `Course/GetAll?languageId=${id}`).then(response => {
+            let md = response.data
+            md.map((m, i) =>
+                dataList.push({
+                    id: i + 1,
+                    Title: m.Title,
+                    Benefits1: m.Benefits1,
+                    Benefits2: m.Benefits2,
+                    Benefits3: m.Benefits3,
+                    Benefits4: m.Benefits4,
+                    Benefits5: m.Benefits5,
+                    Benefits6: m.Benefits6,
+                    Benefits7: m.Benefits7,
+                    Benefits8: m.Benefits8,
+                    TitleFr: m.TitleFr,
+                    Benefits1Fr: m.Benefits1Fr,
+                    Benefits2Fr: m.Benefits2Fr,
+                    Benefits3Fr: m.Benefits3Fr,
+                    Benefits4Fr: m.Benefits4Fr,
+                    Benefits5Fr: m.Benefits5Fr,
+                    Benefits6Fr: m.Benefits6Fr,
+                    Benefits7Fr: m.Benefits7Fr,
+                    Benefits8Fr: m.Benefits8Fr,
+                    TitleFa: m.TitleFa,
+                    Benefits1Fa: m.Benefits1Fa,
+                    Benefits2Fa: m.Benefits2Fa,
+                    Benefits3Fa: m.Benefits3Fa,
+                    Benefits4Fa: m.Benefits4Fa,
+                    Benefits5Fa: m.Benefits5Fa,
+                    Benefits6Fa: m.Benefits6Fa,
+                    Benefits7Fa: m.Benefits7Fa,
+                    Benefits8Fa: m.Benefits8Fa,
+                    Color: this.state.Color,
+                    Media: m.Media,
+                    LanguageId: m.LanguageId,
+                    Modifier: m.Modifier,
+                    ModificationDate: m.ModificationDate,
+                    IsDeleted: m.IsDeleted,
+                    CourseId: m.CourseId,
+                }),
+            );
+            this.setState({ dataList });
+        });
     }
-
-    onNewHandeler() {
-        let requestObject = { ...this.state.requestObject };
-        requestObject.SessionPrice = '';
-        requestObject.SessionPriceFa = '';
-        requestObject.SessionPriceFr = '';
-        requestObject.Color = '';
-        requestObject.M1_en = '';
-        requestObject.M1_fa = '';
-        requestObject.M1_fr = '';
-        requestObject.M2_en = '';
-        requestObject.M2_fa = '';
-        requestObject.M2_fr = '';
-        requestObject.M3_en = '';
-        requestObject.M3_fa = '';
-        requestObject.M3_fr = '';
-        requestObject.M4_en = '';
-        requestObject.M4_fa = '';
-        requestObject.M4_fr = '';
-        requestObject.M5_en = '';
-        requestObject.M5_fa = '';
-        requestObject.M5_fr = '';
-        requestObject.M6_en = '';
-        requestObject.M6_fa = '';
-        requestObject.M6_fr = '';
-        requestObject.M7_en = '';
-        requestObject.M7_fa = '';
-        requestObject.M7_fr = '';
-        requestObject.M8_en = '';
-        requestObject.M8_fa = '';
-        requestObject.M8_fr = '';
-        requestObject.ModificationDate = getDatetime();
-    }
-
-    handleChange = e => {
-        let requestObject = { ...this.state.requestObject };
-        requestObject[e.currentTarget.name] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        this.setState({ requestObject });
-    }
-
-    handleDropdownSelectLanguage = (e) => {
-        let languageId = e.target.value;
-        if (languageId === "") {
-            this.setState({ languageId: "" });
-            return;
-        } else {
-            this.getTeacher(languageId);
-            this.setState({ LanguageId: languageId });
-        }
-    };
-
-    handleDropdownSelectTeacher = (e) => {
-        let teacherName = e.target.value;
-        this.setState({ TeacherName: teacherName });
-        for (const x of this.state.teacherList) {
-            if (teacherName === '') {
-                this.setState({ id: '' });
-                return;
-            } else if (x.Name === teacherName) {
-                this.setState({ id: x.TeacherId });
-            }
-        }
-
-    }
-
     componentDidMount() {
-        this.getLanguage();
         this.onNewHandeler();
-        this.getTeacher(1);
+        this.getLanguage();
     }
-
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.requestObject !== this.state.requestObject) {
-            // console.log(this.state.requestObject)
+        if (prevState.courseObject !== this.state.courseObject) {
+            // console.log(this.state.courseObject)
         }
     }
-
-    setCurrentTime = () => {
-        let requestObject = { ...this.state.requestObject };
-        requestObject.ModificationDate = getDatetime();
-        this.setState({ requestObject });
+    onNewHandeler() {
+        const courseObject = { ...this.state.courseObject };
+        courseObject.CourseId = "";
+        courseObject.Title = "";
+        courseObject.Benefits1 = "";
+        courseObject.Benefits2 = "";
+        courseObject.Benefits3 = "";
+        courseObject.Benefits4 = "";
+        courseObject.Benefits5 = "";
+        courseObject.Benefits6 = "";
+        courseObject.Benefits7 = "";
+        courseObject.Benefits8 = "";
+        courseObject.TitleFr = "";
+        courseObject.Benefits1Fr = "";
+        courseObject.Benefits2Fr = "";
+        courseObject.Benefits3Fr = "";
+        courseObject.Benefits4Fr = "";
+        courseObject.Benefits5Fr = "";
+        courseObject.Benefits6Fr = "";
+        courseObject.Benefits7Fr = "";
+        courseObject.Benefits8Fr = "";
+        courseObject.TitleFa = "";
+        courseObject.Benefits1Fa = "";
+        courseObject.Benefits2Fa = "";
+        courseObject.Benefits3Fa = "";
+        courseObject.Benefits4Fa = "";
+        courseObject.Benefits5Fa = "";
+        courseObject.Benefits6Fa = "";
+        courseObject.Benefits7Fa = "";
+        courseObject.Benefits8Fa = "";
+        courseObject.Agreement = "";
+        courseObject.AgreementFr = "";
+        courseObject.AgreementFa = "";
+        this.state.Color = "";
+        courseObject.Media = "";
+        courseObject.LanguageId = "";
+        // courseObject.Modifier = this.context.Username;
+        courseObject.ModificationDate = getDatetime();
+        courseObject.IsDeleted = false;
+        this.setState({ courseObject });
+        this.validator.hideMessages();
     }
+    onEdithandler = (list) => {
+        let courseObject = { ...this.state.courseObject };
+        courseObject.CourseId = list.CourseId;
+        courseObject.Title = list.Title;
+        courseObject.Benefits1 = list.Benefits1;
+        courseObject.Benefits2 = list.Benefits2;
+        courseObject.Benefits3 = list.Benefits3;
+        courseObject.Benefits4 = list.Benefits4;
+        courseObject.Benefits5 = list.Benefits5;
+        courseObject.Benefits6 = list.Benefits6;
+        courseObject.Benefits7 = list.Benefits7;
+        courseObject.Benefits8 = list.Benefits8;
+        courseObject.TitleFr = list.TitleFr;
+        courseObject.Benefits1Fr = list.Benefits1Fr;
+        courseObject.Benefits2Fr = list.Benefits2Fr;
+        courseObject.Benefits3Fr = list.Benefits3Fr;
+        courseObject.Benefits4Fr = list.Benefits4Fr;
+        courseObject.Benefits5Fr = list.Benefits5Fr;
+        courseObject.Benefits6Fr = list.Benefits6Fr;
+        courseObject.Benefits7Fr = list.Benefits7Fr;
+        courseObject.Benefits8Fr = list.Benefits8Fr;
+        courseObject.TitleFa = list.TitleFa;
+        courseObject.Benefits1Fa = list.Benefits1Fa;
+        courseObject.Benefits2Fa = list.Benefits2Fa;
+        courseObject.Benefits3Fa = list.Benefits3Fa;
+        courseObject.Benefits4Fa = list.Benefits4Fa;
+        courseObject.Benefits5Fa = list.Benefits5Fa;
+        courseObject.Benefits6Fa = list.Benefits6Fa;
+        courseObject.Benefits7Fa = list.Benefits7Fa;
+        courseObject.Benefits8Fa = list.Benefits8Fa;
+        courseObject.LanguageId = list.LanguageId;
+        courseObject.Color = list.Color;
+        courseObject.Media = list.Media;
+        // courseObject.Modifier = this.context.Username;
+        courseObject.ModificationDate = getDatetime();
+        courseObject.IsDeleted = list.IsDeleted;
+        this.setState({ courseObject });
+    }
+    handleUpload = (fileName) => {
+        let courseObject = { ...this.state.courseObject };
+        if (fileName !== "") {
+            courseObject.Media = fileName;
+            this.setState({ courseObject });
+        }
+    }
+    handleDropdownSelect = (e) => {
+        let languageId = e.target.value;
+        if (languageId === "0") {
+            return;
+        }
+        else {
 
+            this.getData(languageId);
+        }
+
+    }
+    handleLanguageSelect = (e) => {
+        let languageId = e.target.value;
+        if (languageId !== "0") {
+            let courseObject = { ...this.state.courseObject };
+            courseObject.LanguageId = languageId;
+            this.setState({ courseObject });
+        }
+
+    }
+    handleColorChange = (color, event) => {
+        let courseObject = { ...this.state.courseObject };
+        courseObject.Color = color.hex;
+        this.setState({ courseObject });
+    };
+    handleChange = e => {
+        let courseObject = { ...this.state.courseObject };
+        courseObject[e.currentTarget.name] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        this.setState({ courseObject });
+    }
+    setCurrentTime = () => {
+        let courseObject = { ...this.state.courseObject };
+        courseObject.ModificationDate = getDatetime();
+        this.setState({ courseObject });
+    }
     handleSubmit = () => {
+        const { courseObject, apiEndPoint } = this.state;
         if (this.validator.allValid()) {
             this.setCurrentTime();
-            axios.post(this.state.apiEndPoint + 'Teacher/Add', this.state.requestObject, {})
+            axios.post(apiEndPoint + 'Course/Add', courseObject, {})
                 .then(response => {
                     alert('You submitted the form and stuff!');
-                    this.validator.hideMessages();
                     this.onNewHandeler();
+                    this.getData(courseObject.LanguageId);
+                    this.validator.hideMessages();
                 })
                 .catch(function (error) {
-                    // alert('Something went wrong! try again');
-                    alert(error);
+                    alert('Something went wrong!');
                 })
         } else {
             this.validator.showMessages();
             this.forceUpdate();
         }
     }
-
-    // handleClickColor = () => {
-    //     this.setState({ displayColorPicker: !this.state.displayColorPicker })
-    // };
-
-    // handleCloseColor = () => {
-    //     this.setState({ displayColorPicker: false })
-    // };
-
     handleChangeColor = (e) => {
-        this.setState({ color: e.target.value })
+        this.setState({ Color: e.target.value })
     };
 
     render() {
-        const { requestObject, dropdownList, color, drop, LanguageId, TeacherName, id } = this.state;
-        // localStorage.getItem('lang')
-        const lang = 'en';
-
-        const setError = {
-            'fa': {
-                'language': 'انتخاب زبان',
-                'color': 'رنگ',
-                'picture': 'تصویر',
-                'session': 'هزینه هر جلسه',
-                'teacher': 'استاد مورد نظر'
-            },
-
-            'en': {
-                'language': 'Select Language',
-                'color': 'Color',
-                'picture': 'Image',
-                'session': 'Session Price',
-                'teacher': 'Teacher List'
-            },
-
-            'fr': {
-                'language': 'Choisir la langue',
-                'color': 'Couleur',
-                'picture': 'Image',
-                'session': 'Coût par séance',
-                'teacher' : 'Liste des enseignants'
-            }
-        }
-
-        // const styles = reactCSS({
-        //     'default': {
-        //         color: {
-        //             width: '36px',
-        //             height: '5px',
-        //             borderRadius: '2px',
-        //             background: color
-        //         },
-        //         swatch: {
-        //             padding: '5px',
-        //             background: '#fff',
-        //             borderRadius: '1px',
-        //             boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
-        //             display: 'inline-block',
-        //             cursor: 'pointer',
-        //         },
-        //         popover: {
-        //             position: 'absolute',
-        //             zIndex: '2',
-        //         },
-        //         cover: {
-        //             position: 'fixed',
-        //             top: '0px',
-        //             right: '0px',
-        //             bottom: '0px',
-        //             left: '0px',
-        //         },
-        //     },
-        // });
-        return (
-            <div className="m-0 p-0">
-                <Container fluid dir={lang === 'fa' ? 'rtl' : 'ltr'}>
-                    <Row className="mb-2">
-                        <Col xs="12" className={lang === 'fa' ? "text-right text-dark p-0" : "text-left text-dark p-0"} >
-                            <h2 className="text-primary">{this.getHeading(lang, "")[0]}</h2>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className={lang === 'fa' ? "text-right border  border-primary rounded p-3 overflow-auto w-100" : "text-left border  border-primary rounded p-3 overflow-auto w-100"}>
-                            <Row form>
-                                <Col xs={6}>
-                                    <Suspense fallback={<Spinner color="success" />}>
-                                        <div className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
-                                            <MyDropdown
-                                                label={this.getHeading(lang, "")[3]}
-                                                display={this.getHeading(lang, "")[3]}
-                                                dataList={dropdownList}
-                                                handleChange={this.handleDropdownSelectLanguage}
-                                                name="LanguageId"
-                                                selectedValue={LanguageId}
-                                                htmlFor="language"
-                                                width={window.innerWidth < 576 ? "w-100" : "w-25"}
-                                            />
-                                        </div>
-                                    </Suspense>
-                                    {this.validator.message(setError[lang]['language'], requestObject.TeachingCourses, 'required|max:95', { className: 'alert alert-danger' })}
-                                </Col>
-                                <Col xs={6}>
-                                    <Suspense fallback={<Spinner color="success" />}>
-                                        <div className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
-                                            <MyDropdown
-                                                label={this.getHeading(lang, "")[39]}
-                                                display={TeacherName}
-                                                dataList={drop}
-                                                handleChange={this.handleDropdownSelectTeacher}
-                                                name="TeacherName"
-                                                selectedValue={id}
-                                                htmlFor="TeacherName"
-                                                width={window.innerWidth < 576 ? "w-100" : "w-25"}
-                                            />
-                                        </div>
-                                    </Suspense>
-                                    {this.validator.message(setError[lang]['teacher'], requestObject.TeachingCourses, 'required|max:95', { className: 'alert alert-danger' })}
+        const { dataList, dataTitles, columnList, pageSize, filteredItem, dropdownList, courseObject, Color } = this.state;
+        return (<div>
+            <Container fluid className="table">
+                <Row className="mb-2">
+                    <Col xs="12" className="text-left text-dark p-0" >
+                        <h3 className="text-primary"> Course</h3>
+                    </Col>
+                </Row>
+                {/* <Row className="mb-4">
+                    <Col sm="12" md="6" lg="4" className="text-left m-0 p-0">
+                        <Suspense fallback={<Spinner color="success" />}>
+                            <MyDropdown
+                                label="Select Language to visit courses"
+                                dataList={dropdownList}
+                                handleChange={this.handleDropdownSelect}
+                                display="Select Language..."
+                                selectedValue={null}
+                                name="courseId"
+                                htmlFor="course"
+                                width={window.innerWidth < 576 ? "w-100" : "w-25"}
+                            />
+                        </Suspense>
+                    </Col>
+                </Row> */}
+                {/* <Row className="mb-4">
+                    <Col className="text-left m-0 p-0">
+                        <TableContent filter={filteredItem} dataList={dataList} dataTitles={dataTitles} columnList={columnList} onEdithandler={this.onEdithandler} pageSize={pageSize} />
+                    </Col>
+                </Row> */}
+                <Row className="text-left border border-primary p-3 rounded">
+                    <Col sm="12" md="12" >
+                        <Form>
+                            <Row>
+                                <Col xs="12">
+                                    <Button onClick={() => this.onNewHandeler()} className="btn btn-sm mb-3 ">New Course</Button>
                                 </Col>
                             </Row>
-                            <hr className="bg-warning" />
-                            <h5 className="text-primary font-weight-bold">{this.getHeading(lang, "")[2]}</h5>
-                            <Row form>
-                                <Col xs={12} lg={4} >
-                                    <FileUpload postMethod={'Teacher/UploadFile'} title={this.getHeading(lang, "")[10]} accept={['jpeg', 'jpg']} specifiedFileName="NoName" onUpload={this.onUpload} />
-                                    {this.validator.message(setError[lang]['picture'], requestObject.TeachingCourses, 'required|max:95', { className: 'alert alert-danger' })}
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="color" className='text-primary'>{this.getHeading(lang, "")[11]}</Label>
+                            <Row>
+                                <Col sm="12" md="6" >
+                                    <Form.Group>
+                                        <Form.Label htmlFor="color"><h6 className="text-primary mb-0 ml-1" >Course backgroung Color:</h6></Form.Label>
                                         <Row>
                                             <Col xs={2}>
-                                                <Input className='text-left' dir="ltr" type="color" id="color" name="Color" value={color}
+                                                <Input className='text-left' dir="ltr" type="color" id="color" name="b" value={Color}
                                                     onChange={this.handleChangeColor}
-                                                    placeholder={this.getHeading(lang, "")[12]}
                                                     style={{ width: 50 }}
                                                 />
                                             </Col>
                                             <Col xs={10}>
-                                                <Input type='text' style={{ color }} value={this.state.color} disabled />
+                                                <Input type='text' style={{ Color }} value={Color} disabled />
                                             </Col>
                                         </Row>
-
-                                        {/* <div style={styles.swatch} onClick={this.handleClickColor}>
-                                            <div style={styles.color} />
-                                        </div>
-                                        {this.state.displayColorPicker ? <div style={styles.popover}>
-                                            <div style={styles.cover} onClick={this.handleCloseColor} />
-                                            <SketchPicker color={color} onChange={this.handleChangeColor} />
-                                        </div> : null} */}
-                                    </FormGroup>
+                                        {this.validator.message('color', Color, 'required', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="agreement"><h6 className="text-primary mb-0 ml-1" >Agreement:</h6></Form.Label>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <Input className='text-left' dir="ltr" type="textarea" id="agreement" name="Agreement" value={courseObject.Agreement}
+                                                    onChange={this.handleChange}
+                                                    rows={5}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        {this.validator.message('Agreement', courseObject.Agreement, 'required', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="agreementfr"><h6 className="text-primary mb-0 ml-1" >Agreement (French):</h6></Form.Label>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <Input className='text-left' dir="ltr" type="textarea" id="agreementfr" name="AgreementFr" value={courseObject.AgreementFr}
+                                                    onChange={this.handleChange}
+                                                    rows={5}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        {this.validator.message('Agreement French', courseObject.AgreementFr, 'required', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="agreementfa"><h6 className="text-primary mb-0 ml-1" >Agreement (Farsi):</h6></Form.Label>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <Input className='text-left' dir="ltr" type="textarea" id="agreementfa" name="AgreementFa" value={courseObject.AgreementFa}
+                                                    onChange={this.handleChange}
+                                                    rows={4}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        {this.validator.message('Agreement Farsi', courseObject.AgreementFa, 'required', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                </Col>
+                                <Col sm="12" md="6">
+                                    <Suspense fallback={<Spinner color="success" />}>
+                                        <MyDropdown
+                                            label="Select Language to visit courses"
+                                            dataList={dropdownList}
+                                            handleChange={this.handleLanguageSelect}
+                                            display="Select Language..."
+                                            selectedValue={courseObject.LanguageId}
+                                        />
+                                        {this.validator.message('language', courseObject.LanguageId, 'required', { className: 'alert alert-danger' })}
+                                    </Suspense>
+                                    {/* <Col xs={6}>
+                                        <Suspense fallback={<Spinner color="success" />}>
+                                            <div className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
+                                                <MyDropdown
+                                                    label={this.getHeading(lang, "")[39]}
+                                                    display={TeacherName}
+                                                    dataList={drop}
+                                                    handleChange={this.handleDropdownSelectTeacher}
+                                                    name="TeacherName"
+                                                    selectedValue={id}
+                                                    htmlFor="TeacherName"
+                                                    width={window.innerWidth < 576 ? "w-100" : "w-25"}
+                                                />
+                                            </div>
+                                        </Suspense>
+                                        {this.validator.message(setError[lang]['teacher'], requestObject.TeachingCourses, 'required|max:95', { className: 'alert alert-danger' })}
+                                    </Col> */}
+                                    {/* <Form.Group>
+                                        <Form.Label htmlFor="modifier"><h6 className="text-primary mb-0 ml-1" >Modefier:</h6></Form.Label>
+                                        <Form.Label htmlFor="modificationDate" className="border rounded border-secondary d-block p-2">{courseObject.Modifier}</Form.Label>
+                                    </Form.Group> */}
+                                    <Form.Group>
+                                        <Form.Label htmlFor="modificationDate"><h6 className="text-primary mb-0 ml-1" >Modefication Date:</h6></Form.Label>
+                                        <Form.Label htmlFor="modificationDate" className="border rounded border-dark d-block p-2">{courseObject.ModificationDate}</Form.Label>
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="title"><h6 className="text-primary mb-0 ml-1" >Course Title (English):</h6></Form.Label>
+                                        <Form.Control id="title" name="Title" type="text" placeholder="Enter Course Title" value={courseObject.Title} onChange={this.handleChange} />
+                                        {this.validator.message('title', courseObject.Title, 'required|max:100', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="titlefr"><h6 className="text-primary mb-0 ml-1" >Course Title (French):</h6></Form.Label>
+                                        <Form.Control id="titlefr" name="TitleFr" type="text" placeholder="Enter Course Title (French)" value={courseObject.TitleFr} onChange={this.handleChange} />
+                                        {this.validator.message('title french', courseObject.TitleFr, 'required|max:100', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="titlefa"><h6 className="text-primary mb-0 ml-1" >Course Title (Farsi):</h6></Form.Label>
+                                        <Form.Control id="titlefa" name="TitleFa" type="text" dir="rtl" placeholder="عنوان دوره" value={courseObject.TitleFa} onChange={this.handleChange} />
+                                        {this.validator.message('title farsi', courseObject.TitleFa, 'required|max:100', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <FileUpload postMethod={'Course/UploadFile'} title="Photo(jpeg.jpg)" accept={['jpg', 'jpeg']} specifiedFileName="NoName" onUpload={this.handleUpload} />
+                                    {this.validator.message('video or image', courseObject.Media, 'required|min:1', { className: 'alert alert-danger' })}
+                                    <Form.Group>
+                                        {courseObject.CourseId !== "" && <h6 className="text-primary mb-0 ml-1" ><Form.Check inline name="IsDeleted" label="Is Deleted?" checked={courseObject.IsDeleted} onChange={this.handleChange} /></h6>}
+                                    </Form.Group>
                                 </Col>
                             </Row>
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="sessionprice" className='text-primary'>{this.getHeading(lang, "")[4]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="sessionprice" name="SessionPrice" value={requestObject.SessionPrice} onChange={this.handleChange} />
-                                    </FormGroup>
-                                    {this.validator.message(setError[lang]['session'], requestObject.TeachingCourses, 'required|max:95', { className: 'alert alert-danger' })}
+                            <Row>
+                                <Col sm="12" md="4">
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits1"><h6 className="text-primary mb-0 ml-1" >Course Benefits 1:</h6></Form.Label>
+                                        <Form.Control id="benefits1" name="Benefits1" type="text" placeholder="Enter Course Benefits 1" value={courseObject.Benefits1} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 1', courseObject.Benefits1, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits2"><h6 className="text-primary mb-0 ml-1" >Course Benefits 2:</h6></Form.Label>
+                                        <Form.Control id="benefits2" name="Benefits2" type="text" placeholder="Enter Course Benefits 2" value={courseObject.Benefits2} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 2', courseObject.Benefits2, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits3"><h6 className="text-primary mb-0 ml-1" >Course Benefits 3:</h6></Form.Label>
+                                        <Form.Control id="benefits3" name="Benefits3" type="text" placeholder="Enter Course Benefits 3" value={courseObject.Benefits3} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 3', courseObject.Benefits3, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits4"><h6 className="text-primary mb-0 ml-1" >Course Benefits 4:</h6></Form.Label>
+                                        <Form.Control id="benefits4" name="Benefits4" type="text" placeholder="Enter Course Benefits 4" value={courseObject.Benefits4} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 4', courseObject.Benefits4, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits5"><h6 className="text-primary mb-0 ml-1" >Course Benefits 5:</h6></Form.Label>
+                                        <Form.Control id="benefits5" name="Benefits5" type="text" placeholder="Enter Course Benefits 5" value={courseObject.Benefits5} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 5', courseObject.Benefits5, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits6"><h6 className="text-primary mb-0 ml-1" >Course Benefits 6:</h6></Form.Label>
+                                        <Form.Control id="benefits6" name="Benefits6" type="text" placeholder="Enter Course Benefits 6" value={courseObject.Benefits6} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 6', courseObject.Benefits6, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits7"><h6 className="text-primary mb-0 ml-1" >Course Benefits 7:</h6></Form.Label>
+                                        <Form.Control id="benefits7" name="Benefits7" type="text" placeholder="Enter Course Benefits 7" value={courseObject.Benefits7} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 7', courseObject.Benefits7, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits8"><h6 className="text-primary mb-0 ml-1" >Course Benefits 8:</h6></Form.Label>
+                                        <Form.Control id="benefits8" name="Benefits8" type="text" placeholder="Enter Course Benefits 8" value={courseObject.Benefits8} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 8', courseObject.Benefits8, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
                                 </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="sessionpricefa" className='text-primary'>{this.getHeading(lang, "")[5]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="sessionpricefa" name="SessionPriceFa" value={requestObject.SessionPriceFa} onChange={this.handleChange} placeholder={this.getHeading(lang, "")[8]} />
-                                    </FormGroup>
+                                <Col sm="12" md="4">
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits1fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 1 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits1fr" name="Benefits1Fr" type="text" placeholder="Enter Course Benefits 1" value={courseObject.Benefits1Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 1 french', courseObject.Benefits1Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits2fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 2 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits2fr" name="Benefits2Fr" type="text" placeholder="Enter Course Benefits 2" value={courseObject.Benefits2Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 2 french', courseObject.Benefits2Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits3fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 3 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits3fr" name="Benefits3Fr" type="text" placeholder="Enter Course Benefits 3" value={courseObject.Benefits3Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 3 french', courseObject.Benefits3Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits4fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 4 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits4fr" name="Benefits4Fr" type="text" placeholder="Enter Course Benefits 4" value={courseObject.Benefits4Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 4 french', courseObject.Benefits4Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits5fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 5 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits5fr" name="Benefits5Fr" type="text" placeholder="Enter Course Benefits 5" value={courseObject.Benefits5Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 5 french', courseObject.Benefits5Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits6fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 6 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits6fr" name="Benefits6Fr" type="text" placeholder="Enter Course Benefits 6" value={courseObject.Benefits6Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 6 french', courseObject.Benefits6Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits7fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 7 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits7fr" name="Benefits7Fr" type="text" placeholder="Enter Course Benefits 7" value={courseObject.Benefits7Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 7 french', courseObject.Benefits7Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits8fr"><h6 className="text-primary mb-0 ml-1" >Course Benefits 8 (French):</h6></Form.Label>
+                                        <Form.Control id="benefits8fr" name="Benefits8Fr" type="text" placeholder="Enter Course Benefits 8" value={courseObject.Benefits8Fr} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 8 french', courseObject.Benefits8Fr, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
                                 </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="sessionpricefr" className='text-primary'>{this.getHeading(lang, "")[6]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="sessionpricefr" name="SessionPriceFr" value={requestObject.SessionPriceFr} onChange={this.handleChange} placeholder={this.getHeading(lang, "")[9]} />
-                                    </FormGroup>
+                                <Col sm="12" md="4">
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits1fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 1 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits1fa" name="Benefits1Fa" type="text" dir="rtl" placeholder="مزیت 1" value={courseObject.Benefits1Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 1 farsi', courseObject.Benefits1Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits2fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 2 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits2fa" name="Benefits2Fa" type="text" dir="rtl" placeholder="مزیت 2" value={courseObject.Benefits2Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 2 farsi', courseObject.Benefits2Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits3fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 3 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits3fa" name="Benefits3Fa" type="text" dir="rtl" placeholder="مزیت 3" value={courseObject.Benefits3Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 3 farsi', courseObject.Benefits3Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits4fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 4 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits4fa" name="Benefits4Fa" type="text" dir="rtl" placeholder="مزیت 4" value={courseObject.Benefits4Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 4 farsi', courseObject.Benefits4Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits5fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 5 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits5fa" name="Benefits5Fa" type="text" dir="rtl" placeholder="مزیت 5" value={courseObject.Benefits5Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 5 farsi', courseObject.Benefits5Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits6fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 6 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits6fa" name="Benefits6Fa" type="text" dir="rtl" placeholder="مزیت 6" value={courseObject.Benefits6Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 6 farsi', courseObject.Benefits6Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits7fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 7 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits7fa" name="Benefits7Fa" type="text" dir="rtl" placeholder="مزیت 7" value={courseObject.Benefits7Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 7 farsi', courseObject.Benefits7Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label htmlFor="benefits8fa"><h6 className="text-primary mb-0 ml-1" >Course Benefits 8 (Farsi):</h6></Form.Label>
+                                        <Form.Control id="benefits8fa" name="Benefits8Fa" type="text" dir="rtl" placeholder="مزیت 8" value={courseObject.Benefits8Fa} onChange={this.handleChange} />
+                                        {this.validator.message('course benefits 8 farsi', courseObject.Benefits8Fa, 'required|max:150', { className: 'alert alert-danger' })}
+                                    </Form.Group>
                                 </Col>
+
                             </Row>
-                            <hr className="bg-warning" />
+                            <Button className="btn btn-sm float-right" onClick={this.handleSubmit} >Submit Course</Button>
+                        </Form>
+                    </Col >
 
-                            <h5 className="text-primary font-weight-bold">{this.getHeading(lang, "")[13]}</h5>
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M1_en" className='text-primary'>{this.getHeading(lang, "")[14]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M1_en" name="M1_en" value={requestObject.M1_en} onChange={this.handleChange} />
-                                    </FormGroup>
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M1_fa" className='text-primary'>{this.getHeading(lang, "")[15]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M1_fa" name="M1_fa" value={requestObject.M1_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M1_fr" className='text-primary'>{this.getHeading(lang, "")[16]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M1_fr" name="M1_fr" value={requestObject.M1_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M2_en" className='text-primary'>{this.getHeading(lang, "")[17]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M2_en" name="M2_en" value={requestObject.M2_en} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M2_fa" className='text-primary'>{this.getHeading(lang, "")[18]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M2_fa" name="M2_fa" value={requestObject.M2_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M2_fr" className='text-primary'>{this.getHeading(lang, "")[19]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M2_fr" name="SesM2_frsionPrice" value={requestObject.M2_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                            </Row>
-
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M3_en" className='text-primary'>{this.getHeading(lang, "")[20]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M3_en" name="M3_en" value={requestObject.M3_en} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M3_fa" className='text-primary'>{this.getHeading(lang, "")[21]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M3_fa" name="M3_fa" value={requestObject.M3_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M3_fr" className='text-primary'>{this.getHeading(lang, "")[22]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M3_fr" name="M3_fr" value={requestObject.M3_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                            </Row>
-
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M4_en" className='text-primary'>{this.getHeading(lang, "")[23]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M4_en" name="M4_en" value={requestObject.M4_en} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M4_fa" className='text-primary'>{this.getHeading(lang, "")[24]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M4_fa" name="M4_fa" value={requestObject.M4_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M4_fr" className='text-primary'>{this.getHeading(lang, "")[25]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="seM4_frssionprice" name="M4_fr" value={requestObject.M4_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                            </Row>
-
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M5_en" className='text-primary'>{this.getHeading(lang, "")[26]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M5_en" name="M5_en" value={requestObject.M5_en} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M5_fa" className='text-primary'>{this.getHeading(lang, "")[27]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M5_fa" name="M5_fa" value={requestObject.M5_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M5_fr" className='text-primary'>{this.getHeading(lang, "")[28]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M5_fr" name="M5_fr" value={requestObject.M5_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                            </Row>
-
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M6_en" className='text-primary'>{this.getHeading(lang, "")[29]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M6_en" name="M6_en" value={requestObject.M6_en} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M6_fa" className='text-primary'>{this.getHeading(lang, "")[30]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M6_fa" name="M6_fa" value={requestObject.M6_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M6_fr" className='text-primary'>{this.getHeading(lang, "")[31]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M6_fr" name="M6_fr" value={requestObject.M6_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                            </Row>
-
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M7_en" className='text-primary'>{this.getHeading(lang, "")[32]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M7_en" name="M7_en" value={requestObject.M7_en} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M7_fa" className='text-primary'>{this.getHeading(lang, "")[33]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M7_fa" name="M7_fa" value={requestObject.M7_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M7_fr" className='text-primary'>{this.getHeading(lang, "")[34]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M7_fr" name="M7_fr" value={requestObject.M7_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                            </Row>
-
-                            <Row form>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M8_en" className='text-primary'>{this.getHeading(lang, "")[35]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M8_en" name="M8_en" value={requestObject.M8_en} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M8_fa" className='text-primary'>{this.getHeading(lang, "")[36]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M8_fa" name="M8_fa" value={requestObject.M8_fa} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for="M8_fr" className='text-primary'>{this.getHeading(lang, "")[37]}</Label>
-                                        <Input className='text-left' dir="ltr" type="text" id="M8_fr" name="M8_fr" value={requestObject.M8_fr} onChange={this.handleChange} />
-                                    </FormGroup>
-
-                                </Col>
-                            </Row>
-                            <Button className={lang === 'fa' ? "btn btn-sm float-left" : "btn btn-sm float-right"} onClick={this.handleSubmit} >{this.getHeading(lang, "")[38]}</Button>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-        )
+                </Row>
+            </Container>
+        </div>);
     }
 }
 
-export default CourseRegistration;
+export default CourseRegistration; 

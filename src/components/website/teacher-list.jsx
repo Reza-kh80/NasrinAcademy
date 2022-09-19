@@ -100,7 +100,7 @@ class TeacherList extends Component {
       heading.push("Cours Disponibles");
       heading.push("Select language for teachers");
       heading.push("Select Language...");
-    } else {
+    } else if (lang === 'fa') {
       heading.push(item.NameFa);
       heading.push(item.CoursesDescriptionFa);
       heading.push(item.TeachingLevelFa);
@@ -114,6 +114,20 @@ class TeacherList extends Component {
       heading.push("دوره ها و ثبت نام");
       heading.push("زبان آموزشی را نتخاب کنید");
       heading.push("انتخاب زبان");
+    } else {
+      heading.push(item.NameFa);
+      heading.push(item.CoursesDescriptionFa);
+      heading.push(item.TeachingLevelFa);
+      heading.push(item.TeachingAgeLevelFa);
+      heading.push("الدورات");
+      heading.push("مستوى المعلم");
+      heading.push("المستوى العمري");
+      heading.push("سنوات الخبرة");
+      heading.push("سعر الجلسة");
+      heading.push("نظرة عامة");
+      heading.push("الدورات المتاحة");
+      heading.push("اختر لغة للمعلمين");
+      heading.push("اختر اللغة ...");
     }
     heading.push(item.ExperienceYear);
     heading.push(item.SessionPrice);
@@ -166,7 +180,7 @@ class TeacherList extends Component {
         <Row>
           <Col xs="12" md="6" lg="4" className="m-0">
             <Suspense fallback={<Spinner color="success" />}>
-              <div className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
+              <div className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-0" : "m-0 p-0"}>
                 <MyDropdown
                   label={this.getHeading(lang, "")[11]}
                   display={this.getHeading(lang, "")[12]}
@@ -188,9 +202,9 @@ class TeacherList extends Component {
               xs="12"
               lg="7"
               xl="4"
-              dir={lang === "fa" ? "rtl" : "ltr"}
+              dir={lang === "fa" || lang === 'ar' ? "rtl" : "ltr"}
               className={
-                lang === "fa" ? "text-right p-0 m-0" : "text-left p-0 m-0"
+                lang === "fa" || lang === 'ar' ? "text-right p-0 m-0" : "text-left p-0 m-0"
               }
             >
               <Card className="m-2">
@@ -254,7 +268,7 @@ class TeacherList extends Component {
                 <CardFooter className="text-muted">
                   <Button
                     className={
-                      lang === "fa"
+                      lang === "fa" || lang === 'ar'
                         ? "btn btn-xs float-right"
                         : "btn btn-xs float-left"
                     }
@@ -269,7 +283,7 @@ class TeacherList extends Component {
                   </Button>
                   <Button
                     className={
-                      lang === "fa"
+                      lang === "fa" || lang === 'ar'
                         ? "btn btn-xs float-left"
                         : "btn btn-xs float-right"
                     }

@@ -90,12 +90,12 @@ function TeacherCourse(props) {
                         <Col xs="2" className="text-center">
                             <img src="main-images/logo-circle.webp" width="100%" height="100%" alt="logo" />
                         </Col>
-                        <Col xs="10" dir={lang === "fa" ? "rtl" : "ltr"}>
+                        <Col xs="10" dir={lang === "fa" || lang === 'ar' ? "rtl" : "ltr"}>
                             <Modal.Title id="example-modal-sizes-title-lg" className="h4 font-weight-bold text-white">{title}</Modal.Title>
                         </Col>
                     </Row>
                 </Modal.Header>
-                <Modal.Body dir={lang === 'en' ? "ltr" : "rtl"}>
+                <Modal.Body dir={lang === 'en' || lang === 'ar' ? "ltr" : "rtl"}>
                     <TableContent filter={filteredItem} placeholder={lang === 'en' ? "Search course Name" : "جستجو با عنوان دوره"} dataList={dataList} dataTitles={dataTitles} columnList={columnList} onEdithandler={handleShowRegister} pageSize={pageSize} />
                 </Modal.Body>
             </Modal>

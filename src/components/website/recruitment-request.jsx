@@ -11,8 +11,12 @@ const MyDropdown = React.lazy(() => import('../general/dropdown'));
 class RecruitmentRequest extends Component {
     constructor(props) {
         super(props);
-
-        this.validator = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+        
+        if (localStorage.getItem('lang') === 'ar') {
+            this.validator = new SimpleReactValidator({ locale: 'fa' });
+        } else {
+            this.validator = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+        }
 
         this.state = {
             mediaEndMoint: process.env.REACT_APP_MediaEndPoint,

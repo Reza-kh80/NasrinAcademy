@@ -43,14 +43,17 @@ function Certificates() {
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs="12" md={6} lg='6' className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2 text-center" : "m-0 p-2 text-center"}>
-                                <Card style={{ width: '30rem' }}>
+                            <Col xs="12" className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2 text-center" : "m-0 p-2 text-center"}
+                                style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", alignItems: "stretch", alignContent: "stretch" }}
+                            >
+                                {/* <Card style={{ width: '25rem' }}>
                                     <Card.Img src="main-images/Certificates.jpeg" />
                                 </Card>
-                            </Col>
-                            <Col xs="12" md={6} lg='6' className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-2 text-center" : "m-0 p-2 text-center"}>
-                                <Card style={{ width: '30rem' }}>
+                                <Card style={{ width: '25rem' }}>
                                     <Card.Img src="main-images/Certificates1.jpg" />
+                                </Card> */}
+                                <Card style={{ width: '25rem' }}>
+                                    <Card.Img src="main-images/Certificates2.jpg" />
                                 </Card>
                             </Col>
                         </Row>

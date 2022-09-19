@@ -4,11 +4,17 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { Helmet } from "react-helmet";
 import SimpleReactValidator from 'simple-react-validator';
+import 'simple-react-validator/dist/locale/fa';
+import 'simple-react-validator/dist/locale/fr';
 
 class Contacts extends Component {
     constructor(props) {
         super(props);
-        this.validator = new SimpleReactValidator();
+        if (localStorage.getItem('lang') === 'ar') {
+            this.validator = new SimpleReactValidator({ locale: 'fa' });
+        } else {
+            this.validator = new SimpleReactValidator({ locale: localStorage.getItem('lang') });
+        }
         this.state = {
             contactObject: [],
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
@@ -60,9 +66,9 @@ class Contacts extends Component {
         if (lang === 'en') {
             heading.push(item.Title)
             heading.push(item.Description)
-            heading.push("Full Name")
             heading.push("Contact Details")
             heading.push("Send Email")
+            heading.push("Full Name")
             heading.push("Your Email Address")
             heading.push("Subject")
             heading.push("Message")
@@ -72,8 +78,8 @@ class Contacts extends Component {
             heading.push(item.TitleFr)
             heading.push(item.DescriptionFr)
             heading.push("Contactez les moyens")
-            heading.push("Nom Complet")
             heading.push("Envoyer Email")
+            heading.push("Nom Complet")
             heading.push("Votre Adresse Email")
             heading.push("Matière")
             heading.push("Message")
@@ -85,7 +91,7 @@ class Contacts extends Component {
             heading.push("راههای تماس")
             heading.push("ارسال ایمیل")
             heading.push("نام و نام خانوادگی")
-            heading.push("آدرس آیمیل حود را وارد نمایید")
+            heading.push("آدرس آیمیل خود را وارد نمایید")
             heading.push("عنوان ایمیل")
             heading.push("پیام خود را وارد نمایید")
             heading.push("ارسال")
@@ -93,9 +99,9 @@ class Contacts extends Component {
         else {
             heading.push(item.TitleFa)
             heading.push(item.DescriptionFa)
-            heading.push("الاسم الكامل")
             heading.push("بيانات المتصل")
             heading.push("ارسل بريد الكتروني")
+            heading.push("الاسم الكامل")
             heading.push("عنوان بريدك  الإلكتروني")
             heading.push("موضوعات")
             heading.push("رسالة")
@@ -106,6 +112,36 @@ class Contacts extends Component {
     render() {
         const { contactObject, emailObject, description } = this.state;
         const lang = localStorage.getItem('lang');
+        const setError = {
+            en: {
+                'Name': 'name',
+                'Email': 'email',
+                'Subject': 'subject',
+                'Message': 'message'
+            },
+
+            ar: {
+                'Name': 'اسم',
+                'Email': 'البريد الإلكتروني',
+                'Subject': 'موضوعات',
+                'Message': 'رسالة'
+            },
+
+            fr: {
+                'Name': 'Nom',
+                'Email': 'e-mail',
+                'Subject': 'matière',
+                'Message': 'message'
+            },
+
+            fa: {
+                'Name': 'نام',
+                'Email': 'ایمیل',
+                'Subject': 'موضوع',
+                'Message': 'پیام'
+            }
+
+        }
         return (
             <div className="p-0 m-0" >
                 <Helmet>
@@ -150,22 +186,22 @@ class Contacts extends Component {
                                 <Form.Group>
                                     <Form.Label htmlFor="fullname"><h6 className="text-primary mb-0 ml-1 mt-3" >{this.getHeading(lang, contactObject)[4]}:</h6></Form.Label>
                                     <Form.Control id="fullname" name="fullName" type="text" placeholder={this.getHeading(lang, contactObject)[4]} value={emailObject.fullName} onChange={this.handelChange} />
-                                    {this.validator.message('full name', emailObject.fullName, 'required|max:50', { className: 'alert alert-danger' })}
+                                    {this.validator.message(setError[lang]['Name'], emailObject.fullName, 'required|max:50', { className: 'alert alert-danger' })}
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label htmlFor="sender"><h6 className="text-primary mb-0 ml-1" >{this.getHeading(lang, contactObject)[5]}:</h6></Form.Label>
                                     <Form.Control id="sender" name="sender" type="text" placeholder={this.getHeading(lang, contactObject)[5]} value={emailObject.sender} onChange={this.handelChange} />
-                                    {this.validator.message('email', emailObject.sender, 'required|email', { className: 'alert alert-danger' })}
+                                    {this.validator.message(setError[lang]['Email'], emailObject.sender, 'required|email', { className: 'alert alert-danger' })}
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label htmlFor="subject"><h6 className="text-primary mb-0 ml-1" >{this.getHeading(lang, contactObject)[6]}:</h6></Form.Label>
                                     <Form.Control id="subject" name="subject" type="text" placeholder={this.getHeading(lang, contactObject)[6]} value={emailObject.subject} onChange={this.handelChange} />
-                                    {this.validator.message('subject', emailObject.subject, 'required|max:100', { className: 'alert alert-danger' })}
+                                    {this.validator.message(setError[lang]['Subject'], emailObject.subject, 'required|max:100', { className: 'alert alert-danger' })}
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label htmlFor="message"><h6 className="text-primary mb-0 ml-1" >{this.getHeading(lang, contactObject)[7]}:</h6></Form.Label>
                                     <Form.Control id="message" name="message" as="textarea" placeholder={this.getHeading(lang, contactObject)[7]} rows={8} value={emailObject.message} onChange={this.handelChange} />
-                                    {this.validator.message('message', emailObject.message, 'required|max:1000', { className: 'alert alert-danger' })}
+                                    {this.validator.message(setError[lang]['Message'], emailObject.message, 'required|max:1000', { className: 'alert alert-danger' })}
                                 </Form.Group>
                                 <div className={lang === "fa" ? "text-left m-0 p-0" : "text-right m-0 p-0"}>
                                     <Button className="btn btn-xs" onClick={this.handelSubmit} >{this.getHeading(lang, contactObject)[8]}</Button>

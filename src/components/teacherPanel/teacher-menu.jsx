@@ -97,9 +97,9 @@ const TeacherMenu = (props) => {
                                     <NavItem>
                                         <Link className="custom-link" to="/teacher/plan">Plan</Link>
                                     </NavItem>
-                                    <NavItem>
+                                    {/* <NavItem>
                                         <Link className="custom-link" to="/teacher/resume">Resume</Link>
-                                    </NavItem>
+                                    </NavItem> */}
                                     {/* <NavItem>
                                         <Link className="custom-link" to="/teacher/teacher-course">Dean Course</Link>
                                     </NavItem> */}

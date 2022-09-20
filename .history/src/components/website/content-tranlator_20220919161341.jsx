@@ -2,7 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Container, Row, Col, Spinner } from 'reactstrap';
 import axios from 'axios';
 import { Helmet } from "react-helmet";
-const TranslaterList = React.lazy(() => import('./translater-list'));
+const TeacherList = React.lazy(() => import('./teacher-list'));
 class TranslatorOutlook extends Component {
     constructor(props) {
         super(props);
@@ -69,7 +69,7 @@ class TranslatorOutlook extends Component {
                     <Row >
                         <Col xs="12">
                             <Suspense fallback={<Spinner color="success" />}>
-                                <TranslaterList />
+                                <TeacherList />
                             </Suspense>
                         </Col>
                     </Row>

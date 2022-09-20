@@ -108,6 +108,20 @@ class Register extends Component {
 
     handleSubmit = () => {
         const { apiEndPoint, userObject } = this.state;
+        // let data = {};
+        // data = {
+        //     NameFa: userObject.Namefa,
+        //     Name: userObject.Nameen,
+        //     NameFr: userObject.Namefr,
+        //     Email: userObject.Email,
+        //     Password: userObject.Password,
+        //     Mobile: userObject.Mobile,
+        //     NationalCode: userObject.NationalCode,
+        //     RoleId: parseInt(userObject.post),
+        //     Modifier: userObject.Email,
+        //     ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+        //     IsDeleted: 0
+        // }
 
         if (this.validator.allValid()) {
             var data = JSON.stringify({
@@ -167,7 +181,6 @@ class Register extends Component {
                 type.push('Teacher');
                 type.push('Student');
                 type.push('Carrying out translation activities:')
-                type.push('Username:');
             }
 
             if (lang === 'fr') {
@@ -182,7 +195,6 @@ class Register extends Component {
                 type.push('Professeure');
                 type.push('étudiante');
                 type.push("Réalisation d'activités de traduction:")
-                type.push('Username:');
             }
 
             if (lang === 'fa') {
@@ -197,7 +209,6 @@ class Register extends Component {
                 type.push('استاد');
                 type.push('دانشجو');
                 type.push('انجام فعالیت های ترجمه:');
-                type.push('نام کاربری :');
             }
 
             if (lang === 'ar') {
@@ -212,7 +223,6 @@ class Register extends Component {
                 type.push('أستاذ');
                 type.push('طالب جامعي');
                 type.push('القيام بأنشطة الترجمة:');
-                type.push('نام کاربری :');
             }
             return type;
         }
@@ -410,20 +420,13 @@ class Register extends Component {
                                                 </Col>
                                                 <Col xs={12} md={4}>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Username" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[11]}</h6></Form.Label>
-                                                        <Form.Control id="Username" name="Username" type="text" value={userObject.Username} onChange={this.handelChange} />
-                                                        {this.validator.message(setError[lang]['Username'], userObject.Username, 'required', { className: 'alert alert-danger' })}
-                                                    </Form.Group>
-                                                </Col>
-                                            </Row>
-                                            <Row form>
-                                                <Col xs={12} md={4}>
-                                                    <Form.Group>
                                                         <Form.Label htmlFor="Password" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[6]}</h6></Form.Label>
                                                         <Form.Control id="Password" name="Password" type="password" value={userObject.Password} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Password'], userObject.Password, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>
                                                 </Col>
+                                            </Row>
+                                            <Row form>
                                                 <Col xs={12} md={4}>
                                                     {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
                                                     <Form.Group>

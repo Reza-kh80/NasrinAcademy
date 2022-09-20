@@ -410,7 +410,7 @@ class Register extends Component {
                                                 </Col>
                                                 <Col xs={12} md={4}>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="Username" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[11]}</h6></Form.Label>
+                                                        <Form.Label htmlFor="Username" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[10]}</h6></Form.Label>
                                                         <Form.Control id="Username" name="Username" type="text" value={userObject.Username} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Username'], userObject.Username, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>

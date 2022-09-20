@@ -135,7 +135,7 @@ class Register extends Component {
                 Modifier: userObject.Email,
                 ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                 IsDeleted: 0,
-                Translater: userObject.translator
+                Translator: userObject.translator
             });
 
             var config = {

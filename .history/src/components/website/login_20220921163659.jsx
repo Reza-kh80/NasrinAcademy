@@ -48,7 +48,6 @@ class Login extends Component {
     }
 
     handleLogin = (user, token) => {
-        console.log("useruseruser",user);
         localStorage.setItem('token', token)
         localStorage.setItem('UserId', user.UserId)
 
@@ -67,6 +66,7 @@ class Login extends Component {
         } else if (user.IsAuthorized === true && user.RoleName === 'Student' && this.state.key === 'student') {
             this.props.onHide();
             window.location = "#/student";
+
         } else {
             this.setState({ errorMessage: "Sorry, information does not mach your profile" })
         }
@@ -94,7 +94,8 @@ class Login extends Component {
                     Password: userObject.Password
                 }
             }).then(response => {
-                const user = jwt_decode(response.data.Token);
+                console.log(response.data)
+                const user = jwt_decode(response.data);
                 this.handleLogin(user, response.data.Token);
             }
             )

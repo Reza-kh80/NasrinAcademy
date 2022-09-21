@@ -94,7 +94,7 @@ class Login extends Component {
                     Password: userObject.Password
                 }
             }).then(response => {
-                const user = jwt_decode(response.data.Token);
+                const user = response.data;
                 this.handleLogin(user, response.data.Token);
             }
             )

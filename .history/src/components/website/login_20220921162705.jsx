@@ -48,25 +48,28 @@ class Login extends Component {
     }
 
     handleLogin = (user, token) => {
-        console.log("useruseruser",user);
-        localStorage.setItem('token', token)
-        localStorage.setItem('UserId', user.UserId)
+        // console.log(user);
 
         if (user.IsAuthorized === true && user.RoleName === 'Admin' && this.state.key === 'teacher') {
+            localStorage.setItem('token', token)
             this.props.onHide();
             window.location = "#/dashboard";
 
         } else if (user.IsAuthorized === true && user.RoleName === 'Dean' && this.state.key === 'teacher') {
+            localStorage.setItem('token', token)
             this.props.onHide();
             window.location = "#/dean";
 
         } else if (user.IsAuthorized === true && user.RoleName === 'Teacher' && this.state.key === 'teacher') {
+            localStorage.setItem('token', token)
             this.props.onHide();
             window.location = "#/teacher";
 
         } else if (user.IsAuthorized === true && user.RoleName === 'Student' && this.state.key === 'student') {
+            localStorage.setItem('token', token)
             this.props.onHide();
             window.location = "#/student";
+
         } else {
             this.setState({ errorMessage: "Sorry, information does not mach your profile" })
         }
@@ -94,7 +97,8 @@ class Login extends Component {
                     Password: userObject.Password
                 }
             }).then(response => {
-                const user = jwt_decode(response.data.Token);
+                console.log(response.data)
+                const user = jwt_decode(response.data);
                 this.handleLogin(user, response.data.Token);
             }
             )

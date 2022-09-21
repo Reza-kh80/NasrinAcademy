@@ -48,7 +48,6 @@ class Login extends Component {
     }
 
     handleLogin = (user, token) => {
-        console.log("useruseruser",user);
         localStorage.setItem('token', token)
         localStorage.setItem('UserId', user.UserId)
 
@@ -94,7 +93,7 @@ class Login extends Component {
                     Password: userObject.Password
                 }
             }).then(response => {
-                const user = jwt_decode(response.data.Token);
+                const user = jwt_decode(response.data);
                 this.handleLogin(user, response.data.Token);
             }
             )

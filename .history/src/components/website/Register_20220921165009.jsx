@@ -32,8 +32,7 @@ class Register extends Component {
                 Mobile: '',
                 NationalCode: '',
                 post: '',
-                translator: false,
-                LanguageId:1
+                translator: false
             },
             // token: "",
             errorMessage: '',
@@ -144,13 +143,12 @@ class Register extends Component {
                 Modifier: userObject.Email,
                 ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                 IsDeleted: 0,
-                Translater: userObject.translator,
-                LanguageId:userObject.LanguageId
+                Translater: userObject.translator
             });
 
             var config = {
                 method: 'post',
-                url: 'https://test.nasrinacademy.com/api/User/AddNewUser',
+                url: 'https://test.nasrinacademy.com/api/User/Add',
                 headers: {
                     'Content-Type': 'application/json'
                 },

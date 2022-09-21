@@ -150,7 +150,7 @@ class Register extends Component {
 
             var config = {
                 method: 'post',
-                url: 'https://test.nasrinacademy.com/api/User/AddNewUser',
+                url: 'https://test.nasrinacademy.com/api/User/Add',
                 headers: {
                     'Content-Type': 'application/json'
                 },

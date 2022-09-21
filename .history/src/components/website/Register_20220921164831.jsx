@@ -32,8 +32,7 @@ class Register extends Component {
                 Mobile: '',
                 NationalCode: '',
                 post: '',
-                translator: false,
-                LanguageId:1
+                translator: false
             },
             // token: "",
             errorMessage: '',
@@ -144,13 +143,12 @@ class Register extends Component {
                 Modifier: userObject.Email,
                 ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                 IsDeleted: 0,
-                Translater: userObject.translator,
-                LanguageId:userObject.LanguageId
+                Translater: userObject.translator
             });
 
             var config = {
                 method: 'post',
-                url: 'https://test.nasrinacademy.com/api/User/AddNewUser',
+                url: 'https://test.nasrinacademy.com/api/User/Add',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -481,12 +479,12 @@ class Register extends Component {
                                                     />
                                                     {/* {this.validator.message(setError[lang]['Translator'], userObject.translator, 'required', { className: 'alert alert-danger' })} */}
                                                 </Col>
-                                                <Col xs={12} md={6} className="m-0">
+                                                {/* <Col xs={12} md={6} className="m-0">
                                                     <Suspense fallback={<Spinner color="success" />}>
                                                         <div className={lang === "fa" || lang === 'ar' ? "text-right m-0 p-0" : "m-0 p-0"}>
                                                             <MyDropdown
-                                                            label="انتخاب زبان"
-                                                            display="انتخاب زبان"
+                                                            label={this.getHeading(lang, "")[11]}
+                                                            display={this.getHeading(lang, "")[12]}
                                                             dataList={dropdownList}
                                                             handleChange={this.handleDropdownSelect}
                                                             name="language"
@@ -496,7 +494,7 @@ class Register extends Component {
                                                             />
                                                         </div>
                                                     </Suspense>
-                                                </Col>
+                                                </Col> */}
                                                 
                                             </Row>
                                         </Col>

@@ -38,7 +38,7 @@ class Register extends Component {
             },
             // token: "",
             errorMessage: '',
-            languageId: 1,
+            languageId: "",
             dropdownList: [],
             teacher: '3',
             student: '2',
@@ -70,14 +70,26 @@ class Register extends Component {
     };
 
     handleDropdownSelect = (e) => {
-        e.persist();
-        let languageId = e.target.value;
-        this.setState({ languageId: parseInt(languageId) });
-
+                e.persist();
         let userObject = this.state.userObject;
-        userObject[e.target.name] = parseInt(e.target.value);
+        userObject[e.target.name] = e.target.value;
         this.setState({ userObject });
         this.setState({ errorMessage: "" })
+console.log(this.state.userObject);
+        // let languageId = e.target.value;
+        // this.setState({ languageId: languageId });
+
+        // var index = e.nativeEvent.target.selectedIndex;
+        // let languageName = e.nativeEvent.target[index].text;
+        // if (languageId === "") {
+        // this.setState({ languageId: "" });
+        // this.setState({ languageName: "" });
+        // return;
+        // } else {
+        // this.getTeacher(languageId);
+        // this.setState({ languageId: languageId });
+        // this.setState({ languageName: languageName });
+        // }
     };
 
     componentDidUpdate(prevState) {
@@ -136,11 +148,11 @@ class Register extends Component {
                 NameFr: userObject.Namefr,
                 Email: userObject.Email,
                 Password: userObject.Password,
-                Phone: userObject.Mobile,
+                Mobile: userObject.Mobile,
                 NationalCode: userObject.NationalCode,
                 RoleId: parseInt(userObject.post),
                 Modifier: userObject.Email,
-                ModificationDate: new Date().toISOString(),
+                ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                 IsDeleted: 0,
                 Translater: userObject.translator,
                 LanguageId:userObject.LanguageId
@@ -157,7 +169,7 @@ class Register extends Component {
 
             axios(config)
                 .then((response) => {
-                    this.props.onHide()
+                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -172,6 +184,7 @@ class Register extends Component {
     render() {
         const { userObject, errorMessage,dropdownList,languageId } = this.state;
         const lang = localStorage.getItem('lang');
+
 
         const getTitle = (lang) => {
             let type = []
@@ -340,6 +353,7 @@ class Register extends Component {
         }
 
         return (
+
             <div>
                 <Modal
                     {...this.props}

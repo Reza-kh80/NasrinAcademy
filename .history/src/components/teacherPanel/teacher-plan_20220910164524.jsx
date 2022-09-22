@@ -156,9 +156,8 @@ class TeacherPlan extends Component {
         if (this.validator.allValid()) {
             axios({
                 method: 'post',
-                url: this.state.apiEndPoint + 'Calender/Add',
+                url: this.state.apiEndPoint + 'Calender/AddCalender',
                 data: {
-                    UserId:parseInt(localStorage.getItem('UserId')),
                     SaturdayAM: requestObject.fromSaturdayBefor + " - " + requestObject.untilSaturdayBefor,
                     SaturdayPM: requestObject.fromSaturdayAfter + " - " + requestObject.untilSaturdayAfter,
                     SundayAM: requestObject.fromSundayBefor + " - " + requestObject.untilSundayBefor,

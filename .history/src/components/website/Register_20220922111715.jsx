@@ -173,6 +173,7 @@ class Register extends Component {
         const { userObject, errorMessage,dropdownList,languageId } = this.state;
         const lang = localStorage.getItem('lang');
 
+
         const getTitle = (lang) => {
             let type = []
             if (lang === 'en') {
@@ -340,6 +341,7 @@ class Register extends Component {
         }
 
         return (
+
             <div>
                 <Modal
                     {...this.props}

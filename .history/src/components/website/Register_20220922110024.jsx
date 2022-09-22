@@ -11,7 +11,6 @@ import 'simple-react-validator/dist/locale/fr';
 const MyDropdown = React.lazy(() => import("../general/dropdown"));
 
 class Register extends Component {
-
     constructor(props) {
         super(props);
         if (localStorage.getItem('lang') === 'ar') {
@@ -38,7 +37,7 @@ class Register extends Component {
             },
             // token: "",
             errorMessage: '',
-            languageId: 1,
+            languageId: "",
             dropdownList: [],
             teacher: '3',
             student: '2',
@@ -67,17 +66,6 @@ class Register extends Component {
             );
             this.setState({ dropdownList });
         });
-    };
-
-    handleDropdownSelect = (e) => {
-        e.persist();
-        let languageId = e.target.value;
-        this.setState({ languageId: parseInt(languageId) });
-
-        let userObject = this.state.userObject;
-        userObject[e.target.name] = parseInt(e.target.value);
-        this.setState({ userObject });
-        this.setState({ errorMessage: "" })
     };
 
     componentDidUpdate(prevState) {
@@ -117,6 +105,7 @@ class Register extends Component {
         userObject[e.target.name] = e.target.value;
         this.setState({ userObject });
         this.setState({ errorMessage: "" })
+        console.log(this.state.userObject);
     }
 
     handleCheckBox = (e) => {
@@ -136,11 +125,11 @@ class Register extends Component {
                 NameFr: userObject.Namefr,
                 Email: userObject.Email,
                 Password: userObject.Password,
-                Phone: userObject.Mobile,
+                Mobile: userObject.Mobile,
                 NationalCode: userObject.NationalCode,
                 RoleId: parseInt(userObject.post),
                 Modifier: userObject.Email,
-                ModificationDate: new Date().toISOString(),
+                ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                 IsDeleted: 0,
                 Translater: userObject.translator,
                 LanguageId:userObject.LanguageId
@@ -157,7 +146,7 @@ class Register extends Component {
 
             axios(config)
                 .then((response) => {
-                    this.props.onHide()
+                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -172,6 +161,7 @@ class Register extends Component {
     render() {
         const { userObject, errorMessage,dropdownList,languageId } = this.state;
         const lang = localStorage.getItem('lang');
+
 
         const getTitle = (lang) => {
             let type = []
@@ -340,6 +330,7 @@ class Register extends Component {
         }
 
         return (
+
             <div>
                 <Modal
                     {...this.props}
@@ -485,12 +476,11 @@ class Register extends Component {
                                                             display="انتخاب زبان"
                                                             dataList={dropdownList}
                                                             handleChange={this.handleDropdownSelect}
-                                                            name="LanguageId"
+                                                            name="language"
                                                             selectedValue={languageId}
-                                                            htmlFor="LanguageId"
+                                                            htmlFor="language"
                                                             width={window.innerWidth < 576 ? "w-100" : "w-25"}
-                                                                // onChange={this.handlehandelChange}
-                                                                // value={userObject.LanguageId}
+                                                            onChange={this.handlehandelChange}
                                                             />
                                                         </div>
                                                     </Suspense>

@@ -136,11 +136,11 @@ class Register extends Component {
                 NameFr: userObject.Namefr,
                 Email: userObject.Email,
                 Password: userObject.Password,
-                Phone: userObject.Mobile,
+                Mobile: userObject.Mobile,
                 NationalCode: userObject.NationalCode,
                 RoleId: parseInt(userObject.post),
                 Modifier: userObject.Email,
-                ModificationDate: new Date().toISOString(),
+                ModificationDate: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
                 IsDeleted: 0,
                 Translater: userObject.translator,
                 LanguageId:userObject.LanguageId
@@ -157,7 +157,7 @@ class Register extends Component {
 
             axios(config)
                 .then((response) => {
-                    this.props.onHide()
+                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -172,6 +172,7 @@ class Register extends Component {
     render() {
         const { userObject, errorMessage,dropdownList,languageId } = this.state;
         const lang = localStorage.getItem('lang');
+
 
         const getTitle = (lang) => {
             let type = []
@@ -340,6 +341,7 @@ class Register extends Component {
         }
 
         return (
+
             <div>
                 <Modal
                     {...this.props}

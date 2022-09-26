@@ -9,7 +9,7 @@ const MyDropdown = React.lazy(() => import('../general/dropdown'));
 const TableContent = React.lazy(() => import('../general/table'));
 const FileUpload = React.lazy(() => import('../general/fileUpload'));
 
-class CourseRegistration extends Component {
+class TeacherCourse extends Component {
     static contextType = UserContext;
     constructor(props) {
         super(props);
@@ -18,7 +18,7 @@ class CourseRegistration extends Component {
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
             dropdownList: [],
             courseObject: {
-                // CourseId: "",
+                CourseId: "",
                 Title: "",
                 Benefits1: "",
                 Benefits2: "",
@@ -50,7 +50,7 @@ class CourseRegistration extends Component {
                 AgreementFa: "",
                 AgreementFr: "",
                 Media: "",
-                LanguageId: 1,
+                LanguageId: "",
                 Modifier: "",
                 ModificationDate: getDatetime(),
                 IsDeleted: false,
@@ -133,7 +133,7 @@ class CourseRegistration extends Component {
     }
     onNewHandeler() {
         const courseObject = { ...this.state.courseObject };
-        // courseObject.CourseId = "";
+        courseObject.CourseId = "";
         courseObject.Title = "";
         courseObject.Benefits1 = "";
         courseObject.Benefits2 = "";
@@ -166,8 +166,8 @@ class CourseRegistration extends Component {
         courseObject.AgreementFa = "";
         this.state.Color = "";
         courseObject.Media = "";
-        courseObject.LanguageId = 1;
-        // courseObject.Modifier = this.context.Username;
+        courseObject.LanguageId = "";
+        courseObject.Modifier = this.context.Username;
         courseObject.ModificationDate = getDatetime();
         courseObject.IsDeleted = false;
         this.setState({ courseObject });
@@ -175,7 +175,7 @@ class CourseRegistration extends Component {
     }
     onEdithandler = (list) => {
         let courseObject = { ...this.state.courseObject };
-        // courseObject.CourseId = list.CourseId;
+        courseObject.CourseId = list.CourseId;
         courseObject.Title = list.Title;
         courseObject.Benefits1 = list.Benefits1;
         courseObject.Benefits2 = list.Benefits2;
@@ -203,10 +203,10 @@ class CourseRegistration extends Component {
         courseObject.Benefits6Fa = list.Benefits6Fa;
         courseObject.Benefits7Fa = list.Benefits7Fa;
         courseObject.Benefits8Fa = list.Benefits8Fa;
-        courseObject.LanguageId = parseInt(list.LanguageId);
+        courseObject.LanguageId = list.LanguageId;
         courseObject.Color = list.Color;
         courseObject.Media = list.Media;
-        // courseObject.Modifier = this.context.Username;
+        courseObject.Modifier = this.context.Username;
         courseObject.ModificationDate = getDatetime();
         courseObject.IsDeleted = list.IsDeleted;
         this.setState({ courseObject });
@@ -231,11 +231,12 @@ class CourseRegistration extends Component {
     }
     handleLanguageSelect = (e) => {
         let languageId = e.target.value;
-        // if (languageId !== "0") {
+        if (languageId !== "0") {
             let courseObject = { ...this.state.courseObject };
-            courseObject.LanguageId = parseInt(languageId);
-            this.setState({ courseObject:courseObject });
-        // }
+            courseObject.LanguageId = languageId;
+            this.setState({ courseObject });
+        }
+
     }
     handleColorChange = (color, event) => {
         let courseObject = { ...this.state.courseObject };
@@ -256,7 +257,6 @@ class CourseRegistration extends Component {
         const { courseObject, apiEndPoint } = this.state;
         if (this.validator.allValid()) {
             this.setCurrentTime();
-            courseObject.Color = this.state.Color;
             axios.post(apiEndPoint + 'Course/Add', courseObject, {})
                 .then(response => {
                     alert('You submitted the form and stuff!');
@@ -274,8 +274,8 @@ class CourseRegistration extends Component {
     }
     handleChangeColor = (e) => {
         this.setState({ Color: e.target.value })
+        console.log(this.state.Color);
     };
-
     render() {
         const { dataList, dataTitles, columnList, pageSize, filteredItem, dropdownList, courseObject, Color } = this.state;
         return (<div>
@@ -285,7 +285,7 @@ class CourseRegistration extends Component {
                         <h3 className="text-primary"> Course</h3>
                     </Col>
                 </Row>
-                {/* <Row className="mb-4">
+                <Row className="mb-4">
                     <Col sm="12" md="6" lg="4" className="text-left m-0 p-0">
                         <Suspense fallback={<Spinner color="success" />}>
                             <MyDropdown
@@ -300,12 +300,12 @@ class CourseRegistration extends Component {
                             />
                         </Suspense>
                     </Col>
-                </Row> */}
-                {/* <Row className="mb-4">
+                </Row>
+                <Row className="mb-4">
                     <Col className="text-left m-0 p-0">
                         <TableContent filter={filteredItem} dataList={dataList} dataTitles={dataTitles} columnList={columnList} onEdithandler={this.onEdithandler} pageSize={pageSize} />
                     </Col>
-                </Row> */}
+                </Row>
                 <Row className="text-left border border-primary p-3 rounded">
                     <Col sm="12" md="12" >
                         <Form>
@@ -379,27 +379,10 @@ class CourseRegistration extends Component {
                                         />
                                         {this.validator.message('language', courseObject.LanguageId, 'required', { className: 'alert alert-danger' })}
                                     </Suspense>
-                                    {/* <Col xs={6}>
-                                        <Suspense fallback={<Spinner color="success" />}>
-                                            <div className={lang === "fa" ? "text-right m-0 p-0" : "m-0 p-0"}>
-                                                <MyDropdown
-                                                    label={this.getHeading(lang, "")[39]}
-                                                    display={TeacherName}
-                                                    dataList={drop}
-                                                    handleChange={this.handleDropdownSelectTeacher}
-                                                    name="TeacherName"
-                                                    selectedValue={id}
-                                                    htmlFor="TeacherName"
-                                                    width={window.innerWidth < 576 ? "w-100" : "w-25"}
-                                                />
-                                            </div>
-                                        </Suspense>
-                                        {this.validator.message(setError[lang]['teacher'], requestObject.TeachingCourses, 'required|max:95', { className: 'alert alert-danger' })}
-                                    </Col> */}
-                                    {/* <Form.Group>
+                                    <Form.Group>
                                         <Form.Label htmlFor="modifier"><h6 className="text-primary mb-0 ml-1" >Modefier:</h6></Form.Label>
                                         <Form.Label htmlFor="modificationDate" className="border rounded border-secondary d-block p-2">{courseObject.Modifier}</Form.Label>
-                                    </Form.Group> */}
+                                    </Form.Group>
                                     <Form.Group>
                                         <Form.Label htmlFor="modificationDate"><h6 className="text-primary mb-0 ml-1" >Modefication Date:</h6></Form.Label>
                                         <Form.Label htmlFor="modificationDate" className="border rounded border-dark d-block p-2">{courseObject.ModificationDate}</Form.Label>
@@ -564,5 +547,4 @@ class CourseRegistration extends Component {
         </div>);
     }
 }
-
-export default CourseRegistration; 
+export default TeacherCourse;

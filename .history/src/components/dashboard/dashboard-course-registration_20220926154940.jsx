@@ -18,7 +18,7 @@ class CourseRegistration extends Component {
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
             dropdownList: [],
             courseObject: {
-                // CourseId: "",
+                CourseId: "",
                 Title: "",
                 Benefits1: "",
                 Benefits2: "",
@@ -50,7 +50,7 @@ class CourseRegistration extends Component {
                 AgreementFa: "",
                 AgreementFr: "",
                 Media: "",
-                LanguageId: 1,
+                LanguageId: "",
                 Modifier: "",
                 ModificationDate: getDatetime(),
                 IsDeleted: false,
@@ -133,7 +133,7 @@ class CourseRegistration extends Component {
     }
     onNewHandeler() {
         const courseObject = { ...this.state.courseObject };
-        // courseObject.CourseId = "";
+        courseObject.CourseId = "";
         courseObject.Title = "";
         courseObject.Benefits1 = "";
         courseObject.Benefits2 = "";
@@ -166,7 +166,7 @@ class CourseRegistration extends Component {
         courseObject.AgreementFa = "";
         this.state.Color = "";
         courseObject.Media = "";
-        courseObject.LanguageId = 1;
+        courseObject.LanguageId = "";
         // courseObject.Modifier = this.context.Username;
         courseObject.ModificationDate = getDatetime();
         courseObject.IsDeleted = false;
@@ -175,7 +175,7 @@ class CourseRegistration extends Component {
     }
     onEdithandler = (list) => {
         let courseObject = { ...this.state.courseObject };
-        // courseObject.CourseId = list.CourseId;
+        courseObject.CourseId = list.CourseId;
         courseObject.Title = list.Title;
         courseObject.Benefits1 = list.Benefits1;
         courseObject.Benefits2 = list.Benefits2;
@@ -203,7 +203,7 @@ class CourseRegistration extends Component {
         courseObject.Benefits6Fa = list.Benefits6Fa;
         courseObject.Benefits7Fa = list.Benefits7Fa;
         courseObject.Benefits8Fa = list.Benefits8Fa;
-        courseObject.LanguageId = parseInt(list.LanguageId);
+        courseObject.LanguageId = list.LanguageId;
         courseObject.Color = list.Color;
         courseObject.Media = list.Media;
         // courseObject.Modifier = this.context.Username;
@@ -231,11 +231,12 @@ class CourseRegistration extends Component {
     }
     handleLanguageSelect = (e) => {
         let languageId = e.target.value;
-        // if (languageId !== "0") {
+        if (languageId !== "0") {
             let courseObject = { ...this.state.courseObject };
-            courseObject.LanguageId = parseInt(languageId);
-            this.setState({ courseObject:courseObject });
-        // }
+            courseObject.LanguageId = languageId;
+            this.setState({ courseObject });
+        }
+
     }
     handleColorChange = (color, event) => {
         let courseObject = { ...this.state.courseObject };
@@ -256,7 +257,6 @@ class CourseRegistration extends Component {
         const { courseObject, apiEndPoint } = this.state;
         if (this.validator.allValid()) {
             this.setCurrentTime();
-            courseObject.Color = this.state.Color;
             axios.post(apiEndPoint + 'Course/Add', courseObject, {})
                 .then(response => {
                     alert('You submitted the form and stuff!');
@@ -319,6 +319,7 @@ class CourseRegistration extends Component {
                                     <Form.Group>
                                         <Form.Label htmlFor="color"><h6 className="text-primary mb-0 ml-1" >Course backgroung Color:</h6></Form.Label>
                                         <Row>
+                                            {console.log("aaa")}
                                             <Col xs={2}>
                                                 <Input className='text-left' dir="ltr" type="color" id="color" name="b" value={Color}
                                                     onChange={this.handleChangeColor}

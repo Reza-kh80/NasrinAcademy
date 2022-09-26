@@ -18,7 +18,7 @@ class CourseRegistration extends Component {
             apiEndPoint: process.env.REACT_APP_APIEndPoint,
             dropdownList: [],
             courseObject: {
-                // CourseId: "",
+                CourseId: "",
                 Title: "",
                 Benefits1: "",
                 Benefits2: "",
@@ -50,7 +50,7 @@ class CourseRegistration extends Component {
                 AgreementFa: "",
                 AgreementFr: "",
                 Media: "",
-                LanguageId: 1,
+                LanguageId: "",
                 Modifier: "",
                 ModificationDate: getDatetime(),
                 IsDeleted: false,
@@ -133,7 +133,7 @@ class CourseRegistration extends Component {
     }
     onNewHandeler() {
         const courseObject = { ...this.state.courseObject };
-        // courseObject.CourseId = "";
+        courseObject.CourseId = "";
         courseObject.Title = "";
         courseObject.Benefits1 = "";
         courseObject.Benefits2 = "";
@@ -166,7 +166,7 @@ class CourseRegistration extends Component {
         courseObject.AgreementFa = "";
         this.state.Color = "";
         courseObject.Media = "";
-        courseObject.LanguageId = 1;
+        courseObject.LanguageId = "";
         // courseObject.Modifier = this.context.Username;
         courseObject.ModificationDate = getDatetime();
         courseObject.IsDeleted = false;
@@ -231,11 +231,12 @@ class CourseRegistration extends Component {
     }
     handleLanguageSelect = (e) => {
         let languageId = e.target.value;
-        // if (languageId !== "0") {
+        if (languageId !== "0") {
             let courseObject = { ...this.state.courseObject };
-            courseObject.LanguageId = parseInt(languageId);
-            this.setState({ courseObject:courseObject });
-        // }
+            courseObject.LanguageId = languageId;
+            this.setState({ courseObject });
+        }
+
     }
     handleColorChange = (color, event) => {
         let courseObject = { ...this.state.courseObject };

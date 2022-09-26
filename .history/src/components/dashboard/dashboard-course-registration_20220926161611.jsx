@@ -234,7 +234,8 @@ class CourseRegistration extends Component {
         // if (languageId !== "0") {
             let courseObject = { ...this.state.courseObject };
             courseObject.LanguageId = parseInt(languageId);
-            this.setState({ courseObject:courseObject });
+            console.log(courseObject);
+            this.setState({ courseObject });
         // }
     }
     handleColorChange = (color, event) => {

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, FormGroup, Label } from 'reactstrap';
 import axios from 'axios';
-import { useLocation, useHistory, Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const Footer = (props) => {
-    let location = useLocation();
     const [description, setDescription] = useState('');
     const [aboutList, setAboutList] = useState([]);
 
@@ -36,7 +35,6 @@ const Footer = (props) => {
         { id: 7, Title: "Certificates", path: "/certificates" },
         { id: 8, Title: "Shop", path: "/shop" },
         { id: 9, Title: "Online Class", path: "/shop" },
-        { id: 10, Title: "Dictionary", path: "/dictionary" },
         // { id: 2, Title: "About Us", path: "/about" },
         // { id: 3, Title: "Contact", path: "/contact" },
     ]
@@ -50,7 +48,6 @@ const Footer = (props) => {
         { id: 7, Title: "گواهی نامه ها", path: "/certificates" },
         { id: 8, Title: "فروشگاه", path: "/shop" },
         { id: 9, Title: "کلاس مجازی", path: "/shop" },
-        { id: 10, Title: "دیکشنری", path: "/dictionary" },
         // { id: 2, Title: " درباره ما ", path: "/about" },
         // { id: 3, Title: " تماس با ما ", path: "/contact" },
     ]
@@ -64,7 +61,6 @@ const Footer = (props) => {
         { id: 7, Title: "Certificats", path: "/certificates" },
         { id: 8, Title: "Magasin", path: "/shop" },
         { id: 9, Title: "Online Class", path: "/shop" },
-        { id: 10, Title: "dictionnaire", path: "/dictionary" },
         // { id: 2, Title: "À propos de nous", path: "/about" },
         // { id: 3, Title: "Contact", path: "/contact" },
     ]
@@ -78,22 +74,9 @@ const Footer = (props) => {
         { id: 7, Title: "الشهادات", path: "/certificates" },
         { id: 8, Title: "محل", path: "/shop" },
         { id: 9, Title: "فئة افتراضية", path: "/shop" },
-        { id: 10, Title: "قاموس", path: "/dictionary" },
         // { id: 2, Title: "معلومات عنا", path: "/about" },
         // { id: 3, Title: "اتصال", path: "/contact" },
     ]
-
-    function renderitem(item) {
-        if (item.id===8) {
-            return <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-        } else if (item.id===9) {
-            return <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-        }  else if (item.id===10) {
-            return <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://dictionary.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-        } else {
-            return <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
-        }
-    }
 
     const getTitle = (lang, item) => {
         let heading = [];
@@ -167,24 +150,35 @@ const Footer = (props) => {
                         <h4 className="text-white mb-4" style={{ fontWeight: 'bold' }}>{getTitle(lang, '')[0]}</h4>
                         {lang === 'en'
                             ? menu_Items.map(item =>
-                                renderitem(item)
+                                item.id === 8
+                                    ? <a key={item.id} href={'https://shop.nasrinacademy.com/'} className='text-white' target='blank'>{item.Title}</a> :
+                                    9
+                                    ? <a key={item.id} href={'https://class.nasrinacademy.com/'} className='text-white' target='blank'>{item.Title}</a>
+                                    : <Link key={item.id} to={item.path} replace className='text-white'>{item.Title}</Link>
                             )
                             :
                             
                             lang === 'fr'
                                 ?
                                 menu_Items_Fr.map(item =>
-                                    renderitem(item)
+                                    item.id === 8
+                                        ? <a key={item.id} href={'https://shop.nasrinacademy.com/'} className='text-white' target='blank'>{item.Title}</a> :
+                                        9? <a key={item.id} href={'https://shop.nasrinacademy.com/'} className='text-white' target='blank'>{item.Title}</a>
+                                        : <Link key={item.id} to={item.path} replace className='text-white'>{item.Title}</Link>
                                 )
                                 :
                                 lang === 'fa'
                                     ?
                                     menu_Items_Fa.map(item =>
-                                        renderitem(item)
+                                        item.id === 8
+                                            ? <a key={item.id} href={'https://shop.nasrinacademy.com/'} className='text-white' target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} to={item.path} replace className='text-white'>{item.Title}</Link>
                                     )
                                     :
                                     menu_Items_Ar.map(item =>
-                                        renderitem(item)
+                                        item.id === 8
+                                            ? <a key={item.id} href={'https://shop.nasrinacademy.com/'} className='text-white' target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} to={item.path} replace className='text-white'>{item.Title}</Link>
                                     )}
                     </ul>
                 </Col>

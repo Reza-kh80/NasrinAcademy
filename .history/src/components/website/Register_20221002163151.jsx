@@ -150,7 +150,7 @@ class Register extends Component {
 
             var config = {
                 method: 'post',
-                url: 'https://nasrinacademy.com/api/User/AddNewUser',
+                url: 'https://test.nasrinacademy.com/api/User/AddNewUser',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -447,14 +447,14 @@ class Register extends Component {
                                                 </Col>
                                             </Row>
                                             <Row form>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={12} md={4}>
                                                     <Form.Group>
                                                         <Form.Label htmlFor="Password" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[6]}</h6></Form.Label>
                                                         <Form.Control id="Password" name="Password" type="password" value={userObject.Password} onChange={this.handelChange} />
                                                         {this.validator.message(setError[lang]['Password'], userObject.Password, 'required', { className: 'alert alert-danger' })}
                                                     </Form.Group>
                                                 </Col>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={12} md={4}>
                                                     {errorMessage !== '' && <div className="alert alert-danger">{errorMessage}</div>}
                                                     <Form.Group>
                                                         <Form.Label htmlFor="NationalCode" className='mt-2' style={{ float: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}><h6 className="text-primary mb-0 ml-1">{getTitle(lang)[5]}</h6></Form.Label>

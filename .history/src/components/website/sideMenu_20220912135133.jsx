@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory, Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-
 function SideMenu() {
-    let location = useLocation();
     const apiEndPoint = process.env.REACT_APP_APIEndPoint;
     const [menuList, setMenuList] = useState([]);
     const [articleList, setArticleList] = useState([]);
@@ -63,10 +61,8 @@ function SideMenu() {
         { id: 6, Title: "Teacher registration", path: "/recruitment" },
         { id: 7, Title: "Certificates", path: "/certificates" },
         { id: 8, Title: "Shop", path: "/shop" },
-        { id: 9, Title: "Online Class", path: "/onlineclass" },
         { id: 2, Title: "About Us", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
-        { id: 10, Title: "Dictionary", path: "/dictionary" },
     ]
     const menu_Items_Fa = [
         { id: 1, Title: " خانه ", path: "/" },
@@ -75,10 +71,8 @@ function SideMenu() {
         { id: 6, Title: "ثبت نام مدرس", path: "/recruitment" },
         { id: 7, Title: "گواهی نامه ها", path: "/certificates" },
         { id: 8, Title: "فروشگاه", path: "/shop" },
-        { id: 9, Title: "کلاس مجازی", path: "/onlineclass" },
         { id: 2, Title: " درباره ما ", path: "/about" },
         { id: 3, Title: " تماس با ما ", path: "/contact" },
-        { id: 10, Title: "دیکشنری", path: "/dictionary" },
     ]
     const menu_Items_Fr = [
         { id: 1, Title: "Accueil", path: "/" },
@@ -87,10 +81,8 @@ function SideMenu() {
         { id: 6, Title: "Inscription des enseignants", path: "/recruitment" },
         { id: 7, Title: "Certificats", path: "/certificates" },
         { id: 8, Title: "Magasin", path: "/shop" },
-        { id: 9, Title: "Online Class", path: "/onlineclass" },
         { id: 2, Title: "À propos de nous", path: "/about" },
         { id: 3, Title: "Contact", path: "/contact" },
-        { id: 10, Title: "dictionnaire", path: "/dictionary" },
     ]
     const menu_Items_Ar = [
         { id: 1, Title: "مسكن", path: "/" },
@@ -99,30 +91,9 @@ function SideMenu() {
         { id: 6, Title: "تسجيل المعلم", path: "/recruitment" },
         { id: 7, Title: "الشهادات", path: "/certificates" },
         { id: 8, Title: "محل", path: "/shop" },
-        { id: 9, Title: "فئة افتراضية", path: "/onlineclass" },
         { id: 2, Title: "معلومات عنا", path: "/about" },
         { id: 3, Title: "اتصال", path: "/contact" },
-        { id: 10, Title: "قاموس", path: "/dictionary" },
     ]
-
-    function renderitem(item) {
-        if (item.id===8) {
-            return <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
-                                        <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-                                    </Accordion.Toggle>
-        } else if (item.id===9) {
-            return <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
-                                        <a key={item.id} className="text-white" href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-                                    </Accordion.Toggle>
-        }  else if (item.id===10) {
-            return <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://dictionary.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-        } else {
-            return  <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
-                                        <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
-                                    </Accordion.Toggle>
-        }
-    }
-
     const getHeadingBody = (item) => {
         let heading = []
         if (lang === 'en') {
@@ -180,18 +151,50 @@ function SideMenu() {
                     <Card className="bg-transparent" >
                         {lang === 'en' ?
                             menu_Items.map(item =>
-                                renderitem(item)
+                                item.id === 8
+                                    ?
+                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
+                                        <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                    </Accordion.Toggle>
+                                    :
+                                    <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left" >
+                                        <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                    </Accordion.Toggle>
                             ) :
                             lang === 'fr' ?
                                 menu_Items_Fr.map(item =>
-                                    renderitem(item)
+                                    item.id === 8
+                                        ?
+                                        <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left">
+                                            <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                        </Accordion.Toggle>
+                                        :
+                                        <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-left">
+                                            <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                        </Accordion.Toggle>
                                 ) :
                                 lang === 'fa' ?
                                     menu_Items_Fa.map(item =>
-                                        renderitem(item)
+                                        item.id === 8
+                                            ?
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            </Accordion.Toggle>
+                                            :
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                            </Accordion.Toggle>
                                     ) :
                                     menu_Items_Ar.map(item =>
-                                        renderitem(item)
+                                        item.id === 8
+                                            ?
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <a key={item.id} className="text-white" href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            </Accordion.Toggle>
+                                            :
+                                            <Accordion.Toggle as={Card.Header} className="cursor-pointer m-0 p-1 text-right">
+                                                <Link key={item.id} className="text-white" to={item.path} replace>{item.Title}</Link>
+                                            </Accordion.Toggle>
                                     )}
                     </Card>
                 }

@@ -71,7 +71,6 @@ const Menu = (props) => {
         // { id: 2, Title: "معلومات عنا", path: "/about" },
         // { id: 3, Title: "اتصال", path: "/contact" },
     ]
-
     function setLanguage(lang) {
         localStorage.setItem('lang', lang);
         history.push(location.pathname);
@@ -98,7 +97,10 @@ const Menu = (props) => {
                             <Col xs="12" md="12" className="m-0 p-0 align-items-center" >
                                 <ButtonGroup aria-label="p-0 m-0">
                                     {menu_Items.map(item =>
-                                        renderitem(item)
+                                        item.id ===
+                                            8 ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>:
+                                            9? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
                                 <button className="btn   d-inline ml-1  float-right" onClick={() => setRegister(true)}>Register</button>
@@ -130,7 +132,10 @@ const Menu = (props) => {
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center" >
                                     <ButtonGroup aria-label="p-0 m-0">
                                         {menu_Items.map(item =>
-                                            renderitem(item)
+                                            item.id === 8
+                                                ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a> :
+                                                9? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                                : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                         )}
                                     </ButtonGroup>
                                 </Col>
@@ -174,7 +179,10 @@ const Menu = (props) => {
                             <Col xs="12" md="12" className="m-0 p-0 align-items-center d-table" >
                                 <ButtonGroup aria-label="Basic example">
                                     {menu_Items_Fr.map(item =>
-                                        renderitem(item)
+                                        item.id === 8
+                                            ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>:
+                                            9? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
                                 <button className="btn  d-inline ml-1  float-right" onClick={() => setRegister(true)}>S'inscrire</button>
@@ -206,7 +214,10 @@ const Menu = (props) => {
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center d-table" >
                                     <ButtonGroup aria-label="Basic example">
                                         {menu_Items_Fr.map(item =>
-                                            renderitem(item)
+                                            item.id === 8
+                                                ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a> :
+                                                9? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                                : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                         )}
                                     </ButtonGroup>
                                 </Col>
@@ -281,7 +292,10 @@ const Menu = (props) => {
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center"  >
                                     <ButtonGroup aria-label="Basic example"  >
                                         {menu_Items_Fa.reverse().map(item =>
-                                            renderitem(item)
+                                            item.id === 8
+                                                ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a> :
+                                                9? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                                : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                         )}
                                     </ButtonGroup>
                                 </Col>
@@ -323,7 +337,10 @@ const Menu = (props) => {
                             <Col xs="12" md="12" className="m-0 p-0 align-items-center"  >
                                 <ButtonGroup aria-label="Basic example"  >
                                     {menu_Items_Ar.reverse().map(item =>
-                                        renderitem(item)
+                                        item.id === 8
+                                            ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a> :
+                                            9? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                            : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                     )}
                                 </ButtonGroup>
                                 <button className="btn d-inline mr-1  float-left" onClick={() => setRegister(true)}>يسجل</button>
@@ -355,7 +372,10 @@ const Menu = (props) => {
                                 <Col xs="12" md="12" className="m-0 p-0 align-items-center"  >
                                     <ButtonGroup aria-label="Basic example"  >
                                         {menu_Items_Ar.reverse().map(item =>
-                                            renderitem(item)
+                                            item.id === 8
+                                                ? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a> :
+                                                9? <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
+                                                : <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>
                                         )}
                                     </ButtonGroup>
                                 </Col>

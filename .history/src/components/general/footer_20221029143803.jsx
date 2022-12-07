@@ -162,8 +162,7 @@ const Footer = (props) => {
                 <Col sm="6" md="3" className="text-center">
                     <img id='nbqergvjjzpefukzfukzjxlz' className='cursor-pointer' onClick={newWindow} alt='logo-samandehi' src='https://logo.samandehi.ir/logo.aspx?id=237661&p=odrfqftiyndtwlbqwlbqnbpd' />
                 </Col> */}
-
-                {/* <Col xs={12} sm={12} md={3} dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
+                <Col xs={12} sm={12} md={3} dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                     <ul style={{ display: "flex", flexDirection: "column", flexWrap: "nowrap", justifyContent: "center", alignItems: "baseline", alignContent: "stretch" }}>
                         <h4 className="text-white mb-4" style={{ fontWeight: 'bold' }}>{getTitle(lang, '')[0]}</h4>
                         {lang === 'en'
@@ -188,16 +187,15 @@ const Footer = (props) => {
                                         renderitem(item)
                                     )}
                     </ul>
-                </Col> */}
-
+                </Col>
                 {aboutList.map((item, index) =>
-                    <Col xs={12} sm={12} md={4} key={index} dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
+                    <Col xs={12} sm={12} md={3} key={index} dir={lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr'}>
                         <h4 className="text-white mb-4" style={{ fontWeight: 'bold', textAlign: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}>{getTitle(lang, '')[2]}</h4>
                         <p className='text-white'>{getTitle(lang, item)[1]}</p>
                     </Col>
                 )}
 
-                <Col xs={12} sm={12} md={4}>
+                <Col xs={12} sm={12} md={3}>
                     <h4 className="text-white mb-4 text-center" style={{ fontWeight: 'bold', textAlign: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }}>{getTitle(lang, '')[3]}</h4>
                     <FormGroup style={{ textAlign: lang === 'fa' || lang === 'ar' ? 'right' : 'left' }} className='text-center'>
                         <i className="bi bi-signpost" style={{ fontSize: '1.5rem' }}></i>&nbsp;&nbsp;<span>{getTitle(lang, '')[5]}</span>
@@ -216,7 +214,7 @@ const Footer = (props) => {
                     </FormGroup>
                 </Col>
 
-                <Col xs={12} sm={12} md={4} className='text-center'>
+                <Col xs={12} sm={12} md={3} className='text-center'>
                     <FormGroup>
                         <a href='https://www.zarinpal.com/trustPage/shop.nasrinacademy.com' target='blank'><img src='https://www.zarinpal.com/lab/wp-content/uploads/sites/2/2016/05/icon-128x128.png' style={{ borderRadius: '25px', width: '80px', height: '80px' }} /></a>
                     </FormGroup>

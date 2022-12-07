@@ -23,7 +23,6 @@ function StudentProperty(props) {
             ? apiEndPoint + `Student/GetPublic?studentId=${currentUser.user.UserId}`
             : apiEndPoint + `Student/GetPrivate?studentId=${currentUser.user.UserId}`;
         let mounted = true;
-        console.log("url",url);
         if (currentUser.user.UserId !== "") {
             const fetchData = async () => {
                 const result = await axios.get(url)

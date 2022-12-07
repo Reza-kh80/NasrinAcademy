@@ -28,7 +28,6 @@ function DeanTeacherForm(props) {
             NameFr: list.NameFr,
             NameFa: list.NameFa,
             Phone: list.Phone,
-            Translater: list.Translater,
             Email: list.Email,
             Photo: list.Photo,
             Address: list.Address,
@@ -491,11 +490,17 @@ function DeanTeacherForm(props) {
                         </Row>
                         <Row form>
                             <Col xs={12} md={12}>
-                                <Form.Group>
-                                    <Form.Check inline name="Translater" label="Carrying out translation activities: " checked={teacherObject.Translater} onChange={handleChangeTeacher} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                                    <Form.Label htmlFor="translator" className='mt-2' style={{ float:'left' }}><h6 style={{ marginRight:'21px' }} className='text-primary'>Carrying out translation activities: </h6></Form.Label>
+                                    <Form.Check
+                                        className='mt-2'
+                                        inline
+                                        type="switch"
+                                        id='translator'
+                                        // checked={userObject.translator}
+                                        // onChange={this.handleCheckBox}
+                                    />
+                                </Col>
+                            </Row>
                         <Row>
                             <Col className="text-right">
                                 <Button className="btn btn-sm float-right" onClick={handleSubmit} >{isRegistered === 'Edit' ? "Edit Teacher" : "Register Teacher"}</Button>

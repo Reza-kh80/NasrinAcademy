@@ -28,7 +28,6 @@ function DeanTeacherForm(props) {
             NameFr: list.NameFr,
             NameFa: list.NameFa,
             Phone: list.Phone,
-            Translater: list.Translater,
             Email: list.Email,
             Photo: list.Photo,
             Address: list.Address,
@@ -486,13 +485,6 @@ function DeanTeacherForm(props) {
                                     <Form.Label htmlFor="certificateFa"><h6 className="text-primary mb-0 ml-1 text-right">Certificate (Farsi):</h6></Form.Label>
                                     <Form.Control id="certificateFa" name="CertificateFa" as="textarea" rows={10} dir="rtl" placeholder="جزییات" value={teacherObject.CertificateFa} onChange={handleChangeTeacher} onBlur={simpleValidator.current.showMessageFor('certificate (farsi)')} />
                                     {simpleValidator.current.message('certificate (farsi)', teacherObject.CertificateFa, 'required|max:3999', { className: 'alert alert-danger' })}
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row form>
-                            <Col xs={12} md={12}>
-                                <Form.Group>
-                                    <Form.Check inline name="Translater" label="Carrying out translation activities: " checked={teacherObject.Translater} onChange={handleChangeTeacher} />
                                 </Form.Group>
                             </Col>
                         </Row>

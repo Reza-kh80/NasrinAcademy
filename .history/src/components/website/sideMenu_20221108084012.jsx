@@ -98,7 +98,7 @@ function SideMenu() {
     const menu_Items_Ar = [
         { id: 1, Title: "مسكن", path: "/" },
         { id: 5, Title: "معلمون", path: "/teacher-overview" },
-        { id: 11, Title: "التعريف بالمترجمين", path: "/tranlator-overview" },
+        { id: 9, Title: "التعريف بالمترجمين", path: "/tranlator-overview" },
         { id: 4, Title: "الدورات", path: "/course" },
         { id: 6, Title: "تسجيل المعلم", path: "/recruitment" },
         { id: 7, Title: "الشهادات", path: "/certificates" },

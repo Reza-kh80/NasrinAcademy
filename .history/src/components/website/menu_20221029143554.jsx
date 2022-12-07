@@ -80,9 +80,9 @@ const Menu = (props) => {
     function renderitem(item) {
         if (item.id===8) {
             return <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://shop.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-        } else if (item.id===10) {
+        } else if (item.id===9) {
             return <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://class.nasrinacademy.com/'} target='blank'>{item.Title}</a>
-        }  else if (item.id===11) {
+        }  else if (item.id===10) {
             return <a key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} href={'https://dictionary.nasrinacademy.com/'} target='blank'>{item.Title}</a>
         } else {
             return <Link key={item.id} className={location.pathname === item.path ? "btn bg-primary pl-3 pr-3" : "btn d-inline pl-3 pr-3"} to={item.path} replace>{item.Title}</Link>

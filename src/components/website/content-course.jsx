@@ -40,7 +40,7 @@ class CourseOutlook extends Component {
             heading.push(item.TitleFa)
             heading.push(item.DescriptionFa)
         }
-        return heading
+        return heading;
     }
     render() {
         const { courseOutlookObject, description } = this.state;

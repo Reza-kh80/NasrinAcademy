@@ -5,6 +5,7 @@ import MainBody from './main-body';
 import SideContent from './side-content';
 import PopUp from './popup';
 import axios from 'axios';
+
 function Website(props) {
     const lang = localStorage.getItem('lang');
     let location = useLocation();

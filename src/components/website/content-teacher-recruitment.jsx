@@ -2,7 +2,8 @@ import React, { Component, Suspense } from 'react';
 import { Container, Row, Col, Spinner } from 'reactstrap';
 import axios from 'axios';
 import { Helmet } from "react-helmet";
-import RecruitmentRequest from './recruitment-request'
+import RecruitmentRequest from './recruitment-request';
+
 class TeacherRecruitment extends Component {
     constructor(props) {
         super(props);
